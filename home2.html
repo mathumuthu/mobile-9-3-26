@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEOPLED - Home</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            // New Light Color Palette
+                            primary: '#6366f1',      // Indigo 500
+                            primaryDark: '#4f46e5',  // Indigo 600
+                            secondary: '#06b6d4',    // Cyan 500
+                            accent: '#f472b6',       // Pink 400
+                            accentLight: '#fbcfe8',  // Pink 200
+                            success: '#22c55e',      // Green 500
+                            warning: '#f59e0b',      // Amber 500
+                            light: '#f8fafc',        // Slate 50
+                            surface: '#ffffff',      // White
+                            text: '#1e293b',         // Slate 800
+                            textLight: '#64748b',    // Slate 500
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 20px 40px -15px rgba(99, 102, 241, 0.15)',
+                        'glow': '0 0 40px -10px rgba(99, 102, 241, 0.4)',
+                        'card': '0 10px 40px -10px rgba(0, 0, 0, 0.1)',
+                        'floating': '0 25px 50px -12px rgba(99, 102, 241, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(3deg); }
+        }
+        
+        @keyframes float-reverse {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(20px) rotate(-3deg); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+        }
+
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce-soft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-5px) translateY(-5px); }
+            50% { transform: translateX(0) translateY(-10px); }
+            75% { transform: translateX(5px) translateY(-5px); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 7s ease-in-out infinite 1s; }
+        .animate-float-slow { animation: float-reverse 8s ease-in-out infinite 0.5s; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-morph { animation: morph 8s ease-in-out infinite; }
+        .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+        .animate-bounce-soft { animation: bounce-soft 2s ease-in-out infinite; }
+        .animate-wave { animation: wave 3s ease-in-out infinite; }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #06b6d4 50%, #f472b6 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-flow 5s ease infinite;
+        }
+ 
+        /* Glass Effect */
+        .glass {
+            background: rgba(191, 195, 10, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .glass-dark {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* Card Hover Effects */
+        .hover-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.25);
+        }
+
+        /* Image Hover Zoom */
+        .img-zoom {
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .img-zoom:hover {
+            transform: scale(1.1);
+        }
+
+        /* Button Effects */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+          
+        /* Dropdown Animation */
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Mobile Dropdown Styles */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .mobile-dropdown-content.active {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .mobile-dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-dropdown-arrow.active {
+            transform: rotate(180deg);
+        }
+
+        /* Particle Background */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Shimmer Effect */
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 4px;
+        }
+
+        /* Text Reveal Animation */
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+
+        /* Stagger Animation Delays */
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+
+        /* Magnetic Button Effect */
+        .magnetic-btn {
+            transition: transform 0.3s ease;
+        }
+
+        /* Gradient Border */
+        .gradient-border {
+            position: relative;
+            background: white;
+            border-radius: 1rem;
+        }
+        
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, #6366f1, #06b6d4, #f472b6, #6366f1);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gradient-border:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="font-sans text-brand-text antialiased overflow-x-hidden bg-brand-light">
+
+<!-- ===== HEADER START ===== -->
+<nav class="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center gap-2">
+                <img src="ChatGPT Image Feb 23, 2026, 11_38_27 AM.webp" class="h-12">
+                <span class="font-bold text-xl text-brand-text">STACKLY</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-6">
+
+                <!-- Home Dropdown -->
+                <div class="relative group">
+                    <button class="flex items-center gap-2 font-medium text-brand-text hover:text-brand-primary">
+                        Home
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </button>
+
+                    <div class="absolute left-0 top-10 w-56 bg-white rounded-xl shadow-lg border border-gray-100
+                                opacity-0 invisible group-hover:opacity-100 group-hover:visible
+                                translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+
+                        <a href="index.html" class="block px-5 py-3 hover:bg-gray-50 rounded-t-xl">
+                            Homepage 1
+                        </a>
+                        <a href="home2.html" class="block px-5 py-3 hover:bg-gray-50 rounded-b-xl">
+                            Homepage 2
+                        </a>
+
+                        <a href="login.html" class="block px-5 py-3 hover:bg-gray-50 rounded-b-xl">
+                            Login
+                        </a>
+                        <a href="dash.html" class="block px-5 py-3 hover:bg-gray-50 rounded-b-xl">
+                            Dashboard
+                        </a>
+                    </div>
+                </div>
+
+                <!-- <a href="blog.html" class="font-medium text-brand-text hover:text-brand-primary">Blog</a> -->
+                <a href="test.html" class="font-medium text-brand-text hover:text-brand-primary">Testimonials</a>
+               <a href="quality.html" class="font-medium text-brand-text hover:text-brand-primary">Quality</a>
+                <!-- <a href="contact.html" class="font-medium text-brand-text hover:text-brand-primary">Contact</a>  -->
+            </div>
+
+            <!-- Right Buttons -->
+            <div class="flex items-center gap-4">
+                <a href="error.html" class="hidden md:inline-flex px-5 py-2 rounded-full bg-brand-primary text-white font-medium hover:bg-brand-primaryDark transition">
+                    Get Started
+                </a>
+
+                <!-- Mobile Button -->
+                <button id="menu-btn" class="md:hidden text-2xl text-brand-text">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
+        <div class="px-6 py-4 space-y-3">
+
+            <!-- Mobile Home Dropdown -->
+            <div>
+                <button id="mobile-home-btn" class="w-full flex justify-between items-center py-2 font-medium text-brand-text">
+                    Home
+                    <i class="fa-solid fa-chevron-down text-sm transition-transform" id="mobile-home-arrow"></i>
+                </button>
+
+                <div id="mobile-home-menu" class="hidden pl-4 pt-2 space-y-2">
+                    <a href="index.html" class="block py-2 text-brand-textLight hover:text-brand-primary">Homepage 1</a>
+                    <a href="home2.html" class="block py-2 text-brand-textLight hover:text-brand-primary">Homepage 2</a>
+                   <a href="login.html" class="block py-2 text-brand-textLight hover:text-brand-primary">Login </a>
+
+                 <a href="dash.html" class="block py-2 text-brand-textLight hover:text-brand-primary">Dashboard</a>
+
+                </div>
+            </div>
+
+            <!-- <a href="blog.html" class="block py-2 font-medium text-brand-text">Blog</a> -->
+            <a href="test.html" class="block py-2 font-medium text-brand-text">Testimonials</a>
+            <a href="quality.html" class="block py-2 font-medium text-brand-text">Quality</a>
+
+            <a href="error.html" class="block mt-4 text-center py-3 rounded-lg bg-brand-primary text-white font-semibold">
+                Get Started
+            </a>
+
+        </div>
+    </div>
+</nav>
+<!-- ===== HEADER END ===== -->
+<!-- ===== HEADER END ===== -->
+    <!-- Hero Section -->
+    <section class="relative min-h-screen pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-gradient-to-br from-brand-light via-white to-brand-light">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <!-- Gradient Orbs -->
+            <div class="absolute top-20 right-10 w-96 h-96 bg-brand-primary/10 rounded-full blur-3xl animate-morph"></div>
+            <div class="absolute bottom-20 left-10 w-72 h-72 bg-brand-secondary/10 rounded-full blur-3xl animate-morph" style="animation-delay: -4s;"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-accent/5 rounded-full blur-3xl animate-spin-slow"></div>
+            
+            <!-- Floating Shapes -->
+            <div class="absolute top-32 left-20 w-20 h-20 border-2 border-brand-primary/20 rounded-2xl animate-float"></div>
+            <div class="absolute top-48 right-32 w-16 h-16 bg-brand-secondary/20 rounded-full animate-float-delayed"></div>
+            <div class="absolute bottom-40 left-40 w-12 h-12 bg-brand-accent/20 rounded-lg rotate-45 animate-float-slow"></div>
+            
+            <!-- Grid Pattern -->
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%236366f1\' fill-opacity=\'0.03\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <div class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-soft mb-6 border border-brand-primary/10">
+                        <span class="w-2 h-2 bg-brand-success rounded-full animate-pulse"></span>
+                        <span class="text-sm font-medium text-brand-textLight">New: AI-powered features now available</span>
+                    </div>
+                    
+                    <h1 class="text-5xl lg:text-7xl font-bold leading-tight mb-6">
+                        Connect <span class="gradient-text">Smarter</span><br>
+                        Work <span class="text-brand-secondary">Better</span>
+                    </h1>
+                    
+                    <p class="text-brand-textLight text-lg mb-8 max-w-lg leading-relaxed" id="typing-text">
+                        Transform your team's communication with intelligent video conferencing, real-time collaboration, and seamless integrations.
+                    </p>
+
+                    <div class="flex flex-wrap gap-4 mb-10">
+                        <a href="error.html" class="btn-primary px-8 py-4 rounded-full bg-brand-primary text-white font-bold hover:bg-brand-primaryDark transition-all hover:shadow-glow flex items-center gap-2 group">
+                            <span>Start Free Trial</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                        <a href="error.html" class="px-8 py-4 rounded-full bg-white text-brand-text font-bold border-2 border-gray-200 hover:border-brand-primary hover:text-brand-primary transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-play text-brand-secondary"></i>
+                            <span>Watch Demo</span>
+                        </a>
+                    </div>
+
+                    <!-- Trust Badges -->
+                    <div class="flex items-center gap-6">
+                        <div class="flex -space-x-3">
+                            <img src="small6.webp" class="w-10 h-10 rounded-full border-2 border-white" alt="">
+                            <img src="small2.webp" class="w-10 h-10 rounded-full border-2 border-white" alt="">
+                            <img src="small4.jpg" class="w-10 h-10 rounded-full border-2 border-white" alt="">
+                            <img src="small5.webp" class="w-10 h-10 rounded-full border-2 border-white" alt="">
+                            <div class="w-10 h-10 rounded-full border-2 border-white bg-brand-primary flex items-center justify-center text-white text-xs font-bold">
+                                +2k
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-1 text-brand-warning">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-sm text-brand-textLight">Trusted by 2,000+ teams</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Content - Hero Image/Animation -->
+                <div class="relative" data-aos="fade-left" data-aos-duration="1000">
+                    <!-- Main Image Container -->
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-3xl opacity-20 blur-2xl animate-pulse"></div>
+                        <div class="relative bg-white rounded-3xl shadow-floating overflow-hidden border border-gray-100">
+                            <img src="meeting.webp" alt="Team collaboration" class="w-full h-auto">
+                            
+                            <!-- Floating UI Elements -->
+                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-xl p-3 shadow-lg animate-float">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center text-green-600">
+                                        <i class="fa-solid fa-video"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-bold text-brand-text">Live Meeting</p>
+                                        <p class="text-xs text-brand-textLight">12 participants</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm rounded-xl p-3 shadow-lg animate-float-delayed">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-lg bg-brand-accent/20 flex items-center justify-center text-brand-accent">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-bold text-brand-text">AI Enhanced</p>
+                                        <p class="text-xs text-brand-textLight">Noise cancelled</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Decorative Elements -->
+                    <div class="absolute -top-8 -right-8 w-24 h-24 bg-brand-accent/20 rounded-full blur-xl"></div>
+                    <div class="absolute -bottom-8 -left-8 w-32 h-32 bg-brand-secondary/20 rounded-full blur-xl"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-soft">
+            <div class="w-6 h-10 border-2 border-brand-primary/30 rounded-full flex justify-center pt-2">
+                <div class="w-1.5 h-3 bg-brand-primary rounded-full animate-pulse"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logo Cloud Section -->
+    <section class="py-16 bg-white border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-brand-textLight text-sm mb-8 uppercase tracking-wider">Trusted by innovative companies worldwide</p>
+            <div class="flex flex-wrap justify-center items-center gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                <div class="flex items-center gap-2 text-2xl font-bold text-brand-text hover:text-brand-primary transition-colors">
+                    <i class="fa-brands fa-google text-3xl"></i> Google
+                </div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-brand-text hover:text-brand-primary transition-colors">
+                    <i class="fa-brands fa-microsoft text-3xl"></i> Microsoft
+                </div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-brand-text hover:text-brand-primary transition-colors">
+                    <i class="fa-brands fa-slack text-3xl"></i> Slack
+                </div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-brand-text hover:text-brand-primary transition-colors">
+                    <i class="fa-brands fa-spotify text-3xl"></i> Spotify
+                </div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-brand-text hover:text-brand-primary transition-colors">
+                    <i class="fa-brands fa-airbnb text-3xl"></i> Airbnb
+                </div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-brand-text hover:text-brand-primary transition-colors">
+                    <i class="fa-brands fa-stripe text-3xl"></i> Stripe
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 lg:py-32 bg-brand-light relative overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-brand-primary/5 to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+                <span class="inline-block px-4 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-sm font-medium mb-4">Features</span>
+                <h2 class="text-4xl lg:text-5xl font-bold text-brand-text mb-4">Everything you need to <span class="gradient-text">connect</span></h2>
+                <p class="text-brand-textLight text-lg">Powerful features designed to make your virtual meetings more productive and engaging.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="hover-card bg-white rounded-2xl p-8 shadow-card border border-gray-100" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-primary/10 flex items-center justify-center text-brand-primary mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-video text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-text mb-3">HD Video & Audio</h3>
+                    <p class="text-brand-textLight leading-relaxed">Crystal-clear video and audio quality with adaptive streaming technology for any network condition.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="hover-card bg-white rounded-2xl p-8 shadow-card border border-gray-100" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-secondary/10 flex items-center justify-center text-brand-secondary mb-6">
+                        <i class="fa-solid fa-wand-magic-sparkles text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-text mb-3">AI-Powered</h3>
+                    <p class="text-brand-textLight leading-relaxed">Smart noise cancellation, real-time transcription, and automatic meeting summaries powered by AI.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="hover-card bg-white rounded-2xl p-8 shadow-card border border-gray-100" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-accent/10 flex items-center justify-center text-brand-accent mb-6">
+                        <i class="fa-solid fa-shield-halved text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-text mb-3">Enterprise Security</h3>
+                    <p class="text-brand-textLight leading-relaxed">End-to-end encryption, SSO support, and compliance with GDPR, HIPAA, and SOC 2 standards.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="hover-card bg-white rounded-2xl p-8 shadow-card border border-gray-100" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center text-brand-success mb-6">
+                        <i class="fa-solid fa-users text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-text mb-3">Team Collaboration</h3>
+                    <p class="text-brand-textLight leading-relaxed">Built-in whiteboard, screen sharing, and collaborative notes to keep everyone on the same page.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="hover-card bg-white rounded-2xl p-8 shadow-card border border-gray-100" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-warning/10 flex items-center justify-center text-brand-warning mb-6">
+                        <i class="fa-solid fa-calendar-check text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-text mb-3">Smart Scheduling</h3>
+                    <p class="text-brand-textLight leading-relaxed">AI-powered scheduling assistant finds the perfect time for everyone across different time zones.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="hover-card bg-white rounded-2xl p-8 shadow-card border border-gray-100" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-100 flex items-center justify-center text-purple-600 mb-6">
+                        <i class="fa-solid fa-puzzle-piece text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-text mb-3">100+ Integrations</h3>
+                    <p class="text-brand-textLight leading-relaxed">Seamlessly connect with your favorite tools including Slack, Notion, Google Workspace, and more.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 lg:py-32 bg-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Left - Image -->
+                <div class="relative" data-aos="fade-right">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-3xl opacity-10 blur-2xl"></div>
+                    <div class="relative rounded-3xl overflow-hidden shadow-floating">
+                        <img src="call.webp" alt="Analytics" class="w-full h-auto">
+                        
+                        <!-- Floating Stat Card -->
+                        <div class="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-brand-textLight mb-1">Meeting Efficiency</p>
+                                    <p class="text-3xl font-bold text-brand-text">+47%</p>
+                                </div>
+                                <div class="w-16 h-16 rounded-full bg-brand-success/10 flex items-center justify-center">
+                                    <i class="fa-solid fa-arrow-trend-up text-brand-success text-2xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right - Stats -->
+                <div data-aos="fade-left">
+                    <span class="inline-block px-4 py-1 rounded-full bg-brand-secondary/10 text-brand-secondary text-sm font-medium mb-4">By the Numbers</span>
+                    <h2 class="text-4xl lg:text-5xl font-bold text-brand-text mb-6">Trusted by teams <br><span class="gradient-text">worldwide</span></h2>
+                    <p class="text-brand-textLight text-lg mb-10">Join thousands of companies that have transformed their communication with PEOPLED.</p>
+
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="p-6 rounded-2xl bg-brand-light">
+                            <div class="text-4xl font-bold text-brand-primary mb-2 counter" data-target="500">0</div>
+                            <p class="text-brand-textLight">Enterprise Clients</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-brand-light">
+                            <div class="text-4xl font-bold text-brand-secondary mb-2 counter" data-target="10">0</div>
+                            <p class="text-brand-textLight">Million+ Users</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-brand-light">
+                            <div class="text-4xl font-bold text-brand-accent mb-2 counter" data-target="99">0</div>
+                            <p class="text-brand-textLight">% Uptime SLA</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-brand-light">
+                            <div class="text-4xl font-bold text-brand-success mb-2 counter" data-target="150">0</div>
+                            <p class="text-brand-textLight">Countries Served</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 lg:py-32 bg-gradient-to-br from-brand-light to-white relative overflow-hidden">
+        <!-- Decorative -->
+        <div class="absolute top-20 right-20 w-64 h-64 bg-brand-primary/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 left-20 w-64 h-64 bg-brand-secondary/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+                <span class="inline-block px-4 py-1 rounded-full bg-brand-accent/10 text-brand-accent text-sm font-medium mb-4">Testimonials</span>
+                <h2 class="text-4xl lg:text-5xl font-bold text-brand-text mb-4">Loved by <span class="gradient-text">thousands</span></h2>
+                <p class="text-brand-textLight text-lg">See what our customers have to say about their experience with PEOPLED.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white rounded-2xl p-8 shadow-card border border-gray-100 hover-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="flex items-center gap-1 mb-4">
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                    </div>
+                    <p class="text-brand-text mb-6 leading-relaxed">"PEOPLED has completely transformed how our remote team collaborates. The AI features are game-changing!"</p>
+                    <div class="flex items-center gap-4">
+                        <img src="small2.jpg" alt="User" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-brand-text">Sarah Chen</h4>
+                            <p class="text-sm text-brand-textLight">Product Manager at TechCorp</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-white rounded-2xl p-8 shadow-card border border-gray-100 hover-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center gap-1 mb-4">
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                    </div>
+                    <p class="text-brand-text mb-6 leading-relaxed">"The best video conferencing platform we've used. Crystal clear audio and the integrations are seamless."</p>
+                    <div class="flex items-center gap-4">
+                        <img src="small3.jpg" alt="User" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-brand-text">Michael Park</h4>
+                            <p class="text-sm text-brand-textLight">CTO at StartupXYZ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-white rounded-2xl p-8 shadow-card border border-gray-100 hover-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-1 mb-4">
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                        <i class="fa-solid fa-star text-brand-warning"></i>
+                    </div>
+                    <p class="text-brand-text mb-6 leading-relaxed">"We switched from Zoom and never looked back. The security features give us peace of mind for client meetings."</p>
+                    <div class="flex items-center gap-4">
+                        <img src="small5.jpg" alt="User" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-brand-text">Emily Rodriguez</h4>
+                            <p class="text-sm text-brand-textLight">CEO at FinanceHub</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 lg:py-32 bg-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative rounded-3xl overflow-hidden" data-aos="zoom-in">
+                <!-- Background -->
+                <div class="absolute inset-0 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
+                
+                <!-- Animated Shapes -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-brand-accent/20 rounded-full blur-2xl animate-pulse" style="animation-delay: 1s;"></div>
+                
+                <!-- Floating Icons -->
+                <div class="absolute top-10 left-10 text-white/10 text-6xl animate-float">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
+                <div class="absolute bottom-10 right-10 text-white/10 text-8xl animate-float-delayed">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+
+                <div class="relative z-10 px-8 py-16 lg:px-16 lg:py-24 text-center">
+                    <h2 class="text-4xl lg:text-6xl font-bold text-white mb-6">Ready to transform <br>your meetings?</h2>
+                    <p class="text-white/80 text-lg mb-10 max-w-2xl mx-auto">Join thousands of teams already using PEOPLED to communicate better. Start your free trial today.</p>
+                    
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="error.html" class="px-8 py-4 rounded-full bg-white text-brand-primary font-bold hover:bg-brand-light transition-all transform hover:scale-105 shadow-lg flex items-center gap-2">
+                            <span>Get Started Free</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="error.html" class="px-8 py-4 rounded-full bg-white/10 text-white border border-white/30 font-medium hover:bg-white hover:text-brand-primary transition-all">
+                            Contact Sales
+                        </a>
+                    </div>
+
+                    <p class="text-white/60 text-sm mt-6">No credit card required • 14-day free trial • Cancel anytime</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-text pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-white">
+                            <i class="fa-solid fa-arrow-up-right-dots text-sm"></i>
+                        </div>
+                        <span class="font-bold text-xl text-white">PEOPLED</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Transforming the way teams communicate and collaborate worldwide.</p>
+                    <div class="flex gap-3">
+                        <a href="error.html" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-primary transition-colors">
+                            <i class="fa-brands fa-twitter text-sm"></i>
+                        </a>
+                        <a href="error.html" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-primary transition-colors">
+                            <i class="fa-brands fa-linkedin-in text-sm"></i>
+                        </a>
+                        <a href="error.html" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-primary transition-colors">
+                            <i class="fa-brands fa-instagram text-sm"></i>
+                        </a>
+                        <a href="error.html" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-primary transition-colors">
+                            <i class="fa-brands fa-youtube text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white mb-6">Product</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="error.html" class="hover:text-white transition-colors">Features</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Integrations</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Changelog</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Roadmap</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white mb-6">Company</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="home2.html" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="test.html" class="hover:text-white transition-colors">Testimonials</a></li>
+                        <li><a href="quality.html" class="hover:text-white transition-colors">Quality</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white mb-6">Resources</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="error.html" class="hover:text-white transition-colors">Documentation</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Community</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Webinars</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">API Reference</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-400 text-sm">&copy; 2024 PEOPLED. All rights reserved.</p>
+                <div class="flex gap-6 text-sm text-gray-400">
+                    <a href="error.html" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="error.html" class="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="error.html" class="hover:text-white transition-colors">Cookie Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+        });
+
+        // Initialize GSAP
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Mobile Menu
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+
+        function toggleMenu() {
+            menu.classList.toggle('translate-x-full');
+        }
+
+        btn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+
+        // Mobile Dropdown Functionality
+        document.querySelectorAll('.mobile-dropdown-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const dropdown = this.parentElement;
+                const content = dropdown.querySelector('.mobile-dropdown-content');
+                const arrow = this.querySelector('.mobile-dropdown-arrow');
+                
+                content.classList.toggle('active');
+                arrow.classList.toggle('active');
+                
+                // Close other dropdowns
+                document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        const otherContent = otherDropdown.querySelector('.mobile-dropdown-content');
+                        const otherArrow = otherDropdown.querySelector('.mobile-dropdown-arrow');
+                        otherContent.classList.remove('active');
+                        otherArrow.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.mobile-dropdown')) {
+                document.querySelectorAll('.mobile-dropdown-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.querySelectorAll('.mobile-dropdown-arrow').forEach(arrow => {
+                    arrow.classList.remove('active');
+                });
+            }
+        });
+
+        // Close mobile menu when clicking a link (except dropdown buttons)
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-soft');
+            } else {
+                navbar.classList.remove('shadow-soft');
+            }
+        });
+
+        // Animated Counters
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200;
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const inc = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(animateCounters, 20);
+                } else {
+                    counter.innerText = target + (target > 100 ? '+' : '');
+                }
+            });
+        };
+
+        // Trigger counters when in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+
+        counters.forEach(counter => observer.observe(counter));
+
+        // Magnetic Button Effect
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        // Parallax Effect on Scroll
+        gsap.utils.toArray('.animate-float').forEach(element => {
+            gsap.to(element, {
+                yPercent: -20,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+        });
+    </script>
+
+
+
+<script>
+const menuBtn = document.getElementById('menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+
+menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Mobile Home Dropdown
+const homeBtn = document.getElementById('mobile-home-btn');
+const homeMenu = document.getElementById('mobile-home-menu');
+const arrow = document.getElementById('mobile-home-arrow');
+
+homeBtn.addEventListener('click', () => {
+    homeMenu.classList.toggle('hidden');
+    arrow.classList.toggle('rotate-180');
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

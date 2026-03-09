@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auth Page</title>
+
+<style>
+body{
+font-family:Arial, sans-serif;
+background:#f4f6fb;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.container{
+width:350px;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+width:100%;
+padding:10px;
+background:#4a6cf7;
+border:none;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#3653d6;
+}
+
+.links{
+text-align:center;
+margin-top:10px;
+}
+
+.links span{
+color:#4a6cf7;
+cursor:pointer;
+font-size:14px;
+}
+
+.form{
+display:none;
+}
+
+.active{
+display:block;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div id="login" class="form active">
+<h2>Sign In</h2>
+<input type="email" placeholder="Email">
+<input type="password" placeholder="Password">
+<button>Login</button>
+
+<div class="links">
+<span onclick="showForm('forgot')">Forgot Password?</span><br><br>
+<span onclick="showForm('signup')">Create Account</span>
+</div>
+</div>
+
+<!-- SIGNUP -->
+<div id="signup" class="form">
+<h2>Sign Up</h2>
+<input type="text" placeholder="Full Name">
+<input type="email" placeholder="Email">
+<input type="password" placeholder="Password">
+<button>Create Account</button>
+
+<div class="links">
+<span onclick="showForm('login')">Already have account? Login</span>
+</div>
+</div>
+
+<!-- FORGOT PASSWORD -->
+<div id="forgot" class="form">
+<h2>Reset Password</h2>
+<input type="email" placeholder="Enter your email">
+<button>Send Reset Link</button>
+
+<div class="links">
+<span onclick="showForm('login')">Back to Login</span>
+</div>
+</div>
+
+</div>
+
+<script>
+function showForm(formId){
+
+document.querySelectorAll(".form").forEach(form=>{
+form.classList.remove("active");
+});
+
+document.getElementById(formId).classList.add("active");
+
+}
+</script>
+
+</body>
+</html>

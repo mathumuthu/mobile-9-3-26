@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - PEOPLED</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            teal: '#2A7A85',
+                            darkTeal: '#1E5A63',
+                            yellow: '#F4B942',
+                            light: '#F8F9FA',
+                            gray: '#6C757D'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 20px 40px -15px rgba(0, 0, 0, 0.1)',
+                        'card': '0 10px 30px -5px rgba(42, 122, 133, 0.15)',
+                        'glow': '0 0 40px -10px rgba(244, 185, 66, 0.5)',
+                        'pricing': '0 25px 50px -12px rgba(42, 122, 133, 0.25)',
+                        'pricing-popular': '0 25px 50px -12px rgba(244, 185, 66, 0.35)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(244, 185, 66, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(244, 185, 66, 0.8); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 7s ease-in-out infinite 1s; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-rotate-slow { animation: rotate-slow 20s linear infinite; }
+        .animate-bounce-subtle { animation: bounce-subtle 2s ease-in-out infinite; }
+
+        /* Pricing Card Effects */
+        .pricing-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-15px) scale(1.02);
+        }
+
+        .pricing-card.popular {
+            transform: scale(1.05);
+        }
+
+        .pricing-card.popular:hover {
+            transform: translateY(-15px) scale(1.08);
+        }
+
+        /* Toggle Switch */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #2A7A85;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #2A7A85;
+        }
+
+        /* Feature Check Animation */
+        .feature-check {
+            transition: all 0.3s ease;
+        }
+        .feature-check:hover {
+            transform: scale(1.2);
+        }
+
+        /* Price Counter Animation */
+        .price-value {
+            transition: all 0.5s ease;
+        }
+
+        /* Dropdown Transition */
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Mobile Menu Transition */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Mobile Dropdown Styles */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .mobile-dropdown-content.active {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .mobile-dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-dropdown-arrow.active {
+            transform: rotate(180deg);
+        }
+
+        /* Shimmer Effect for Popular Badge */
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        /* Confetti Animation */
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Progress Bar Animation */
+        @keyframes progress-fill {
+            from { width: 0%; }
+            to { width: var(--progress); }
+        }
+
+        .progress-bar-animated {
+            animation: progress-fill 1.5s ease-out forwards;
+        }
+
+        /* Glow Effect */
+        .glow-effect {
+            position: relative;
+        }
+        .glow-effect::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, #2A7A85, #F4B942, #2A7A85);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .glow-effect:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased overflow-x-hidden bg-gray-50">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-brand-teal text-white transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="logo.webp" class="h-8 md:h-10 w-auto object-contain">
+                    <span class="font-bold text-lg md:text-2xl text-white">STACKLY</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <!-- Home Dropdown -->
+                    <div class="relative group h-20 flex items-center">
+                        <button class="flex items-center gap-1 hover:text-brand-yellow transition-colors font-medium">
+                            Home <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu absolute top-20 left-0 w-64 bg-white text-gray-800 rounded-b-xl shadow-xl border-t-4 border-brand-yellow overflow-hidden">
+                            <div class="p-4">
+                                <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Main Pages</h3>
+                                <a href="index.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 1  </a>
+                                <a href="home2.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 2</a>
+                                <div class="border-t my-2"></div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Account</h3>
+                                <a href="login.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Login</a>
+                                <a href="dash.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Dashboard</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="aboutus.html" class="hover:text-brand-yellow transition-colors font-medium">About Us</a>
+                    <a href="our team.html" class="hover:text-brand-yellow transition-colors font-medium">Our Team</a>
+                    
+                    <!-- Pricing Link -->
+                    <a href="piricing.html" class="text-brand-yellow font-medium">Pricing</a>
+
+                    <a href="contact.html" class="hover:text-brand-yellow transition-colors font-medium">Contact Us</a>
+                </div>
+
+                <!-- Icons & Mobile Button -->
+                <div class="flex items-center gap-4">
+                    <button class="hover:text-brand-yellow transition-colors"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-user"></i></button>
+                    <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-bell"></i></button>
+                    
+                    <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-brand-darkTeal z-40 transform translate-x-full md:hidden flex flex-col pt-24 px-6 space-y-2 text-lg overflow-y-auto">
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+            
+            <!-- Mobile Home Dropdown -->
+            <div class="mobile-dropdown border-b border-white/20 pb-2">
+                <button class="mobile-dropdown-btn w-full flex items-center justify-between py-3 text-white hover:text-brand-yellow transition-colors">
+                    <span>Home</span>
+                    <i class="fa-solid fa-chevron-down text-sm mobile-dropdown-arrow"></i>
+                </button>
+                <div class="mobile-dropdown-content pl-4 space-y-2 mt-2">
+                    <h3 class="text-xs font-bold text-white/60 uppercase mb-2">Main Pages</h3>
+                    <a href="index.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Homepage 1  </a>
+                    <a href="home2.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Homepage 2</a>
+                    <div class="border-t border-white/10 my-2"></div>
+                    <h3 class="text-xs font-bold text-white/60 uppercase mb-2">Account</h3>
+                    <a href="login.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Login</a>
+                    <a href="dash.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Dashboard</a>
+                </div>
+            </div>
+
+            <a href="aboutus.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">About Us</a>
+            <a href="our team.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">Our Team</a>
+            <a href="piricing.html" class="block border-b border-white/20 py-3 text-brand-yellow">Pricing</a>
+            <a href="contact.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative bg-brand-teal pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-20 right-20 w-96 h-96 bg-brand-yellow/20 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-10 left-10 w-72 h-72 bg-white/10 rounded-full blur-2xl animate-pulse" style="animation-delay: 1s;"></div>
+            <!-- Grid Pattern -->
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.03\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
+        </div>
+
+        <!-- Floating Elements -->
+        <div class="absolute top-32 left-10 text-white/10 text-6xl animate-float">
+            <i class="fa-solid fa-dollar-sign"></i>
+        </div>
+        <div class="absolute bottom-32 right-20 text-white/10 text-8xl animate-float-delayed">
+            <i class="fa-solid fa-tags"></i>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
+                <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-5 py-2 rounded-full text-sm font-medium mb-6 border border-white/20 animate-pulse">
+                    <i class="fa-solid fa-crown text-brand-yellow"></i>
+                    Simple, Transparent Pricing
+                </span>
+                
+                <h1 class="text-5xl md:text-7xl font-bold text-white leading-tight mb-6">
+                    Choose Your <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-yellow to-white">Perfect Plan</span>
+                </h1>
+                
+                <p class="text-white/70 text-lg mb-10 leading-relaxed">
+                    Start free, scale as you grow. No hidden fees, no surprises. Just simple, affordable pricing for teams of all sizes.
+                </p>
+
+                <!-- Billing Toggle -->
+                <div class="flex items-center justify-center gap-4 mb-8">
+                    <span class="text-white font-medium" id="monthly-label">Monthly</span>
+                    <div class="relative inline-block w-16 mr-2 align-middle select-none">
+                        <input type="checkbox" name="toggle" id="billing-toggle" class="toggle-checkbox absolute block w-8 h-8 rounded-full bg-white border-4 border-brand-teal appearance-none cursor-pointer transition-all duration-300 left-0">
+                        <label for="billing-toggle" class="toggle-label block overflow-hidden h-8 rounded-full bg-white/20 cursor-pointer border border-white/30"></label>
+                    </div>
+                    <span class="text-white font-medium" id="yearly-label">Yearly</span>
+                    <span class="bg-brand-yellow text-brand-darkTeal px-3 py-1 rounded-full text-xs font-bold animate-bounce-subtle">Save 20%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Cards Section -->
+    <section class="py-20 lg:py-32 bg-gray-50 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 items-start">
+                <!-- Starter Plan -->
+                <div class="pricing-card bg-white rounded-3xl p-8 shadow-soft relative overflow-hidden" data-aos="fade-up" data-aos-delay="0">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-teal/5 rounded-full -mr-16 -mt-16"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-2xl bg-brand-teal/10 flex items-center justify-center text-brand-teal mb-6">
+                            <i class="fa-solid fa-seedling text-2xl"></i>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Starter</h3>
+                        <p class="text-gray-500 mb-6">Perfect for individuals and small teams getting started.</p>
+                        
+                        <div class="mb-6">
+                            <span class="text-5xl font-bold text-gray-900 price-value" data-monthly="0" data-yearly="0">$0</span>
+                            <span class="text-gray-500">/month</span>
+                        </div>
+
+                        <button class="w-full py-4 rounded-xl border-2 border-brand-teal text-brand-teal font-bold hover:bg-brand-teal hover:text-white transition-all duration-300 mb-8">
+                            Get Started Free
+                        </button>
+
+                        <ul class="space-y-4">
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-gray-600">Up to 5 team members</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-gray-600">40-minute meeting limit</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-gray-600">Screen sharing</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-gray-600">Basic chat features</span>
+                            </li>
+                            <li class="flex items-center gap-3 opacity-50">
+                                <div class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 flex-shrink-0">
+                                    <i class="fa-solid fa-xmark text-xs"></i>
+                                </div>
+                                <span class="text-gray-400">Cloud recording</span>
+                            </li>
+                            <li class="flex items-center gap-3 opacity-50">
+                                <div class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 flex-shrink-0">
+                                    <i class="fa-solid fa-xmark text-xs"></i>
+                                </div>
+                                <span class="text-gray-400">Admin controls</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Professional Plan - Popular -->
+                <div class="pricing-card popular bg-brand-teal rounded-3xl p-8 shadow-pricing-popular relative overflow-hidden glow-effect" data-aos="fade-up" data-aos-delay="100">
+                    <!-- Popular Badge -->
+                    <div class="absolute top-6 right-6">
+                        <span class="bg-brand-yellow text-brand-darkTeal px-4 py-1 rounded-full text-sm font-bold shimmer relative overflow-hidden">
+                            MOST POPULAR
+                        </span>
+                    </div>
+
+                    <!-- Decorative -->
+                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full"></div>
+                    <div class="absolute -bottom-20 -left-20 w-48 h-48 bg-brand-yellow/20 rounded-full"></div>
+
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center text-white mb-6">
+                            <i class="fa-solid fa-rocket text-2xl"></i>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-white mb-2">Professional</h3>
+                        <p class="text-white/70 mb-6">For growing teams that need more power and flexibility.</p>
+                        
+                        <div class="mb-6">
+                            <span class="text-5xl font-bold text-white price-value" data-monthly="12" data-yearly="10">$12</span>
+                            <span class="text-white/70">/month</span>
+                        </div>
+
+                        <button class="w-full py-4 rounded-xl bg-brand-yellow text-brand-darkTeal font-bold hover:bg-white transition-all duration-300 mb-8 shadow-lg animate-pulse-glow">
+                            Start Free Trial
+                        </button>
+
+                        <ul class="space-y-4">
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-white flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-white">Up to 100 participants</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-white flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-white">Unlimited meeting duration</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-white flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-white">Cloud recording (5GB)</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-white flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-white">Advanced chat & polls</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-white flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-white">Admin dashboard</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-white flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-white">Priority support</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="pricing-card bg-white rounded-3xl p-8 shadow-soft relative overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-yellow/10 rounded-full -mr-16 -mt-16"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-2xl bg-brand-yellow/10 flex items-center justify-center text-brand-yellow mb-6">
+                            <i class="fa-solid fa-building text-2xl"></i>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
+                        <p class="text-gray-500 mb-6">Advanced features and support for large organizations.</p>
+                        
+                        <div class="mb-6">
+                            <span class="text-5xl font-bold text-gray-900 price-value" data-monthly="19" data-yearly="15">$19</span>
+                            <span class="text-gray-500">/month</span>
+                        </div>
+
+                        <button class="w-full py-4 rounded-xl border-2 border-brand-yellow text-brand-yellow font-bold hover:bg-brand-yellow hover:text-brand-darkTeal transition-all duration-300 mb-8">
+                            Contact Sales
+                        </button>
+
+                        <ul class="space-y-4">
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-gray-600">Unlimited participants</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-gray-600">Unlimited cloud storage</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-gray-600">SSO & advanced security</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-gray-600">Custom integrations</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-gray-600">Dedicated account manager</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="feature-check w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-gray-600">24/7 phone support</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Money Back Guarantee -->
+            <div class="mt-12 text-center" data-aos="fade-up">
+                <div class="inline-flex items-center gap-3 bg-white px-6 py-3 rounded-full shadow-soft">
+                    <i class="fa-solid fa-shield-halved text-green-500 text-xl"></i>
+                    <span class="text-gray-700 font-medium">30-day money-back guarantee</span>
+                    <span class="text-gray-400">|</span>
+                    <span class="text-gray-700 font-medium">No credit card required</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Comparison Section -->
+    <section class="py-20 lg:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-brand-teal font-semibold text-sm uppercase tracking-wider">Compare Plans</span>
+                <h2 class="text-4xl font-bold text-gray-900 mt-3 mb-4">Detailed Feature Comparison</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">See exactly what you get with each plan to make the best choice for your team.</p>
+            </div>
+
+            <div class="overflow-x-auto" data-aos="fade-up">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b-2 border-gray-100">
+                            <th class="text-left py-6 px-6 text-gray-500 font-medium">Features</th>
+                            <th class="text-center py-6 px-6">
+                                <div class="text-lg font-bold text-gray-900">Starter</div>
+                                <div class="text-sm text-gray-500">Free</div>
+                            </th>
+                            <th class="text-center py-6 px-6 bg-brand-teal/5 rounded-t-2xl">
+                                <div class="text-lg font-bold text-brand-teal">Professional</div>
+                                <div class="text-sm text-brand-teal/70">$12/month</div>
+                            </th>
+                            <th class="text-center py-6 px-6">
+                                <div class="text-lg font-bold text-gray-900">Enterprise</div>
+                                <div class="text-sm text-gray-500">$19/month</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <td class="py-5 px-6 font-medium text-gray-900">Team Members</td>
+                            <td class="text-center py-5 px-6 text-gray-600">Up to 5</td>
+                            <td class="text-center py-5 px-6 bg-brand-teal/5 text-brand-teal font-medium">Up to 100</td>
+                            <td class="text-center py-5 px-6 text-gray-600">Unlimited</td>
+                        </tr>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <td class="py-5 px-6 font-medium text-gray-900">Meeting Duration</td>
+                            <td class="text-center py-5 px-6 text-gray-600">40 minutes</td>
+                            <td class="text-center py-5 px-6 bg-brand-teal/5 text-brand-teal font-medium">Unlimited</td>
+                            <td class="text-center py-5 px-6 text-gray-600">Unlimited</td>
+                        </tr>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <td class="py-5 px-6 font-medium text-gray-900">Cloud Recording</td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-xmark text-gray-300"></i></td>
+                            <td class="text-center py-5 px-6 bg-brand-teal/5"><i class="fa-solid fa-check text-brand-teal text-lg"></i></td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-check text-green-500 text-lg"></i></td>
+                        </tr>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <td class="py-5 px-6 font-medium text-gray-900">Screen Sharing</td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-check text-green-500"></i></td>
+                            <td class="text-center py-5 px-6 bg-brand-teal/5"><i class="fa-solid fa-check text-brand-teal text-lg"></i></td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-check text-green-500 text-lg"></i></td>
+                        </tr>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <td class="py-5 px-6 font-medium text-gray-900">Whiteboard</td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-xmark text-gray-300"></i></td>
+                            <td class="text-center py-5 px-6 bg-brand-teal/5"><i class="fa-solid fa-check text-brand-teal text-lg"></i></td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-check text-green-500 text-lg"></i></td>
+                        </tr>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <td class="py-5 px-6 font-medium text-gray-900">Polls & Q&A</td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-xmark text-gray-300"></i></td>
+                            <td class="text-center py-5 px-6 bg-brand-teal/5"><i class="fa-solid fa-check text-brand-teal text-lg"></i></td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-check text-green-500 text-lg"></i></td>
+                        </tr>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <td class="py-5 px-6 font-medium text-gray-900">Admin Dashboard</td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-xmark text-gray-300"></i></td>
+                            <td class="text-center py-5 px-6 bg-brand-teal/5"><i class="fa-solid fa-check text-brand-teal text-lg"></i></td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-check text-green-500 text-lg"></i></td>
+                        </tr>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <td class="py-5 px-6 font-medium text-gray-900">SSO / SAML</td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-xmark text-gray-300"></i></td>
+                            <td class="text-center py-5 px-6 bg-brand-teal/5"><i class="fa-solid fa-xmark text-gray-300"></i></td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-check text-green-500 text-lg"></i></td>
+                        </tr>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <td class="py-5 px-6 font-medium text-gray-900">API Access</td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-xmark text-gray-300"></i></td>
+                            <td class="text-center py-5 px-6 bg-brand-teal/5"><i class="fa-solid fa-xmark text-gray-300"></i></td>
+                            <td class="text-center py-5 px-6"><i class="fa-solid fa-check text-green-500 text-lg"></i></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-5 px-6 font-medium text-gray-900">Support</td>
+                            <td class="text-center py-5 px-6 text-gray-600">Community</td>
+                            <td class="text-center py-5 px-6 bg-brand-teal/5 text-brand-teal font-medium">Priority Email</td>
+                            <td class="text-center py-5 px-6 text-gray-600">24/7 Phone</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 lg:py-32 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-brand-teal font-semibold text-sm uppercase tracking-wider">Testimonials</span>
+                <h2 class="text-4xl font-bold text-gray-900 mt-3 mb-4">Loved by Teams Worldwide</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white rounded-2xl p-8 shadow-soft hover:shadow-pricing transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="0">
+                    <div class="flex items-center gap-1 mb-4">
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 leading-relaxed">"Switching to PEOPLED Professional was the best decision. The unlimited meeting time and recording features have transformed how our remote team collaborates."</p>
+                    <div class="flex items-center gap-4">
+                        <img src="hum5.webp" alt="User" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-gray-900">Sarah Johnson</h4>
+                            <p class="text-sm text-gray-500">Product Manager at TechCorp</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-white rounded-2xl p-8 shadow-soft hover:shadow-pricing transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center gap-1 mb-4">
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 leading-relaxed">"The Enterprise plan's security features and SSO integration were exactly what our finance company needed. Excellent support team too!"</p>
+                    <div class="flex items-center gap-4">
+                        <img src="small6.webp" alt="User" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-gray-900">Michael Chen</h4>
+                            <p class="text-sm text-gray-500">CTO at FinanceHub</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-white rounded-2xl p-8 shadow-soft hover:shadow-pricing transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-1 mb-4">
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                        <i class="fa-solid fa-star text-brand-yellow"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 leading-relaxed">"Started with the free plan and upgraded within a week. The value for money is incredible compared to other platforms we've tried."</p>
+                    <div class="flex items-center gap-4">
+                        <img src="small2.webp" alt="User" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-gray-900">Emily Rodriguez</h4>
+                            <p class="text-sm text-gray-500">Founder at StartupXYZ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 lg:py-32 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-brand-teal font-semibold text-sm uppercase tracking-wider">FAQ</span>
+                <h2 class="text-4xl font-bold text-gray-900 mt-3 mb-4">Frequently Asked Questions</h2>
+            </div>
+
+            <div class="space-y-4" data-aos="fade-up">
+                <!-- FAQ Item 1 -->
+                <div class="bg-gray-50 rounded-2xl overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-100 transition-colors">
+                        <span class="font-bold text-gray-900">Can I switch plans at any time?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-teal transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-5">
+                        <p class="text-gray-600">Yes! You can upgrade or downgrade your plan at any time. When you upgrade, you'll be charged the prorated difference. When you downgrade, the new rate will apply at your next billing cycle.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-gray-50 rounded-2xl overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-100 transition-colors">
+                        <span class="font-bold text-gray-900">Is there a free trial for paid plans?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-teal transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-5">
+                        <p class="text-gray-600">Yes, we offer a 14-day free trial for both Professional and Enterprise plans. No credit card required to start your trial.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-gray-50 rounded-2xl overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-100 transition-colors">
+                        <span class="font-bold text-gray-900">What payment methods do you accept?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-teal transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-5">
+                        <p class="text-gray-600">We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers for annual Enterprise plans.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="bg-gray-50 rounded-2xl overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-100 transition-colors">
+                        <span class="font-bold text-gray-900">Do you offer discounts for nonprofits or education?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-teal transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-5">
+                        <p class="text-gray-600">Yes! We offer 50% off for verified nonprofits and educational institutions. Contact our sales team to apply for the discount.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="bg-gray-50 rounded-2xl overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-100 transition-colors">
+                        <span class="font-bold text-gray-900">What happens to my data if I cancel?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-teal transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-5">
+                        <p class="text-gray-600">Your data remains accessible for 30 days after cancellation, giving you time to export anything you need. After 30 days, data is permanently deleted from our servers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 lg:py-32 bg-brand-teal relative overflow-hidden">
+        <!-- Animated Background -->
+        <div class="absolute inset-0">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-brand-yellow/20 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-0 left-0 w-72 h-72 bg-white/10 rounded-full blur-2xl animate-pulse" style="animation-delay: 1s;"></div>
+        </div>
+
+        <!-- Floating Elements -->
+        <div class="absolute top-20 left-20 text-white/10 text-6xl animate-float">
+            <i class="fa-solid fa-comments"></i>
+        </div>
+        <div class="absolute bottom-20 right-20 text-white/10 text-8xl animate-float-delayed">
+            <i class="fa-solid fa-video"></i>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10" data-aos="zoom-in">
+            <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">Ready to Get Started?</h2>
+            <p class="text-white/80 text-lg mb-10">
+                Join over 25,000 teams already using PEOPLED to connect and collaborate.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="404.html" class="px-8 py-4 bg-brand-yellow text-brand-darkTeal rounded-full font-bold hover:bg-white transition-all transform hover:scale-105 shadow-glow" onclick="createConfetti(event)">
+                    Start Free Trial <i class="fa-solid fa-rocket ml-2"></i>
+                </a>
+                <a href="404.html" class="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border border-white/30 rounded-full font-medium hover:bg-white hover:text-brand-teal transition-all">
+                    Contact Sales
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 pt-20 pb-10 border-t">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-6">Menu</h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="index.html" class="hover:text-brand-teal transition-colors">Homepage</a></li>
+                        <li><a href="piricing.html" class="hover:text-brand-teal transition-colors">Plan Pricing</a></li>
+                        <li><a href="our team.html" class="hover:text-brand-teal transition-colors">Our Teams</a></li>
+                        <li><a href="aboutus.html" class="hover:text-brand-teal transition-colors">About Us</a></li>
+                        <li><a href="contact.html" class="hover:text-brand-teal transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-6">Quick links</h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Introduction</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Do you need account?</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Check status online</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">How many join?</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Problem and Solution</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Change country</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Check server using</a></li>
+                    </ul>
+                </div>
+                <div>
+                     <h4 class="font-bold text-gray-900 mb-6">Links</h4> 
+                      <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Video </a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Quality</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Network</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Solution</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-6 h-6 bg-brand-teal rounded flex items-center justify-center text-white text-xs">
+                            <i class="fa-solid fa-arrow-up-right-dots"></i>
+                        </div>
+                        <span class="font-bold text-xl text-brand-teal">PEOPLED</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-6 leading-relaxed">
+                        Sollicitudin quam a mi aliquet ultrices. Aenean ac et, aliquet pellentesque volutpat duis diam.
+                    </p>
+                    <div class="flex items-center gap-2 text-red-500 text-sm font-medium mb-6">
+                        <i class="fa-solid fa-location-dot"></i> New York, United States
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-skype"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-slack"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t pt-8 text-center text-sm text-gray-400">
+                &copy; 2023 PEOPLED. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animate On Scroll
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+        });
+
+        // Mobile Menu Logic
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const navbar = document.getElementById('navbar');
+
+        function toggleMenu() {
+            menu.classList.toggle('translate-x-full');
+        }
+
+        btn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+
+        // Mobile Dropdown Functionality
+        document.querySelectorAll('.mobile-dropdown-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const dropdown = this.parentElement;
+                const content = dropdown.querySelector('.mobile-dropdown-content');
+                const arrow = this.querySelector('.mobile-dropdown-arrow');
+                
+                content.classList.toggle('active');
+                arrow.classList.toggle('active');
+                
+                // Close other dropdowns
+                document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        const otherContent = otherDropdown.querySelector('.mobile-dropdown-content');
+                        const otherArrow = otherDropdown.querySelector('.mobile-dropdown-arrow');
+                        otherContent.classList.remove('active');
+                        otherArrow.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.mobile-dropdown')) {
+                document.querySelectorAll('.mobile-dropdown-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.querySelectorAll('.mobile-dropdown-arrow').forEach(arrow => {
+                    arrow.classList.remove('active');
+                });
+            }
+        });
+
+        // Close mobile menu when clicking a link (except dropdown buttons)
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.classList.replace('bg-brand-teal', 'bg-brand-darkTeal');
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.classList.replace('bg-brand-darkTeal', 'bg-brand-teal');
+            }
+        });
+
+        // Billing Toggle
+        const billingToggle = document.getElementById('billing-toggle');
+        const monthlyLabel = document.getElementById('monthly-label');
+        const yearlyLabel = document.getElementById('yearly-label');
+        const priceValues = document.querySelectorAll('.price-value');
+
+        billingToggle.addEventListener('change', function() {
+            const isYearly = this.checked;
+            
+            // Update labels
+            if (isYearly) {
+                monthlyLabel.classList.remove('text-white');
+                monthlyLabel.classList.add('text-white/60');
+                yearlyLabel.classList.remove('text-white/60');
+                yearlyLabel.classList.add('text-white');
+            } else {
+                monthlyLabel.classList.remove('text-white/60');
+                monthlyLabel.classList.add('text-white');
+                yearlyLabel.classList.remove('text-white');
+                yearlyLabel.classList.add('text-white/60');
+            }
+
+            // Animate price change
+            priceValues.forEach(price => {
+                price.style.opacity = '0';
+                price.style.transform = 'translateY(-10px)';
+                
+                setTimeout(() => {
+                    const newPrice = isYearly ? price.dataset.yearly : price.dataset.monthly;
+                    price.textContent = '$' + newPrice;
+                    price.style.opacity = '1';
+                    price.style.transform = 'translateY(0)';
+                }, 200);
+            });
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                content.classList.toggle('hidden');
+                icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+            });
+        });
+
+        // Confetti Effect
+        function createConfetti(event) {
+            event.preventDefault();
+            const colors = ['#2A7A85', '#F4B942', '#ffffff', '#1E5A63'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = event.clientX + 'px';
+                confetti.style.top = event.clientY + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confetti.style.animation = `confetti-fall ${Math.random() * 2 + 1}s ease-out forwards`;
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+    </script>
+</body>
+</html>

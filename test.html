@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEOPLED - Testimonials</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            primary: '#6366f1',
+                            primaryDark: '#4f46e5',
+                            secondary: '#06b6d4',
+                            accent: '#f472b6',
+                            accentLight: '#fbcfe8',
+                            success: '#22c55e',
+                            warning: '#f59e0b',
+                            light: '#f8fafc',
+                            surface: '#ffffff',
+                            text: '#1e293b',
+                            textLight: '#64748b',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 20px 40px -15px rgba(99, 102, 241, 0.15)',
+                        'glow': '0 0 40px -10px rgba(99, 102, 241, 0.4)',
+                        'card': '0 10px 40px -10px rgba(0, 0, 0, 0.1)',
+                        'floating': '0 25px 50px -12px rgba(99, 102, 241, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(3deg); }
+        }
+        
+        @keyframes float-reverse {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(20px) rotate(-3deg); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+        }
+
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce-soft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 7s ease-in-out infinite 1s; }
+        .animate-float-slow { animation: float-reverse 8s ease-in-out infinite 0.5s; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-morph { animation: morph 8s ease-in-out infinite; }
+        .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+        .animate-bounce-soft { animation: bounce-soft 2s ease-in-out infinite; }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #06b6d4 50%, #f472b6 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-flow 5s ease infinite;
+        }
+
+        /* Glass Effect */
+        .glass {
+            background: rgb(227, 116, 227);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* Card Hover Effects */
+        .hover-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.25);
+        }
+
+        /* Button Effects */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        /* Dropdown Animation - Desktop */
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Mobile Menu Dropdown Styles */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .mobile-dropdown-content.active {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .mobile-dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-dropdown-arrow.active {
+            transform: rotate(180deg);
+        }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 4px;
+        }
+
+        /* Testimonial Card Specific */
+        .testimonial-card {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f1f5f9;
+            transition: all 0.4s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.2);
+        }
+
+        .quote-icon {
+            font-size: 60px;
+            line-height: 1;
+            color: #6366f1;
+            opacity: 0.2;
+            position: absolute;
+            top: 20px;
+            right: 24px;
+        }
+
+        /* Swiper Customization */
+        .swiper-pagination-bullet {
+            width: 10px;
+            height: 10px;
+            background: #cbd5e1;
+            opacity: 1;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #6366f1;
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #6366f1;
+            background: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background: #6366f1;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Video Testimonial Play Button */
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            background: #6366f1;
+        }
+
+        .play-button:hover i {
+            color: white;
+        }
+
+        .play-button i {
+            color: #6366f1;
+            font-size: 24px;
+            margin-left: 4px;
+            transition: color 0.3s ease;
+        }
+
+        /* Star Rating */
+        .star-rating {
+            color: #f59e0b;
+        }
+
+        /* Logo Cloud Grayscale */
+        .logo-cloud img {
+            filter: grayscale(100%);
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .logo-cloud img:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        /* Stats Counter Animation */
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Trust Badge */
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50px;
+            color: #6366f1;
+            font-size: 14px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="font-sans text-brand-text antialiased overflow-x-hidden bg-brand-light">
+<nav class="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center gap-2">
+                <img src="ChatGPT Image Feb 23, 2026, 11_38_27 AM.webp" class="h-12">
+                <span class="font-bold text-xl text-brand-text">STACKLY</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-6">
+
+                <!-- Home Dropdown -->
+                <div class="relative group">
+                    <button class="flex items-center gap-2 font-medium text-brand-text hover:text-brand-primary">
+                        Home
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </button>
+
+                    <div class="absolute left-0 top-10 w-56 bg-white rounded-xl shadow-lg border border-gray-100
+                                opacity-0 invisible group-hover:opacity-100 group-hover:visible
+                                translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+
+                        <a href="index.html" class="block px-5 py-3 hover:bg-gray-50 rounded-t-xl">
+                            Homepage 1
+                        </a>
+                        <a href="home2.html" class="block px-5 py-3 hover:bg-gray-50 rounded-b-xl">
+                            Homepage 2
+                        </a>
+
+                        <a href="login.html" class="block px-5 py-3 hover:bg-gray-50 rounded-b-xl">
+                            Login
+                        </a>
+                        <a href="dash.html" class="block px-5 py-3 hover:bg-gray-50 rounded-b-xl">
+                            Dashboard
+                        </a>
+                    </div>
+                </div>
+
+                <!-- <a href="blog.html" class="font-medium text-brand-text hover:text-brand-primary">Blog</a> -->
+                <a href="test.html" class="font-medium text-brand-text hover:text-brand-primary">Testimonials</a>
+               <a href="quality.html" class="font-medium text-brand-text hover:text-brand-primary">Quality</a>
+                <!-- <a href="contact.html" class="font-medium text-brand-text hover:text-brand-primary">Contact</a>  -->
+            </div>
+
+            <!-- Right Buttons -->
+            <div class="flex items-center gap-4">
+                <a href="error.html" class="hidden md:inline-flex px-5 py-2 rounded-full bg-brand-primary text-white font-medium hover:bg-brand-primaryDark transition">
+                    Get Started
+                </a>
+
+                <!-- Mobile Button -->
+                <button id="menu-btn" class="md:hidden text-2xl text-brand-text">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
+        <div class="px-6 py-4 space-y-3">
+
+            <!-- Mobile Home Dropdown -->
+            <div>
+                <button id="mobile-home-btn" class="w-full flex justify-between items-center py-2 font-medium text-brand-text">
+                    Home
+                    <i class="fa-solid fa-chevron-down text-sm transition-transform" id="mobile-home-arrow"></i>
+                </button>
+
+                <div id="mobile-home-menu" class="hidden pl-4 pt-2 space-y-2">
+                    <a href="index.html" class="block py-2 text-brand-textLight hover:text-brand-primary">Homepage 1</a>
+                    <a href="home2.html" class="block py-2 text-brand-textLight hover:text-brand-primary">Homepage 2</a>
+                                        <a href="login.html" class="block py-2 text-brand-textLight hover:text-brand-primary">Login</a>
+
+                                                            <a href="dash.html" class="block py-2 text-brand-textLight hover:text-brand-primary">Dashboard</a>
+
+                </div>
+            </div>
+
+            <!-- <a href="blog.html" class="block py-2 font-medium text-brand-text">About</a> -->
+            <a href="test.html" class="block py-2 font-medium text-brand-text">Testimonials</a>
+            <a href="quality.html" class="block py-2 font-medium text-brand-text">Quality</a>
+            <!-- <a href="contact.html" class="block py-2 font-medium text-brand-text">Contact</a> -->
+
+            <a href="error.html" class="block mt-4 text-center py-3 rounded-lg bg-brand-primary text-white font-semibold">
+                Get Started
+            </a>
+
+        </div>
+    </div>
+</nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-gradient-to-br from-brand-light via-white to-brand-light">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-20 right-10 w-96 h-96 bg-brand-primary/10 rounded-full blur-3xl animate-morph"></div>
+            <div class="absolute bottom-20 left-10 w-72 h-72 bg-brand-secondary/10 rounded-full blur-3xl animate-morph" style="animation-delay: -4s;"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-accent/5 rounded-full blur-3xl animate-spin-slow"></div>
+            
+            <!-- Floating Shapes -->
+            <div class="absolute top-32 left-20 w-20 h-20 border-2 border-brand-primary/20 rounded-2xl animate-float"></div>
+            <div class="absolute top-48 right-32 w-16 h-16 bg-brand-secondary/20 rounded-full animate-float-delayed"></div>
+            
+            <!-- Grid Pattern -->
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%236366f1\" fill-opacity=\"0.03\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
+                <div class="trust-badge mb-6">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>Loved by 10,000+ teams</span>
+                </div>
+                <h1 class="text-5xl lg:text-7xl font-bold leading-tight mb-6">
+                    What Our <span class="gradient-text">Customers</span> Say
+                </h1>
+                <p class="text-brand-textLight text-lg mb-10 max-w-2xl mx-auto">
+                    Discover why thousands of companies trust PEOPLED to power their remote collaboration and communication.
+                </p>
+                
+                <!-- Rating Summary -->
+                <div class="flex flex-wrap justify-center items-center gap-8" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-center">
+                        <div class="flex items-center justify-center gap-1 text-brand-warning text-2xl mb-2">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-brand-text font-bold">4.9/5 Rating</p>
+                    </div>
+                    <div class="h-12 w-px bg-gray-200 hidden sm:block"></div>
+                    <div class="text-center">
+                        <p class="text-3xl font-bold text-brand-text">2,000+</p>
+                        <p class="text-brand-textLight">Reviews</p>
+                    </div>
+                    <div class="h-12 w-px bg-gray-200 hidden sm:block"></div>
+                    <div class="text-center">
+                        <p class="text-3xl font-bold text-brand-text">98%</p>
+                        <p class="text-brand-textLight">Would Recommend</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Video Testimonial -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <span class="inline-block px-4 py-1 rounded-full bg-brand-accent/10 text-brand-accent text-sm font-medium mb-4">Featured Story</span>
+                    <h2 class="text-4xl lg:text-5xl font-bold text-brand-text mb-6">
+                        How TechCorp Transformed Their Remote Culture
+                    </h2>
+                    <p class="text-brand-textLight text-lg mb-6 leading-relaxed">
+                        "PEOPLED didn't just give us a video conferencing tool—it completely transformed how our global team connects. We've seen a 40% increase in meeting productivity and our employee satisfaction scores have never been higher."
+                    </p>
+                    <div class="flex items-center gap-4 mb-8">
+                        <img src="meeting.webp" alt="Sarah Chen" class="w-16 h-16 rounded-full object-cover border-4 border-brand-primary/10">
+                        <div>
+                            <h4 class="font-bold text-brand-text text-lg">Sarah Chen</h4>
+                            <p class="text-brand-textLight">Chief People Officer, TechCorp</p>
+                            <div class="flex items-center gap-1 text-brand-warning text-sm mt-1">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center gap-2 text-brand-text">
+                            <i class="fa-solid fa-check-circle text-brand-success"></i>
+                            <span class="font-medium">500+ employees</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-brand-text">
+                            <i class="fa-solid fa-check-circle text-brand-success"></i>
+                            <span class="font-medium">12 countries</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-brand-text">
+                            <i class="fa-solid fa-check-circle text-brand-success"></i>
+                            <span class="font-medium">3x ROI in 6 months</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative" data-aos="fade-left">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-3xl opacity-20 blur-2xl"></div>
+                    <div class="relative rounded-3xl overflow-hidden shadow-floating group cursor-pointer">
+                        <img src="call.webp" alt="Video Thumbnail" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                            <div class="play-button">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-sm rounded-xl p-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-brand-primary flex items-center justify-center text-white">
+                                        <i class="fa-solid fa-video"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-brand-text">Watch Full Story</p>
+                                        <p class="text-sm text-brand-textLight">3:45 minutes</p>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-arrow-right text-brand-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 bg-brand-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8" data-aos="fade-up">
+                <div class="text-center p-8 bg-white rounded-2xl shadow-card">
+                    <div class="stat-number mb-2" data-target="98">0</div>
+                    <p class="text-brand-textLight font-medium">% Customer Satisfaction</p>
+                </div>
+                <div class="text-center p-8 bg-white rounded-2xl shadow-card">
+                    <div class="stat-number mb-2" data-target="50">0</div>
+                    <p class="text-brand-textLight font-medium">K+ Active Users</p>
+                </div>
+                <div class="text-center p-8 bg-white rounded-2xl shadow-card">
+                    <div class="stat-number mb-2" data-target="150">0</div>
+                    <p class="text-brand-textLight font-medium">+ Countries</p>
+                </div>
+                <div class="text-center p-8 bg-white rounded-2xl shadow-card">
+                    <div class="stat-number mb-2" data-target="4.9">0</div>
+                    <p class="text-brand-textLight font-medium">Average Rating</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Slider -->
+    <section class="py-20 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+            <div class="text-center" data-aos="fade-up">
+                <span class="inline-block px-4 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-sm font-medium mb-4">Testimonials</span>
+                <h2 class="text-4xl lg:text-5xl font-bold text-brand-text mb-4">Trusted by Industry Leaders</h2>
+                <p class="text-brand-textLight text-lg max-w-2xl mx-auto">See what professionals across different industries say about their experience with PEOPLED.</p>
+            </div>
+        </div>
+
+        <!-- Swiper Slider -->
+        <div class="swiper testimonialSwiper px-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="swiper-wrapper pb-12">
+                <!-- Slide 1 -->
+                <div class="swiper-slide">
+                    <div class="testimonial-card h-full relative">
+                        <i class="fa-solid fa-quote-right quote-icon"></i>
+                        <div class="flex items-center gap-1 text-brand-warning mb-4">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-brand-text text-lg mb-6 leading-relaxed">
+                            "The AI-powered features are incredible. Automatic transcription and meeting summaries save us hours every week. It's like having a personal assistant for every meeting."
+                        </p>
+                        <div class="flex items-center gap-4 mt-auto">
+                            <img src="small2.webp" alt="Michael Park" class="w-14 h-14 rounded-full object-cover">
+                            <div>
+                                <h4 class="font-bold text-brand-text">Michael Park</h4>
+                                <p class="text-sm text-brand-textLight">CTO at StartupXYZ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="swiper-slide">
+                    <div class="testimonial-card h-full relative">
+                        <i class="fa-solid fa-quote-right quote-icon"></i>
+                        <div class="flex items-center gap-1 text-brand-warning mb-4">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-brand-text text-lg mb-6 leading-relaxed">
+                            "Security was our top priority when choosing a video platform. PEOPLED's enterprise-grade encryption and compliance certifications gave us complete peace of mind."
+                        </p>
+                        <div class="flex items-center gap-4 mt-auto">
+                            <img src="small3.webp" alt="Emily Rodriguez" class="w-14 h-14 rounded-full object-cover">
+                            <div>
+                                <h4 class="font-bold text-brand-text">Emily Rodriguez</h4>
+                                <p class="text-sm text-brand-textLight">CEO at FinanceHub</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="swiper-slide">
+                    <div class="testimonial-card h-full relative">
+                        <i class="fa-solid fa-quote-right quote-icon"></i>
+                        <div class="flex items-center gap-1 text-brand-warning mb-4">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-brand-text text-lg mb-6 leading-relaxed">
+                            "We've tried every major video conferencing tool out there. PEOPLED is hands down the best—intuitive, reliable, and packed with features that actually matter."
+                        </p>
+                        <div class="flex items-center gap-4 mt-auto">
+                            <img src="small4.webp" alt="David Kim" class="w-14 h-14 rounded-full object-cover">
+                            <div>
+                                <h4 class="font-bold text-brand-text">David Kim</h4>
+                                <p class="text-sm text-brand-textLight">VP of Engineering at TechFlow</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4 -->
+                <div class="swiper-slide">
+                    <div class="testimonial-card h-full relative">
+                        <i class="fa-solid fa-quote-right quote-icon"></i>
+                        <div class="flex items-center gap-1 text-brand-warning mb-4">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-brand-text text-lg mb-6 leading-relaxed">
+                            "The whiteboard and collaboration features have transformed our design reviews. Our creative team can't imagine working without it now."
+                        </p>
+                        <div class="flex items-center gap-4 mt-auto">
+                            <img src="small2.webp" alt="Lisa Wang" class="w-14 h-14 rounded-full object-cover">
+                            <div>
+                                <h4 class="font-bold text-brand-text">Lisa Wang</h4>
+                                <p class="text-sm text-brand-textLight">Creative Director at DesignCo</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 5 -->
+                <div class="swiper-slide">
+                    <div class="testimonial-card h-full relative">
+                        <i class="fa-solid fa-quote-right quote-icon"></i>
+                        <div class="flex items-center gap-1 text-brand-warning mb-4">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-brand-text text-lg mb-6 leading-relaxed">
+                            "Customer support is exceptional. Any issue we've had was resolved within minutes. That level of service is rare these days."
+                        </p>
+                        <div class="flex items-center gap-4 mt-auto">
+                            <img src="small4.webp" alt="James Wilson" class="w-14 h-14 rounded-full object-cover">
+                            <div>
+                                <h4 class="font-bold text-brand-text">James Wilson</h4>
+                                <p class="text-sm text-brand-textLight">Operations Manager at CloudScale</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 6 -->
+                <div class="swiper-slide">
+                    <div class="testimonial-card h-full relative">
+                        <i class="fa-solid fa-quote-right quote-icon"></i>
+                        <div class="flex items-center gap-1 text-brand-warning mb-4">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-brand-text text-lg mb-6 leading-relaxed">
+                            "As a fully remote company, PEOPLED is our virtual office. The seamless integrations with our existing tools made adoption incredibly smooth."
+                        </p>
+                        <div class="flex items-center gap-4 mt-auto">
+                            <img src="hum5.webp" alt="Anna Schmidt" class="w-14 h-14 rounded-full object-cover">
+                            <div>
+                                <h4 class="font-bold text-brand-text">Anna Schmidt</h4>
+                                <p class="text-sm text-brand-textLight">Founder at RemoteFirst</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+
+    <!-- Logo Cloud Section -->
+    <section class="py-16 bg-brand-light border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-brand-textLight text-sm mb-8 uppercase tracking-wider">Trusted by innovative companies worldwide</p>
+            <div class="logo-cloud flex flex-wrap justify-center items-center gap-12">
+                <div class="flex items-center gap-2 text-2xl font-bold text-brand-text">
+                    <i class="fa-brands fa-google text-3xl"></i> Google
+                </div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-brand-text">
+                    <i class="fa-brands fa-microsoft text-3xl"></i> Microsoft
+                </div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-brand-text">
+                    <i class="fa-brands fa-slack text-3xl"></i> Slack
+                </div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-brand-text">
+                    <i class="fa-brands fa-spotify text-3xl"></i> Spotify
+                </div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-brand-text">
+                    <i class="fa-brands fa-airbnb text-3xl"></i> Airbnb
+                </div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-brand-text">
+                    <i class="fa-brands fa-stripe text-3xl"></i> Stripe
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- More Testimonials Grid -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-brand-text mb-4">More Success Stories</h2>
+                <p class="text-brand-textLight text-lg">Hear from professionals across various industries</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial Card 1 -->
+                <div class="testimonial-card hover-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="flex items-center gap-1 text-brand-warning mb-4">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-brand-text mb-6 leading-relaxed">
+                        "The best investment we've made for our remote team. Communication has never been smoother, and our meeting times have been cut in half thanks to the efficient tools."
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <img src="small4.webp" alt="User" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-brand-text">Jennifer Adams</h4>
+                            <p class="text-sm text-brand-textLight">HR Director at GlobalTech</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial Card 2 -->
+                <div class="testimonial-card hover-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center gap-1 text-brand-warning mb-4">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-brand-text mb-6 leading-relaxed">
+                        "PEOPLED's recording and transcription features are lifesavers for our global team across time zones. No one misses important discussions anymore."
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <img src="small2.webp" alt="User" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-brand-text">Robert Chen</h4>
+                            <p class="text-sm text-brand-textLight">Product Lead at InnovateLab</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial Card 3 -->
+                <div class="testimonial-card hover-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-1 text-brand-warning mb-4">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-brand-text mb-6 leading-relaxed">
+                        "We evaluated 12 different platforms before choosing PEOPLED. The combination of features, price, and reliability made it an easy decision."
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <img src="hum5.webp" alt="User" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-brand-text">Maria Garcia</h4>
+                            <p class="text-sm text-brand-textLight">IT Manager at Enterprise Solutions</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial Card 4 -->
+                <div class="testimonial-card hover-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="flex items-center gap-1 text-brand-warning mb-4">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star-half-stroke"></i>
+                    </div>
+                    <p class="text-brand-text mb-6 leading-relaxed">
+                        "The mobile app is fantastic. I can join meetings from anywhere with the same quality experience as desktop. Perfect for my travel-heavy schedule."
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <img src="small4.webp" alt="User" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-brand-text">Thomas Anderson</h4>
+                            <p class="text-sm text-brand-textLight">Sales Director at CloudNine</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial Card 5 -->
+                <div class="testimonial-card hover-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center gap-1 text-brand-warning mb-4">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-brand-text mb-6 leading-relaxed">
+                        "Onboarding our entire company was surprisingly easy. The intuitive interface meant minimal training required—people just got it immediately."
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <img src="small2.webp" alt="User" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-brand-text">Rachel Green</h4>
+                            <p class="text-sm text-brand-textLight">COO at FastGrowth Inc</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial Card 6 -->
+                <div class="testimonial-card hover-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-1 text-brand-warning mb-4">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-brand-text mb-6 leading-relaxed">
+                        "The analytics dashboard gives us insights we never had before. We can actually measure meeting effectiveness and continuously improve."
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <img src="small6 (1).webp" alt="User" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-brand-text">Kevin Martinez</h4>
+                            <p class="text-sm text-brand-textLight">Data Analyst at MetricPro</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-brand-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative rounded-3xl overflow-hidden" data-aos="zoom-in">
+                <div class="absolute inset-0 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
+                
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-brand-accent/20 rounded-full blur-2xl animate-pulse" style="animation-delay: 1s;"></div>
+
+                <div class="relative z-10 px-8 py-16 lg:px-16 lg:py-24 text-center">
+                    <h2 class="text-4xl lg:text-6xl font-bold text-white mb-6">Join Thousands of Happy Teams</h2>
+                    <p class="text-white/80 text-lg mb-10 max-w-2xl mx-auto">
+                        Experience the difference that PEOPLED can make for your team. Start your free trial today and see why we're rated #1 in customer satisfaction.
+                    </p>
+                    
+                    <div class="flex flex-wrap justify-center gap-4 mb-8">
+                        <button class="px-8 py-4 rounded-full bg-white text-brand-primary font-bold hover:bg-brand-light transition-all transform hover:scale-105 shadow-lg flex items-center gap-2">
+                            <span>Start Free Trial</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button class="px-8 py-4 rounded-full bg-white/10 text-white border border-white/30 font-medium hover:bg-white hover:text-brand-primary transition-all">
+                            Schedule Demo
+                        </button>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center items-center gap-6 text-white/80 text-sm">
+                        <span class="flex items-center gap-2">
+                            <i class="fa-solid fa-check-circle"></i> No credit card required
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <i class="fa-solid fa-check-circle"></i> 14-day free trial
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <i class="fa-solid fa-check-circle"></i> Cancel anytime
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-text pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-white">
+                            <i class="fa-solid fa-arrow-up-right-dots text-sm"></i>
+                        </div>
+                        <span class="font-bold text-xl text-white">PEOPLED</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Transforming the way teams communicate and collaborate worldwide.</p>
+                    <div class="flex gap-3">
+                        <a href="error.html" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-primary transition-colors">
+                            <i class="fa-brands fa-twitter text-sm"></i>
+                        </a>
+                        <a href="error.html" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-primary transition-colors">
+                            <i class="fa-brands fa-linkedin-in text-sm"></i>
+                        </a>
+                        <a href="error.html" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-primary transition-colors">
+                            <i class="fa-brands fa-instagram text-sm"></i>
+                        </a>
+                        <a href="error.html" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-primary transition-colors">
+                            <i class="fa-brands fa-youtube text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white mb-6">Product</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="error.html" class="hover:text-white transition-colors">Features</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Integrations</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Changelog</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Roadmap</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white mb-6">Company</h4>
+                   <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="home2.html" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="test.html" class="hover:text-white transition-colors">Testimonials</a></li>
+                        <li><a href="quality.html" class="hover:text-white transition-colors">Quality</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white mb-6">Resources</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="error.html" class="hover:text-white transition-colors">Documentation</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Community</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">Webinars</a></li>
+                        <li><a href="error.html" class="hover:text-white transition-colors">API Reference</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-400 text-sm">&copy; 2024 PEOPLED. All rights reserved.</p>
+                <div class="flex gap-6 text-sm text-gray-400">
+                    <a href="error.html" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="error.html" class="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="error.html" class="hover:text-white transition-colors">Cookie Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+        });
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+
+        function toggleMenu() {
+            menu.classList.toggle('translate-x-full');
+        }
+
+        btn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+
+        // Mobile Dropdown Functionality
+        document.querySelectorAll('.mobile-dropdown-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const dropdown = this.parentElement;
+                const content = dropdown.querySelector('.mobile-dropdown-content');
+                const arrow = this.querySelector('.mobile-dropdown-arrow');
+                
+                content.classList.toggle('active');
+                arrow.classList.toggle('active');
+                
+                document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        const otherContent = otherDropdown.querySelector('.mobile-dropdown-content');
+                        const otherArrow = otherDropdown.querySelector('.mobile-dropdown-arrow');
+                        otherContent.classList.remove('active');
+                        otherArrow.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.mobile-dropdown')) {
+                document.querySelectorAll('.mobile-dropdown-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.querySelectorAll('.mobile-dropdown-arrow').forEach(arrow => {
+                    arrow.classList.remove('active');
+                });
+            }
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-soft');
+            } else {
+                navbar.classList.remove('shadow-soft');
+            }
+        });
+
+        // Initialize Swiper
+        const swiper = new Swiper('.testimonialSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                },
+                768: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+            },
+        });
+
+        // Animated Counters
+        const counters = document.querySelectorAll('.stat-number');
+        const speed = 200;
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const target = parseFloat(counter.getAttribute('data-target'));
+                const count = parseFloat(counter.innerText);
+                const inc = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil((count + inc) * 10) / 10;
+                    setTimeout(animateCounters, 20);
+                } else {
+                    counter.innerText = target + (target > 10 ? '+' : '');
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+
+        counters.forEach(counter => observer.observe(counter));
+    </script>
+
+
+
+
+
+
+
+<script>
+const menuBtn = document.getElementById('menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+
+menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Mobile Home Dropdown
+const homeBtn = document.getElementById('mobile-home-btn');
+const homeMenu = document.getElementById('mobile-home-menu');
+const arrow = document.getElementById('mobile-home-arrow');
+
+homeBtn.addEventListener('click', () => {
+    homeMenu.classList.toggle('hidden');
+    arrow.classList.toggle('rotate-180');
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

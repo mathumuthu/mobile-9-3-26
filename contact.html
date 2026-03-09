@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - PEOPLED</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            teal: '#2A7A85',
+                            darkTeal: '#1E5A63',
+                            yellow: '#F4B942',
+                            light: '#F8F9FA',
+                            gray: '#6C757D'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 20px 40px -15px rgba(0, 0, 0, 0.1)',
+                        'card': '0 10px 30px -5px rgba(42, 122, 133, 0.15)',
+                        'glow': '0 0 40px -10px rgba(244, 185, 66, 0.5)',
+                        'contact': '0 25px 50px -12px rgba(42, 122, 133, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(42, 122, 133, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(42, 122, 133, 0.6); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-5px) translateY(-5px); }
+            50% { transform: translateX(0) translateY(-10px); }
+            75% { transform: translateX(5px) translateY(-5px); }
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 7s ease-in-out infinite 1s; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-wave { animation: wave 3s ease-in-out infinite; }
+
+        /* Form Input Effects */
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(42, 122, 133, 0.3);
+        }
+
+        .form-label {
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus + .form-label,
+        .form-input:not(:placeholder-shown) + .form-label {
+            transform: translateY(-24px) scale(0.85);
+            color: #2A7A85;
+        }
+
+        /* Contact Card Effects */
+        .contact-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .contact-card:hover .contact-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .contact-icon {
+            transition: all 0.4s ease;
+        }
+
+        /* Map Container */
+        .map-container {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(42, 122, 133, 0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        /* Dropdown Transition */
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Mobile Menu Transition */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Mobile Dropdown Styles */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .mobile-dropdown-content.active {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .mobile-dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-dropdown-arrow.active {
+            transform: rotate(180deg);
+        }
+
+        /* Success Animation */
+        @keyframes checkmark {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .success-check {
+            animation: checkmark 0.5s ease-out forwards;
+        }
+
+        /* Typing Effect */
+        .typing-effect::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        /* Social Icon Hover */
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 20px -5px rgba(42, 122, 133, 0.3);
+        }
+
+        /* Particle Background */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(244, 185, 66, 0.2);
+            animation: float-particle 15s infinite ease-in-out;
+        }
+
+        @keyframes float-particle {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased overflow-x-hidden bg-gray-50">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-brand-teal text-white transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="logo.webp" class="h-8 md:h-10 w-auto object-contain">
+                    <span class="font-bold text-lg md:text-2xl text-white">STACKLY</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <!-- Home Dropdown -->
+                    <div class="relative group h-20 flex items-center">
+                        <button class="flex items-center gap-1 hover:text-brand-yellow transition-colors font-medium">
+                            Home <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu absolute top-20 left-0 w-64 bg-white text-gray-800 rounded-b-xl shadow-xl border-t-4 border-brand-yellow overflow-hidden">
+                            <div class="p-4">
+                                <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Main Pages</h3>
+                                <a href="index.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 1</a>
+                                <a href="home2.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 2</a>
+                                <div class="border-t my-2"></div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Account</h3>
+                                <a href="login.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Login</a>
+                                <a href="dash.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Dashboard</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="aboutus.html" class="hover:text-brand-yellow transition-colors font-medium">About Us</a>
+                    <a href="our team.html" class="hover:text-brand-yellow transition-colors font-medium">Our Team</a>
+                    
+                    <!-- Pricing Link -->
+                    <a href="piricing.html" class="hover:text-brand-yellow transition-colors font-medium">Pricing</a>
+
+                    <a href="contact.html" class="text-brand-yellow font-medium">Contact Us</a>
+                </div>
+
+                <!-- Icons & Mobile Button -->
+                <div class="flex items-center gap-4">
+                    <button class="hover:text-brand-yellow transition-colors"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-user"></i></button>
+                    <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-bell"></i></button>
+                    
+                    <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-brand-darkTeal z-40 transform translate-x-full md:hidden flex flex-col pt-24 px-6 space-y-2 text-lg overflow-y-auto">
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+            
+            <!-- Mobile Home Dropdown -->
+            <div class="mobile-dropdown border-b border-white/20 pb-2">
+                <button class="mobile-dropdown-btn w-full flex items-center justify-between py-3 text-white hover:text-brand-yellow transition-colors">
+                    <span>Home</span>
+                    <i class="fa-solid fa-chevron-down text-sm mobile-dropdown-arrow"></i>
+                </button>
+                <div class="mobile-dropdown-content pl-4 space-y-2 mt-2">
+                    <h3 class="text-xs font-bold text-white/60 uppercase mb-2">Main Pages</h3>
+                    <a href="index.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Homepage 1 </a>
+                    <a href="home2.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Homepage 2 </a>
+                    <div class="border-t border-white/10 my-2"></div>
+                    <h3 class="text-xs font-bold text-white/60 uppercase mb-2">Account</h3>
+                    <a href="login.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Login</a>
+                    <a href="dash.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Dashboard</a>
+                </div>
+            </div>
+
+            <a href="aboutus.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">About Us</a>
+            <a href="our team.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">Our Team</a>
+            <a href="piricing.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">Pricing</a>
+            <a href="contact.html" class="block border-b border-white/20 py-3 text-brand-yellow">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative bg-brand-teal pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
+        <!-- Animated Background -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-20 right-20 w-96 h-96 bg-brand-yellow/20 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-10 left-10 w-72 h-72 bg-white/10 rounded-full blur-2xl animate-pulse" style="animation-delay: 1s;"></div>
+            <!-- Grid Pattern -->
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.03\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
+        </div>
+
+        <!-- Particles -->
+        <div class="absolute inset-0 z-10 overflow-hidden pointer-events-none" id="particles"></div>
+
+        <!-- Floating Elements -->
+        <div class="absolute top-32 left-10 text-white/10 text-6xl animate-float">
+            <i class="fa-solid fa-envelope"></i>
+        </div>
+        <div class="absolute bottom-32 right-20 text-white/10 text-8xl animate-float-delayed">
+            <i class="fa-solid fa-phone"></i>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+            <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
+                <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-5 py-2 rounded-full text-sm font-medium mb-6 border border-white/20 animate-pulse">
+                    <i class="fa-solid fa-headset text-brand-yellow"></i>
+                    We're Here to Help
+                </span>
+                
+                <h1 class="text-5xl md:text-7xl font-bold text-white leading-tight mb-6">
+                    Get in <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-yellow to-white">Touch</span>
+                </h1>
+                
+                <p class="text-white/70 text-lg mb-8 leading-relaxed">
+                    Have a question, feedback, or just want to say hello? We'd love to hear from you. Reach out and we'll respond as soon as possible.
+                </p>
+
+                <!-- Quick Stats -->
+                <div class="flex flex-wrap justify-center gap-8 mt-12">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-white mb-1">24h</div>
+                        <div class="text-white/60 text-sm">Response Time</div>
+                    </div>
+                    <div class="text-center border-x border-white/20 px-8">
+                        <div class="text-3xl font-bold text-white mb-1">98%</div>
+                        <div class="text-white/60 text-sm">Satisfaction Rate</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-white mb-1">15k+</div>
+                        <div class="text-white/60 text-sm">Tickets Resolved</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Cards Section -->
+    <section class="py-20 lg:py-32 bg-gray-50 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 -mt-32 relative z-30">
+                <!-- Email Card -->
+                <div class="contact-card bg-white rounded-3xl p-8 shadow-contact" data-aos="fade-up" data-aos-delay="0">
+                    <div class="contact-icon w-16 h-16 rounded-2xl bg-brand-teal/10 flex items-center justify-center text-brand-teal mb-6">
+                        <i class="fa-solid fa-envelope text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Email Us</h3>
+                    <p class="text-gray-600 mb-4">Our team typically responds within 24 hours.</p>
+                    <a href="mailto:hello@peopled.com" class="text-brand-teal font-medium hover:text-brand-darkTeal transition-colors">
+                        hello@peopled.com
+                    </a>
+                    <a href="mailto:support@peopled.com" class="block text-gray-500 text-sm mt-2 hover:text-brand-teal transition-colors">
+                        support@peopled.com
+                    </a>
+                </div>
+
+                <!-- Phone Card -->
+                <div class="contact-card bg-white rounded-3xl p-8 shadow-contact" data-aos="fade-up" data-aos-delay="100">
+                    <div class="contact-icon w-16 h-16 rounded-2xl bg-brand-yellow/10 flex items-center justify-center text-brand-yellow mb-6">
+                        <i class="fa-solid fa-phone text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Call Us</h3>
+                    <p class="text-gray-600 mb-4">Mon-Fri from 8am to 6pm EST.</p>
+                    <a href="tel:+1-800-PEOPLED" class="text-brand-teal font-medium hover:text-brand-darkTeal transition-colors">
+                        +1 (800) PEOPLED
+                    </a>
+                    <p class="text-gray-500 text-sm mt-2">
+                        +1 (555) 123-4567
+                    </p>
+                </div>
+
+                <!-- Office Card -->
+                <div class="contact-card bg-white rounded-3xl p-8 shadow-contact" data-aos="fade-up" data-aos-delay="200">
+                    <div class="contact-icon w-16 h-16 rounded-2xl bg-green-100 flex items-center justify-center text-green-600 mb-6">
+                        <i class="fa-solid fa-location-dot text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Visit Us</h3>
+                    <p class="text-gray-600 mb-4">Come say hello at our headquarters.</p>
+                    <p class="text-brand-teal font-medium">
+                        123 Innovation Drive
+                    </p>
+                    <p class="text-gray-500 text-sm mt-1">
+                        New York, NY 10001
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form & Map Section -->
+    <section class="py-20 lg:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- Contact Form -->
+                <div data-aos="fade-right">
+                    <span class="text-brand-teal font-semibold text-sm uppercase tracking-wider">Send a Message</span>
+                    <h2 class="text-4xl font-bold text-gray-900 mt-3 mb-6">Let's Start a Conversation</h2>
+                    <p class="text-gray-600 mb-8">Fill out the form below and we'll get back to you as soon as possible. Your feedback helps us improve.</p>
+
+                    <form id="contactForm" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Name -->
+                            <div class="relative">
+                                <input type="text" id="name" name="name" placeholder=" " required
+                                    class="form-input w-full px-4 py-4 rounded-xl border border-gray-200 focus:border-brand-teal focus:outline-none bg-transparent peer">
+                                <label for="name" class="form-label absolute left-4 top-4 text-gray-500 pointer-events-none">
+                                    Your Name
+                                </label>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="relative">
+                                <input type="email" id="email" name="email" placeholder=" " required
+                                    class="form-input w-full px-4 py-4 rounded-xl border border-gray-200 focus:border-brand-teal focus:outline-none bg-transparent peer">
+                                <label for="email" class="form-label absolute left-4 top-4 text-gray-500 pointer-events-none">
+                                    Email Address
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Subject -->
+                        <div class="relative">
+                            <select id="subject" name="subject" required
+                                class="form-input w-full px-4 py-4 rounded-xl border border-gray-200 focus:border-brand-teal focus:outline-none bg-transparent appearance-none cursor-pointer">
+                                <option value="" disabled selected>Select a topic</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="support">Technical Support</option>
+                                <option value="sales">Sales & Enterprise</option>
+                                <option value="partnership">Partnership</option>
+                                <option value="feedback">Feedback</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="relative">
+                            <textarea id="message" name="message" rows="5" placeholder=" " required
+                                class="form-input w-full px-4 py-4 rounded-xl border border-gray-200 focus:border-brand-teal focus:outline-none bg-transparent resize-none peer"></textarea>
+                            <label for="message" class="form-label absolute left-4 top-4 text-gray-500 pointer-events-none">
+                                Your Message
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submitBtn"
+                            class="w-full py-4 rounded-xl bg-brand-teal text-white font-bold hover:bg-brand-darkTeal transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2 group">
+                            <span>Send Message</span>
+                            <i class="fa-solid fa-paper-plane group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                        </button>
+
+                        <!-- Success Message (Hidden by default) -->
+                        <div id="successMessage" class="hidden bg-green-50 border border-green-200 rounded-xl p-6 text-center">
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center text-green-600 success-check">
+                                <i class="fa-solid fa-check text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Message Sent!</h3>
+                            <p class="text-gray-600">Thank you for reaching out. We'll get back to you within 24 hours.</p>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Map & Info -->
+                <div data-aos="fade-left">
+                    <!-- Map -->
+                    <div class="map-container rounded-3xl overflow-hidden shadow-contact h-80 mb-8 relative">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.11976397304603!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1699999999999!5m2!1sen!2s"
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                        <!-- Map Overlay Card -->
+                        <div class="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-brand-teal flex items-center justify-center text-white flex-shrink-0">
+                                    <i class="fa-solid fa-map-pin"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-900 text-sm">PEOPLED Headquarters</p>
+                                    <p class="text-gray-600 text-xs">123 Innovation Drive, New York, NY</p>
+                                </div>
+                                <a href="#" class="ml-auto text-brand-teal hover:text-brand-darkTeal">
+                                    <i class="fa-solid fa-directions"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Office Hours -->
+                    <div class="bg-gray-50 rounded-2xl p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i class="fa-regular fa-clock text-brand-teal"></i>
+                            Office Hours
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Monday - Friday</span>
+                                <span class="font-medium text-gray-900">8:00 AM - 6:00 PM EST</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Saturday</span>
+                                <span class="font-medium text-gray-900">10:00 AM - 4:00 PM EST</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Sunday</span>
+                                <span class="font-medium text-red-500">Closed</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t">
+                            <p class="text-sm text-gray-500 flex items-center gap-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                Currently online - Average response time 2 hours
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 lg:py-32 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-brand-teal font-semibold text-sm uppercase tracking-wider">FAQ</span>
+                <h2 class="text-4xl font-bold text-gray-900 mt-3 mb-4">Common Questions</h2>
+                <p class="text-gray-600">Can't find what you're looking for? Check our comprehensive FAQ or contact us directly.</p>
+            </div>
+
+            <div class="space-y-4" data-aos="fade-up">
+                <!-- FAQ Item 1 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-soft">
+                    <button class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                        <span class="font-bold text-gray-900">How do I reset my password?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-teal transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-5">
+                        <p class="text-gray-600">Click on "Forgot Password" on the login page, enter your email address, and we'll send you a reset link. The link expires in 24 hours for security.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-soft">
+                    <button class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                        <span class="font-bold text-gray-900">Can I change my plan later?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-teal transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-5">
+                        <p class="text-gray-600">Absolutely! You can upgrade or downgrade your plan at any time from your account settings. Changes take effect immediately.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-soft">
+                    <button class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                        <span class="font-bold text-gray-900">Do you offer refunds?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-teal transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-5">
+                        <p class="text-gray-600">Yes, we offer a 30-day money-back guarantee for all paid plans. If you're not satisfied, contact us for a full refund.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-soft">
+                    <button class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                        <span class="font-bold text-gray-900">How do I contact technical support?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-teal transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-5">
+                        <p class="text-gray-600">For technical issues, email support@peopled.com or use the live chat in your dashboard. Premium users get priority support with faster response times.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Connect Section -->
+    <section class="py-20 lg:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <span class="text-brand-teal font-semibold text-sm uppercase tracking-wider">Connect</span>
+                <h2 class="text-4xl font-bold text-gray-900 mt-3 mb-4">Follow Us</h2>
+                <p class="text-gray-600">Stay updated with our latest news, tips, and behind-the-scenes content.</p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-6" data-aos="fade-up">
+                <a href="404.html" class="social-icon w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-500 hover:bg-blue-500 hover:text-white">
+                    <i class="fa-brands fa-twitter text-2xl"></i>
+                </a>
+                <a href="404.html" class="social-icon w-16 h-16 rounded-2xl bg-blue-600/10 flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white">
+                    <i class="fa-brands fa-facebook-f text-2xl"></i>
+                </a>
+                <a href="404.html" class="social-icon w-16 h-16 rounded-2xl bg-pink-500/10 flex items-center justify-center text-pink-500 hover:bg-pink-500 hover:text-white">
+                    <i class="fa-brands fa-instagram text-2xl"></i>
+                </a>
+                <a href="404.html" class="social-icon w-16 h-16 rounded-2xl bg-blue-700/10 flex items-center justify-center text-blue-700 hover:bg-blue-700 hover:text-white">
+                    <i class="fa-brands fa-linkedin-in text-2xl"></i>
+                </a>
+                <a href="404.html" class="social-icon w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white">
+                    <i class="fa-brands fa-youtube text-2xl"></i>
+                </a>
+                <a href="404.html" class="social-icon w-16 h-16 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-500 hover:bg-purple-500 hover:text-white">
+                    <i class="fa-brands fa-discord text-2xl"></i>
+                </a>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="mt-16 bg-brand-teal rounded-3xl p-8 lg:p-12 relative overflow-hidden" data-aos="zoom-in">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-brand-yellow/20 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
+                
+                <div class="relative z-10 text-center max-w-2xl mx-auto">
+                    <h3 class="text-2xl lg:text-3xl font-bold text-white mb-4">Subscribe to Our Newsletter</h3>
+                    <p class="text-white/80 mb-6">Get the latest updates, tips, and exclusive offers delivered to your inbox.</p>
+                    
+                    <form class="flex flex-col sm:flex-row gap-4">
+                        <input type="email" placeholder="Enter your email" required
+                            class="flex-1 px-6 py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-white/50 focus:outline-none focus:bg-white/20 transition-all">
+                        <button type="submit" class="px-8 py-4 rounded-full bg-brand-yellow text-brand-darkTeal font-bold hover:bg-white transition-all transform hover:scale-105">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 pt-20 pb-10 border-t">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-6">Menu</h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="index.html" class="hover:text-brand-teal transition-colors">Homepage</a></li>
+                        <li><a href="piricing.html" class="hover:text-brand-teal transition-colors">Plan Pricing</a></li>
+                        <li><a href="our team.html" class="hover:text-brand-teal transition-colors">Our Teams</a></li>
+                        <li><a href="aboutus.html" class="hover:text-brand-teal transition-colors">About Us</a></li>
+                        <li><a href="contact.html" class="hover:text-brand-teal transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-6">Quick links</h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Introduction</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Do you need account?</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Check status online</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">How many join?</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Problem and Solution</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Change country</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Check server using</a></li>
+                    </ul>
+                </div>
+                <div>
+                     <h4 class="font-bold text-gray-900 mb-6"></h4> 
+                     <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Video </a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Quality</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Network</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Solution</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-6 h-6 bg-brand-teal rounded flex items-center justify-center text-white text-xs">
+                            <i class="fa-solid fa-arrow-up-right-dots"></i>
+                        </div>
+                        <span class="font-bold text-xl text-brand-teal">PEOPLED</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-6 leading-relaxed">
+                        Sollicitudin quam a mi aliquet ultrices. Aenean ac et, aliquet pellentesque volutpat duis diam.
+                    </p>
+                    <div class="flex items-center gap-2 text-red-500 text-sm font-medium mb-6">
+                        <i class="fa-solid fa-location-dot"></i> New York, United States
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-skype"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-slack"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t pt-8 text-center text-sm text-gray-400">
+                &copy; 2023 PEOPLED. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animate On Scroll
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+        });
+
+        // Mobile Menu Logic
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const navbar = document.getElementById('navbar');
+
+        function toggleMenu() {
+            menu.classList.toggle('translate-x-full');
+        }
+
+        btn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+
+        // Mobile Dropdown Functionality
+        document.querySelectorAll('.mobile-dropdown-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const dropdown = this.parentElement;
+                const content = dropdown.querySelector('.mobile-dropdown-content');
+                const arrow = this.querySelector('.mobile-dropdown-arrow');
+                
+                content.classList.toggle('active');
+                arrow.classList.toggle('active');
+                
+                // Close other dropdowns
+                document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        const otherContent = otherDropdown.querySelector('.mobile-dropdown-content');
+                        const otherArrow = otherDropdown.querySelector('.mobile-dropdown-arrow');
+                        otherContent.classList.remove('active');
+                        otherArrow.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.mobile-dropdown')) {
+                document.querySelectorAll('.mobile-dropdown-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.querySelectorAll('.mobile-dropdown-arrow').forEach(arrow => {
+                    arrow.classList.remove('active');
+                });
+            }
+        });
+
+        // Close mobile menu when clicking a link (except dropdown buttons)
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.classList.replace('bg-brand-teal', 'bg-brand-darkTeal');
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.classList.replace('bg-brand-darkTeal', 'bg-brand-teal');
+            }
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                content.classList.toggle('hidden');
+                icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+            });
+        });
+
+        // Contact Form Submission
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Show loading state
+            submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate form submission
+            setTimeout(() => {
+                contactForm.style.display = 'none';
+                successMessage.classList.remove('hidden');
+                successMessage.classList.add('block');
+            }, 1500);
+        });
+
+        // Create Particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 8 + 4 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = Math.random() * 10 + 10 + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Input Animation on Focus
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('animate-pulse-glow');
+            });
+            
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('animate-pulse-glow');
+            });
+        });
+    </script>
+</body>
+</html>
