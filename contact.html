@@ -2,8 +2,7 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - PEOPLED</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">    <title>Contact Us - PEOPLED</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -214,10 +213,44 @@
             90% { opacity: 1; }
             100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
         }
+
+
+
+
+/* ✅ Prevent Mobile Zoom & Overflow */
+html, body {
+    overflow-x: hidden;
+}
+
+input, select, textarea {
+    font-size: 16px !important;
+}
+
+/* Make media responsive */
+img, iframe, video {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Prevent wide elements */
+* {
+    max-width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+        
     </style>
 </head>
-<body class="font-sans text-gray-800 antialiased overflow-x-hidden bg-gray-50">
-
+<body class="font-sans text-gray-800 antialiased overflow-x-hidden bg-gray-50 max-w-[100vw]">
     <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-brand-teal text-white transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -259,10 +292,10 @@
 
                 <!-- Icons & Mobile Button -->
                 <div class="flex items-center gap-4">
-                    <button class="hover:text-brand-yellow transition-colors"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-user"></i></button>
-                    <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-bell"></i></button>
-                    
+               <a href="404.html">  <button class="hover:text-brand-yellow transition-colors"><i class="fa-solid fa-magnifying-glass"></i></button></a>
+                  <a href="404.html">  <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-user"></i></button></a>
+                  <a href="404.html">  <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-bell"></i></button></a>
+
                     <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
                         <i class="fa-solid fa-bars"></i>
                     </button>
@@ -299,8 +332,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="relative bg-brand-teal pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
-        <!-- Animated Background -->
+<section class="relative bg-brand-teal pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">        <!-- Animated Background -->
         <div class="absolute inset-0 overflow-hidden">
             <div class="absolute top-20 right-20 w-96 h-96 bg-brand-yellow/20 rounded-full blur-3xl animate-pulse"></div>
             <div class="absolute bottom-10 left-10 w-72 h-72 bg-white/10 rounded-full blur-2xl animate-pulse" style="animation-delay: 1s;"></div>

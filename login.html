@@ -1,131 +1,670 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auth Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication - PEOPLED</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<style>
-body{
-font-family:Arial, sans-serif;
-background:#f4f6fb;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-margin:0;
-}
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            teal: '#2A7A85',
+                            darkTeal: '#1E5A63',
+                            yellow: '#F4B942',
+                            light: '#F8F9FA',
+                            gray: '#6C757D'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 20px 40px -15px rgba(0, 0, 0, 0.1)',
+                        'card': '0 10px 30px -5px rgba(42, 122, 133, 0.15)',
+                        'glow': '0 0 40px -10px rgba(244, 185, 66, 0.5)',
+                    }
+                }
+            }
+        }
+    </script>
 
-.container{
-width:350px;
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 0 15px rgba(0,0,0,0.1);
-}
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
 
-h2{
-text-align:center;
-margin-bottom:20px;
-}
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 7s ease-in-out infinite 1s; }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #2A7A85 0%, #F4B942 50%, #2A7A85 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 5s ease infinite;
+        }
 
-input{
-width:100%;
-padding:10px;
-margin:8px 0;
-border:1px solid #ccc;
-border-radius:5px;
-}
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
 
-button{
-width:100%;
-padding:10px;
-background:#4a6cf7;
-border:none;
-color:white;
-border-radius:5px;
-cursor:pointer;
-}
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .mobile-dropdown-content.active {
+            max-height: 500px;
+            opacity: 1;
+        }
 
-button:hover{
-background:#3653d6;
-}
+        .mobile-dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-dropdown-arrow.active {
+            transform: rotate(180deg);
+        }
 
-.links{
-text-align:center;
-margin-top:10px;
-}
+        /* Form transitions */
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .form-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-.links span{
-color:#4a6cf7;
-cursor:pointer;
-font-size:14px;
-}
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group input {
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            box-shadow: 0 0 0 3px rgba(42, 122, 133, 0.1);
+        }
 
-.form{
-display:none;
-}
-
-.active{
-display:block;
-}
-</style>
+        .social-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+    </style>
 </head>
+<body class="font-sans text-gray-800 antialiased overflow-x-hidden bg-gray-50">
 
-<body>
+    <!-- Navigation -->
+      <nav class="fixed w-full z-50 bg-brand-teal text-white transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="logo.webp" class="h-8 md:h-10 w-auto object-contain">
+                    <span class="font-bold text-lg md:text-2xl text-white">STACKLY</span>
+                </a>
 
-<div class="container">
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <!-- Home Dropdown -->
+                    <div class="relative group h-20 flex items-center">
+                        <button class="flex items-center gap-1 hover:text-brand-yellow transition-colors font-medium">
+                            Home <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu absolute top-20 left-0 w-64 bg-white text-gray-800 rounded-b-xl shadow-xl border-t-4 border-brand-yellow overflow-hidden">
+                            <div class="p-4">
+                                <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Main Pages</h3>
+                                <a href="index.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 1</a>
+                                <a href="home2.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 2</a>
+                                <div class="border-t my-2"></div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Account</h3>
+                                <a href="login.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Login</a>
+                                <a href="dash.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Dashboard</a>
+                            </div>
+                        </div>
+                    </div>
 
-<!-- LOGIN -->
-<div id="login" class="form active">
-<h2>Sign In</h2>
-<input type="email" placeholder="Email">
-<input type="password" placeholder="Password">
-<button>Login</button>
+                    <a href="aboutus.html" class="hover:text-brand-yellow transition-colors font-medium">About Us</a>
+                    <a href="our team.html" class="text-brand-yellow font-medium">Our Team</a>
+                                        <a href="piricing.html" class="text-brand-yellow font-medium">Piricing</a>
 
-<div class="links">
-<span onclick="showForm('forgot')">Forgot Password?</span><br><br>
-<span onclick="showForm('signup')">Create Account</span>
-</div>
-</div>
+                    
+                    <!-- Pages Dropdown -->
+                    <!-- <div class="relative group h-20 flex items-center">
+                        <button class="flex items-center gap-1 hover:text-brand-yellow transition-colors font-medium">
+                            Pricing
+                        </button>
+                    </div> -->
 
-<!-- SIGNUP -->
-<div id="signup" class="form">
-<h2>Sign Up</h2>
-<input type="text" placeholder="Full Name">
-<input type="email" placeholder="Email">
-<input type="password" placeholder="Password">
-<button>Create Account</button>
+                    <a href="contact.html" class="hover:text-brand-yellow transition-colors font-medium">Contact Us</a>
+                </div>
 
-<div class="links">
-<span onclick="showForm('login')">Already have account? Login</span>
-</div>
-</div>
+                <!-- Icons & Mobile Button -->
+                <div class="flex items-center gap-4">
+                  <a href="404.html">  <button class="hover:text-brand-yellow transition-colors"><i class="fa-solid fa-magnifying-glass"></i></button></a>
+                  <a href="404.html">  <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-user"></i></button></a>
+                  <a href="404.html">  <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-bell"></i></button></a>
 
-<!-- FORGOT PASSWORD -->
-<div id="forgot" class="form">
-<h2>Reset Password</h2>
-<input type="email" placeholder="Enter your email">
-<button>Send Reset Link</button>
+                    <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-<div class="links">
-<span onclick="showForm('login')">Back to Login</span>
-</div>
-</div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-brand-darkTeal z-40 transform translate-x-full md:hidden flex flex-col pt-24 px-6 space-y-2 text-lg overflow-y-auto">
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+            
+            <!-- Mobile Home Dropdown -->
+            <div class="mobile-dropdown border-b border-white/20 pb-2">
+                <button class="mobile-dropdown-btn w-full flex items-center justify-between py-3 text-white hover:text-brand-yellow transition-colors">
+                    <span>Home</span>
+                    <i class="fa-solid fa-chevron-down text-sm mobile-dropdown-arrow"></i>
+                </button>
+                <div class="mobile-dropdown-content pl-4 space-y-2 mt-2">
+                    <h3 class="text-xs font-bold text-white/60 uppercase mb-2">Main Pages</h3>
+                    <a href="index.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Homepage 1</a>
+                    <a href="home2.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Homepage 2</a>
+                    <div class="border-t border-white/10 my-2"></div>
+                    <h3 class="text-xs font-bold text-white/60 uppercase mb-2">Account</h3>
+                    <a href="login.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Login</a>
+                    <a href="dash.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Dashboard</a>
+                </div>
+            </div>
 
-</div>
+            <a href="aboutus.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">About Us</a>
+            <a href="our team.html" class="block border-b border-white/20 py-3 text-brand-yellow">Our Team</a>
+            <a href="piricing.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">Pricing</a>
+            <a href="contact.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">Contact</a>
+        </div>
+    </nav>
 
-<script>
-function showForm(formId){
+    <!-- Auth Section -->
+    <section class="min-h-screen bg-gradient-to-br from-brand-teal via-brand-darkTeal to-brand-teal relative overflow-hidden flex items-center justify-center pt-20 pb-10">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-brand-yellow/20 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-float-delayed"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full"></div>
+        </div>
 
-document.querySelectorAll(".form").forEach(form=>{
-form.classList.remove("active");
-});
+        <div class="max-w-md w-full mx-4 relative z-10">
+            <!-- Logo Card -->
+            <div class="text-center mb-8">
+                <!-- <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-2xl shadow-2xl mb-4 animate-float">
+                     <i class="fa-solid fa-arrow-up-right-dots text-4xl text-brand-teal"></i> 
+                </div> -->
+                <h1 class="text-3xl font-bold text-white mb-2">Welcome to Stackly</h1>
+                <p class="text-white/70">Connect, communicate, and collaborate</p>
+            </div>
 
-document.getElementById(formId).classList.add("active");
+            <!-- Auth Card -->
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+                <!-- Tabs -->
+                <div class="flex border-b">
+                    <button onclick="showForm('login')" id="tab-login" class="flex-1 py-4 text-center font-semibold transition-colors border-b-2 border-brand-teal text-brand-teal">
+                        Sign In
+                    </button>
+                    <button onclick="showForm('signup')" id="tab-signup" class="flex-1 py-4 text-center font-semibold text-gray-400 hover:text-gray-600 transition-colors border-b-2 border-transparent">
+                        Sign Up
+                    </button>
+                </div>
 
-}
-</script>
+                <div class="p-8">
+                    <!-- Login Form -->
+                    <div id="form-login" class="form-section active">
+                        <form onsubmit="handleLogin(event)">
+                            <div class="space-y-5">
+                                <div class="input-group">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                    <div class="relative">
+                                        <i class="fa-regular fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                        <input type="email" required class="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-brand-teal" placeholder="Enter your email">
+                                    </div>
+                                </div>
 
+                                <div class="input-group">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                    <div class="relative">
+                                        <i class="fa-solid fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                        <input type="password" required class="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-brand-teal" placeholder="Enter your password" id="login-password">
+                                        <button type="button" onclick="togglePassword('login-password', this)" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="w-4 h-4 text-brand-teal border-gray-300 rounded focus:ring-brand-teal">
+                                        <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                                    </label>
+                                    <button type="button" onclick="showForm('forgot')" class="text-sm text-brand-teal hover:text-brand-darkTeal font-medium">Forgot password?</button>
+                                </div>
+
+                                <button type="submit" class="w-full bg-brand-teal text-white py-3 rounded-xl font-semibold hover:bg-brand-darkTeal transition-all hover:shadow-lg hover:shadow-brand-teal/30 flex items-center justify-center gap-2">
+                                    Sign In <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="mt-6">
+                            <div class="relative">
+                                <div class="absolute inset-0 flex items-center">
+                                    <div class="w-full border-t border-gray-200"></div>
+                                </div>
+                                <div class="relative flex justify-center text-sm">
+                                    <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-3 mt-6">
+                            <a href="404.html">  <button class="social-btn flex items-center justify-center py-2.5 border border-gray-200 rounded-xl hover:border-gray-300 hover:bg-gray-50">
+                                    <i class="fa-brands fa-google text-red-500 text-lg"></i>
+                                </button></a>  
+                            <a href="404.html">  <button class="social-btn flex items-center justify-center py-2.5 border border-gray-200 rounded-xl hover:border-gray-300 hover:bg-gray-50">
+                                    <i class="fa-brands fa-apple text-gray-900 text-lg"></i>
+                                </button>
+                              <a href="404.html">  <button class="social-btn flex items-center justify-center py-2.5 border border-gray-200 rounded-xl hover:border-gray-300 hover:bg-gray-50">
+                                    <i class="fa-brands fa-microsoft text-blue-500 text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sign Up Form -->
+                    <div id="form-signup" class="form-section">
+                        <form onsubmit="handleSignup(event)">
+                            <div class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="input-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                                        <input type="text" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-brand-teal" placeholder="John">
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                                        <input type="text" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-brand-teal" placeholder="Doe">
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                    <div class="relative">
+                                        <i class="fa-regular fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                        <input type="email" required class="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-brand-teal" placeholder="john@example.com">
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                    <div class="relative">
+                                        <i class="fa-solid fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                        <input type="password" required class="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-brand-teal" placeholder="Create password" id="signup-password">
+                                        <button type="button" onclick="togglePassword('signup-password', this)" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                                    <div class="relative">
+                                        <i class="fa-solid fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                        <input type="password" required class="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-brand-teal" placeholder="Confirm password" id="signup-confirm">
+                                        <button type="button" onclick="togglePassword('signup-confirm', this)" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <label class="flex items-start">
+                                    <input type="checkbox" required class="w-4 h-4 mt-1 text-brand-teal border-gray-300 rounded focus:ring-brand-teal">
+                                    <span class="ml-2 text-sm text-gray-600">I agree to the <a href="#" class="text-brand-teal hover:underline">Terms of Service</a> and <a href="#" class="text-brand-teal hover:underline">Privacy Policy</a></span>
+                                </label>
+
+                                <button type="submit" class="w-full bg-brand-yellow text-white py-3 rounded-xl font-semibold hover:bg-yellow-500 transition-all hover:shadow-lg hover:shadow-brand-yellow/30 flex items-center justify-center gap-2">
+                                    Create Account <i class="fa-solid fa-user-plus"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="mt-6">
+                            <div class="relative">
+                                <div class="absolute inset-0 flex items-center">
+                                    <div class="w-full border-t border-gray-200"></div>
+                                </div>
+                                <div class="relative flex justify-center text-sm">
+                                    <span class="px-2 bg-white text-gray-500">Or sign up with</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-3 mt-6">
+                                <button class="social-btn flex items-center justify-center py-2.5 border border-gray-200 rounded-xl hover:border-gray-300 hover:bg-gray-50">
+                                    <i class="fa-brands fa-google text-red-500 text-lg"></i>
+                                </button>
+                                <button class="social-btn flex items-center justify-center py-2.5 border border-gray-200 rounded-xl hover:border-gray-300 hover:bg-gray-50">
+                                    <i class="fa-brands fa-apple text-gray-900 text-lg"></i>
+                                </button>
+                                <button class="social-btn flex items-center justify-center py-2.5 border border-gray-200 rounded-xl hover:border-gray-300 hover:bg-gray-50">
+                                    <i class="fa-brands fa-microsoft text-blue-500 text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Forgot Password Form -->
+                    <div id="form-forgot" class="form-section">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal">
+                                <i class="fa-solid fa-key text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Forgot Password?</h3>
+                            <p class="text-gray-600 text-sm">Enter your email address and we'll send you a link to reset your password.</p>
+                        </div>
+
+                        <form onsubmit="handleForgot(event)">
+                            <div class="space-y-5">
+                                <div class="input-group">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                    <div class="relative">
+                                        <i class="fa-regular fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                        <input type="email" required class="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-brand-teal" placeholder="Enter your email">
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="w-full bg-brand-teal text-white py-3 rounded-xl font-semibold hover:bg-brand-darkTeal transition-all hover:shadow-lg hover:shadow-brand-teal/30 flex items-center justify-center gap-2">
+                                    Send Reset Link <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+
+                                <button type="button" onclick="showForm('login')" class="w-full py-3 text-gray-600 hover:text-brand-teal font-medium transition-colors flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-arrow-left"></i> Back to Sign In
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="text-center mt-8 text-white/60 text-sm">
+                <p>&copy; 2023 PEOPLED. All rights reserved.</p>
+                <div class="mt-2 space-x-4">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                    <a href="#" class="hover:text-white transition-colors">Help</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Footer -->
+    <footer class="bg-gray-50 pt-20 pb-10 border-t">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-6">Menu</h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="index.html" class="hover:text-brand-teal transition-colors">Homepage</a></li>
+                        <li><a href="piricing.html" class="hover:text-brand-teal transition-colors">Plan Pricing</a></li>
+                        <li><a href="our team.html" class="hover:text-brand-teal transition-colors">Our Teams</a></li>
+                        <li><a href="aboutus.html" class="hover:text-brand-teal transition-colors">About Us</a></li>
+                        <li><a href="contact.html" class="hover:text-brand-teal transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-6">Quick links</h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Introduction</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Do you need account?</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Check status online</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">How many join?</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Problem and Solution</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Change country</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Check server using</a></li>
+                    </ul>
+                </div>
+                <div>
+                     <h4 class="font-bold text-gray-900 mb-6">Links</h4> 
+                       <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Video </a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Quality</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Network</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Solution</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-6 h-6 bg-brand-teal rounded flex items-center justify-center text-white text-xs">
+                            <i class="fa-solid fa-arrow-up-right-dots"></i>
+                        </div>
+                        <span class="font-bold text-xl text-brand-teal">PEOPLED</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-6 leading-relaxed">
+                        Sollicitudin quam a mi aliquet ultrices. Aenean ac et, aliquet pellentesque volutpat duis diam.
+                    </p>
+                    <div class="flex items-center gap-2 text-red-500 text-sm font-medium mb-6">
+                        <i class="fa-solid fa-location-dot"></i> New York, United States
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-skype"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-slack"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t pt-8 text-center text-sm text-gray-400">
+                &copy; 2023 PEOPLED. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <div class="bg-white rounded-xl shadow-2xl p-4 flex items-center gap-3 border-l-4 border-brand-teal">
+            <div class="w-10 h-10 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <div>
+                <h4 class="font-semibold text-gray-900" id="toast-title">Success!</h4>
+                <p class="text-sm text-gray-600" id="toast-message">Operation completed successfully.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Logic
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const navbar = document.getElementById('navbar');
+
+        function toggleMenu() {
+            menu.classList.toggle('translate-x-full');
+        }
+
+        btn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+
+        // Mobile Dropdown Functionality
+        document.querySelectorAll('.mobile-dropdown-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const dropdown = this.parentElement;
+                const content = dropdown.querySelector('.mobile-dropdown-content');
+                const arrow = this.querySelector('.mobile-dropdown-arrow');
+                
+                content.classList.toggle('active');
+                arrow.classList.toggle('active');
+                
+                document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        const otherContent = otherDropdown.querySelector('.mobile-dropdown-content');
+                        const otherArrow = otherDropdown.querySelector('.mobile-dropdown-arrow');
+                        otherContent.classList.remove('active');
+                        otherArrow.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.mobile-dropdown')) {
+                document.querySelectorAll('.mobile-dropdown-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.querySelectorAll('.mobile-dropdown-arrow').forEach(arrow => {
+                    arrow.classList.remove('active');
+                });
+            }
+        });
+
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.classList.replace('bg-brand-teal', 'bg-brand-darkTeal');
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.classList.replace('bg-brand-darkTeal', 'bg-brand-teal');
+            }
+        });
+
+        // Form Switching Logic
+        function showForm(formType) {
+            // Hide all forms
+            document.querySelectorAll('.form-section').forEach(form => {
+                form.classList.remove('active');
+            });
+            
+            // Show selected form
+            document.getElementById('form-' + formType).classList.add('active');
+            
+            // Update tabs
+            const loginTab = document.getElementById('tab-login');
+            const signupTab = document.getElementById('tab-signup');
+            
+            if (formType === 'login') {
+                loginTab.classList.add('border-brand-teal', 'text-brand-teal');
+                loginTab.classList.remove('border-transparent', 'text-gray-400');
+                signupTab.classList.remove('border-brand-teal', 'text-brand-teal');
+                signupTab.classList.add('border-transparent', 'text-gray-400');
+            } else if (formType === 'signup') {
+                signupTab.classList.add('border-brand-teal', 'text-brand-teal');
+                signupTab.classList.remove('border-transparent', 'text-gray-400');
+                loginTab.classList.remove('border-brand-teal', 'text-brand-teal');
+                loginTab.classList.add('border-transparent', 'text-gray-400');
+            }
+        }
+
+        // Password Toggle
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Toast Notification
+        function showToast(title, message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-title').textContent = title;
+            document.getElementById('toast-message').textContent = message;
+            
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Form Handlers
+        function handleLogin(e) {
+            e.preventDefault();
+            showToast('Welcome Back!', 'Successfully signed in to your account.');
+            setTimeout(() => {
+                window.location.href = 'dash.html';
+            }, 1500);
+        }
+
+        function handleSignup(e) {
+            e.preventDefault();
+            showToast('Account Created!', 'Welcome to PEOPLED. Please check your email to verify.');
+            setTimeout(() => {
+                showForm('login');
+            }, 2000);
+        }
+
+        function handleForgot(e) {
+            e.preventDefault();
+            showToast('Email Sent!', 'Check your inbox for password reset instructions.');
+        }
+
+        // Check URL params for form type
+        const urlParams = new URLSearchParams(window.location.search);
+        const formType = urlParams.get('form');
+        if (formType === 'signup') {
+            showForm('signup');
+        } else if (formType === 'forgot') {
+            showForm('forgot');
+        }
+    </script>
 </body>
 </html>

@@ -2,8 +2,7 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PEOPLED - Transforming Communication</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">    <title>PEOPLED - Transforming Communication</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -126,10 +125,28 @@
         .mobile-dropdown-arrow.active {
             transform: rotate(180deg);
         }
+
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+
+section, div {
+    max-width: 100%;
+}
+
+
+
     </style>
 </head>
-<body class="font-sans text-gray-800 antialiased overflow-x-hidden">
-
+<body class="font-sans text-gray-800 antialiased overflow-x-hidden max-w-[100vw]">
     <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-brand-teal text-white transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -182,10 +199,10 @@
 
                 <!-- Icons & Mobile Button -->
                 <div class="flex items-center gap-4">
-                    <button class="hover:text-brand-yellow transition-colors"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-user"></i></button>
-                    <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-bell"></i></button>
-                    
+                  <a href="404.html">  <button class="hover:text-brand-yellow transition-colors"><i class="fa-solid fa-magnifying-glass"></i></button></a>
+                  <a href="404.html">  <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-user"></i></button></a>
+                  <a href="404.html">  <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-bell"></i></button></a>
+
                     <!-- Mobile Menu Button -->
                     <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
                         <i class="fa-solid fa-bars"></i>
@@ -261,7 +278,7 @@
                 </div>
 
                 <!-- Right Content (Video Grid) -->
-                <div class="relative h-[500px] hidden lg:block" data-aos="fade-left" data-aos-duration="1000">
+                <div class="relative h-[500px] hidden lg:block overflow-hidden">" data-aos-duration="1000">
                     <!-- Video Card 1 -->
                     <div class="absolute top-0 right-0 w-64 bg-white p-2 rounded-2xl shadow-2xl animate-float z-20 transform rotate-3 hover:rotate-0 transition-transform duration-500">
                         <div class="relative rounded-xl overflow-hidden h-48">
