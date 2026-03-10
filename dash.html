@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PEOPLED - Dashboard</title>
+    <title>Dashboard - STACKLY</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,9 +13,6 @@
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -29,26 +26,17 @@
                     },
                     colors: {
                         brand: {
-                            primary: '#6366f1',
-                            primaryDark: '#4f46e5',
-                            secondary: '#06b6d4',
-                            accent: '#f472b6',
-                            accentLight: '#fbcfe8',
-                            success: '#22c55e',
-                            warning: '#f59e0b',
-                            danger: '#ef4444',
-                            light: '#f8fafc',
-                            surface: '#ffffff',
-                            text: '#1e293b',
-                            textLight: '#64748b',
-                            sidebar: '#1e293b',
+                            teal: '#2A7A85',
+                            darkTeal: '#1E5A63',
+                            yellow: '#F4B942',
+                            light: '#F8F9FA',
+                            gray: '#6C757D'
                         }
                     },
                     boxShadow: {
-                        'soft': '0 20px 40px -15px rgba(99, 102, 241, 0.15)',
-                        'glow': '0 0 40px -10px rgba(99, 102, 241, 0.4)',
-                        'card': '0 10px 40px -10px rgba(0, 0, 0, 0.1)',
-                        'floating': '0 25px 50px -12px rgba(99, 102, 241, 0.25)',
+                        'soft': '0 20px 40px -15px rgba(0, 0, 0, 0.1)',
+                        'card': '0 10px 30px -5px rgba(42, 122, 133, 0.15)',
+                        'glow': '0 0 40px -10px rgba(244, 185, 66, 0.5)',
                     }
                 }
             }
@@ -56,998 +44,825 @@
     </script>
 
     <style>
-        /* Custom Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
-        }
-
-        @keyframes gradient-flow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
-
-        /* Gradient Text */
-        .gradient-text {
-            background: linear-gradient(135deg, #6366f1 0%, #06b6d4 50%, #f472b6 100%);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-flow 5s ease infinite;
-        }
-
-        /* Glass Effect */
-        .glass {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
         }
-        
         ::-webkit-scrollbar-track {
-            background: #f1f5f9;
+            background: #f1f1f1; 
         }
-        
         ::-webkit-scrollbar-thumb {
-            background: #6366f1;
-            border-radius: 3px;
+            background: #2A7A85; 
+            border-radius: 4px;
         }
 
-        /* Sidebar Styles */
+        /* Dropdown Styles - SAME AS OUR TEAM PAGE */
+        .dropdown-container {
+            position: relative;
+            z-index: 9999;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 99999;
+            pointer-events: none;
+        }
+        
+        .dropdown-container:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Mobile Menu Transition */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Mobile Dropdown Styles */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .mobile-dropdown-content.active {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .mobile-dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-dropdown-arrow.active {
+            transform: rotate(180deg);
+        }
+
+        /* Dashboard Sidebar */
         .sidebar {
             transition: all 0.3s ease;
         }
-
-        .sidebar-link {
-            transition: all 0.2s ease;
-            position: relative;
-        }
-
-        .sidebar-link:hover, .sidebar-link.active {
-            background: rgba(99, 102, 241, 0.1);
-            color: #6366f1;
-        }
-
-        .sidebar-link.active::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: #6366f1;
-            border-radius: 0 4px 4px 0;
-        }
-
-        /* Dropdown Animation */
-        .dropdown-menu {
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px) scale(0.95);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
         
-        .group:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
-        }
-
-        /* Card Hover Effects */
-        .stat-card {
+        .sidebar-link {
             transition: all 0.3s ease;
         }
         
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.2);
+        .sidebar-link:hover, .sidebar-link.active {
+            background: rgba(42, 122, 133, 0.1);
+            color: #2A7A85;
+            border-right: 3px solid #2A7A85;
         }
 
-        /* Progress Bar Animation */
-        @keyframes fillProgress {
-            from { width: 0%; }
+        /* Card Hover Effects */
+        .dashboard-card {
+            transition: all 0.3s ease;
         }
         
-        .progress-fill {
-            animation: fillProgress 1.5s ease-out forwards;
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -15px rgba(42, 122, 133, 0.2);
         }
 
-        /* Table Styles */
-        .data-table th {
-            background: #f8fafc;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #2A7A85 0%, #F4B942 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .data-table tr:hover td {
-            background: #f8fafc;
+        /* Pulse Animation */
+        @keyframes pulse-live {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .live-indicator {
+            animation: pulse-live 2s infinite;
         }
 
-        /* Status Badge */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
+        body {
+            padding-top: 80px;
         }
 
-        .status-online {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .status-away {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .status-busy {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        /* Toggle Switch */
-        .toggle-switch {
-            width: 44px;
-            height: 24px;
-            background: #e2e8f0;
-            border-radius: 12px;
-            position: relative;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .toggle-switch.active {
-            background: #6366f1;
-        }
-
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            transition: transform 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .toggle-switch.active::after {
-            transform: translateX(20px);
-        }
-
-        /* Notification Badge */
-        .notification-badge {
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            width: 18px;
-            height: 18px;
-            background: #ef4444;
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid white;
-        }
-
-        /* Chart Container */
-        .chart-container {
-            position: relative;
-            height: 300px;
-        }
-
-        /* Activity Item */
-        .activity-item {
-            position: relative;
-            padding-left: 24px;
-            padding-bottom: 24px;
-            border-left: 2px solid #e2e8f0;
-        }
-
-        .activity-item::before {
-            content: '';
-            position: absolute;
-            left: -5px;
-            top: 0;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #6366f1;
-            border: 2px solid white;
-        }
-
-        .activity-item:last-child {
-            border-left: 2px solid transparent;
-        }
-
-        /* Ensure footer is visible */
-        .dashboard-footer {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-            border-top: 1px solid #e2e8f0;
-            background: white;
+        @media (max-width: 1024px) {
+            .sidebar-desktop {
+                display: none;
+            }
         }
     </style>
 </head>
-<body class="font-sans text-brand-text antialiased bg-brand-light">
+<body class="font-sans text-gray-800 antialiased overflow-x-hidden bg-gray-50">
 
-    <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
-        <aside class="sidebar w-64 bg-brand-sidebar text-white flex-shrink-0 hidden md:flex flex-col">
-            <!-- Logo -->
-            <div class="h-20 flex items-center px-6 border-b border-white/10">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center">
-                        <i class="fa-solid fa-arrow-up-right-dots text-xl"></i>
+    <!-- Navigation - SAME AS OUR TEAM PAGE -->
+    <nav class="fixed w-full top-0 left-0 z-[99999] bg-brand-teal text-white transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-3 relative z-[100000]">
+                    <img src="logoo.webp" class="h-8 md:h-10 w-auto object-contain" alt="STACKLY Logo">
+                    <span class="font-bold text-lg md:text-2xl text-white">STACKLY</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8 relative z-[99999]">
+                    <!-- Home Dropdown -->
+                    <div class="dropdown-container h-20 flex items-center">
+                        <button class="flex items-center gap-1 text-white hover:text-brand-yellow transition-colors font-semibold tracking-wide">
+                            Home <i class="fa-solid fa-chevron-down text-xs opacity-80"></i>
+                        </button>
+                        <div class="dropdown-menu w-64 bg-white text-gray-900 rounded-b-xl shadow-2xl border-t-4 border-brand-yellow overflow-hidden mt-0">
+                            <div class="p-4">
+                                <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Main Pages</h3>
+                                <a href="index.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 1</a>
+                                <a href="home2.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 2</a>
+                                <div class="border-t my-2"></div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Account</h3>
+                                <a href="login.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Login</a>
+                                <a href="dash.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors bg-brand-light text-brand-teal">Dashboard</a>
+                            </div>
+                        </div>
                     </div>
-                    <span class="font-bold text-xl">PEOPLED</span>
+
+                    <a href="aboutus.html" class="hover:text-brand-yellow transition-colors font-medium">About Us</a>
+                    <a href="our team.html" class="hover:text-brand-yellow transition-colors font-medium">Our Team</a>
+                    
+                    <!-- Pricing Dropdown -->
+                    <div class="dropdown-container h-20 flex items-center">
+                        <button class="flex items-center gap-1 hover:text-brand-yellow transition-colors font-medium">
+                            Pricing <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu w-48 bg-white text-gray-900 rounded-b-xl shadow-2xl border-t-4 border-brand-yellow overflow-hidden mt-0">
+                            <a href="piricing.html" class="block px-4 py-3 hover:bg-brand-light hover:text-brand-teal transition-colors border-b">Pricing Plans</a>
+                            <a href="404.html" class="block px-4 py-3 hover:bg-brand-light hover:text-brand-teal transition-colors">Testimonials</a>
+                        </div>
+                    </div>
+
+                    <a href="contact.html" class="hover:text-brand-yellow transition-colors font-medium">Contact Us</a>
+                </div>
+
+                <!-- Icons & User Profile -->
+                <div class="flex items-center gap-4 relative z-[100000]">
+                    <a href="404.html" class="hover:text-brand-yellow transition-colors relative">
+                        <i class="fa-solid fa-bell text-lg"></i>
+                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-brand-yellow rounded-full"></span>
+                    </a>
+                    
+                    <!-- User Profile Dropdown -->
+                    <div class="dropdown-container relative hidden md:block">
+                        <button class="flex items-center gap-2 hover:text-brand-yellow transition-colors">
+                            <img src="hum1.webp" class="w-8 h-8 rounded-full border-2 border-white" alt="User">
+                            <span class="text-sm font-medium">John Doe</span>
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu right-0 left-auto w-48 bg-white text-gray-800 rounded-xl shadow-2xl border-t-4 border-brand-yellow overflow-hidden mt-2">
+                            <div class="p-3">
+                                <a href="dash.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors text-brand-teal bg-brand-light">
+                                    <i class="fa-solid fa-gauge-high mr-2"></i> Dashboard
+                                </a>
+                                <a href="404.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">
+                                    <i class="fa-solid fa-user mr-2"></i> Profile
+                                </a>
+                                <a href="404.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">
+                                    <i class="fa-solid fa-gear mr-2"></i> Settings
+                                </a>
+                                <div class="border-t my-2"></div>
+                                <a href="login.html" class="block px-4 py-2 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors text-red-500">
+                                    <i class="fa-solid fa-sign-out-alt mr-2"></i> Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed bg-brand-darkTeal z-[999999] transform translate-x-full md:hidden flex flex-col pt-6 px-6 space-y-2 text-lg overflow-y-auto" style="top: 80px; left: 0; width: 100%; height: calc(100vh - 80px);">
+            <button id="close-menu-btn" class="absolute top-4 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+            
+            <!-- Mobile User Info -->
+            <div class="flex items-center gap-3 pb-4 border-b border-white/20 mb-4">
+                <img src="hum1.webp" class="w-12 h-12 rounded-full border-2 border-brand-yellow" alt="User">
+                <div>
+                    <div class="font-bold text-white">John Doe</div>
+                    <div class="text-sm text-white/60">john@example.com</div>
                 </div>
             </div>
 
-            <!-- Navigation -->
-            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
-                <div class="text-xs font-semibold text-white/40 uppercase tracking-wider mb-4 px-4">Main</div>
-                
-                <a href="#" class="sidebar-link active flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium">
-                    <i class="fa-solid fa-grid-2 text-lg"></i>
-                    Dashboard
-                </a>
-                
-                <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white">
-                    <i class="fa-solid fa-video text-lg"></i>
-                    Meetings
-                    <span class="ml-auto bg-brand-primary text-xs px-2 py-1 rounded-full">3</span>
-                </a>
-                
-                <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white">
-                    <i class="fa-solid fa-calendar text-lg"></i>
-                    Schedule
-                </a>
-                
-                <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white">
-                    <i class="fa-solid fa-users text-lg"></i>
-                    Teams
-                </a>
-                
-                <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white">
-                    <i class="fa-solid fa-folder-open text-lg"></i>
-                    Recordings
-                </a>
+            <!-- Mobile Dashboard Link -->
+            <a href="dash.html" class="block py-3 text-brand-yellow font-medium border-b border-white/20">
+                <i class="fa-solid fa-gauge-high mr-2"></i> Dashboard
+            </a>
+            
+            <!-- Mobile Home Dropdown -->
+            <div class="mobile-dropdown border-b border-white/20 pb-2">
+                <button class="mobile-dropdown-btn w-full flex items-center justify-between py-3 text-white hover:text-brand-yellow transition-colors">
+                    <span><i class="fa-solid fa-home mr-2"></i> Home</span>
+                    <i class="fa-solid fa-chevron-down text-sm mobile-dropdown-arrow"></i>
+                </button>
+                <div class="mobile-dropdown-content pl-4 space-y-2 mt-2">
+                    <h3 class="text-xs font-bold text-white/60 uppercase mb-2">Main Pages</h3>
+                    <a href="index.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Homepage 1</a>
+                    <a href="home2.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Homepage 2</a>
+                    <div class="border-t border-white/10 my-2"></div>
+                    <h3 class="text-xs font-bold text-white/60 uppercase mb-2">Account</h3>
+                    <a href="login.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Login</a>
+                    <a href="dash.html" class="block py-2 text-brand-yellow transition-colors text-base">Dashboard</a>
+                </div>
+            </div>
 
-                <div class="text-xs font-semibold text-white/40 uppercase tracking-wider mt-8 mb-4 px-4">Analytics</div>
-                
-                <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white">
-                    <i class="fa-solid fa-chart-pie text-lg"></i>
-                    Reports
-                </a>
-                
-                <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white">
-                    <i class="fa-solid fa-chart-line text-lg"></i>
-                    Analytics
-                </a>
+            <a href="aboutus.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">
+                <i class="fa-solid fa-info-circle mr-2"></i> About Us
+            </a>
+            <a href="our team.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">
+                <i class="fa-solid fa-users mr-2"></i> Our Team
+            </a>
+            <a href="piricing.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">
+                <i class="fa-solid fa-tag mr-2"></i> Pricing
+            </a>
+            <a href="contact.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">
+                <i class="fa-solid fa-envelope mr-2"></i> Contact
+            </a>
+            
+            <div class="border-t border-white/20 my-4"></div>
+            
+            <a href="404.html" class="block py-3 hover:text-brand-yellow transition-colors">
+                <i class="fa-solid fa-user mr-2"></i> Profile
+            </a>
+            <a href="404.html" class="block py-3 hover:text-brand-yellow transition-colors">
+                <i class="fa-solid fa-gear mr-2"></i> Settings
+            </a>
+            <a href="login.html" class="block py-3 text-red-400 hover:text-red-300 transition-colors">
+                <i class="fa-solid fa-sign-out-alt mr-2"></i> Logout
+            </a>
+        </div>
+    </nav>
 
-                <div class="text-xs font-semibold text-white/40 uppercase tracking-wider mt-8 mb-4 px-4">Settings</div>
-                
-                <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white">
-                    <i class="fa-solid fa-gear text-lg"></i>
-                    Settings
-                </a>
-                
-                <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white">
-                    <i class="fa-solid fa-shield-halved text-lg"></i>
-                    Security
-                </a>
-            </nav>
+    <!-- Dashboard Layout -->
+    <div class="flex min-h-screen bg-gray-50">
+        
+        <!-- Sidebar (Desktop Only) -->
+        <aside class="sidebar-desktop w-64 bg-white shadow-lg fixed h-full pt-20 overflow-y-auto z-40 hidden lg:block">
+            <div class="p-6">
+                <div class="mb-6">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Main Menu</h3>
+                    <nav class="space-y-1">
+                        <a href="dash.html" class="sidebar-link active flex items-center gap-3 px-4 py-3 rounded-lg text-brand-teal font-medium">
+                            <i class="fa-solid fa-gauge-high w-5"></i> Dashboard
+                        </a>
+                        <a href="404.html" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-brand-teal">
+                            <i class="fa-solid fa-video w-5"></i> My Meetings
+                            <span class="ml-auto bg-brand-yellow text-brand-darkTeal text-xs font-bold px-2 py-1 rounded-full">3</span>
+                        </a>
+                        <a href="404.html" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-brand-teal">
+                            <i class="fa-solid fa-calendar w-5"></i> Schedule
+                        </a>
+                        <a href="404.html" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-brand-teal">
+                            <i class="fa-solid fa-folder w-5"></i> Recordings
+                        </a>
+                        <a href="404.html" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-brand-teal">
+                            <i class="fa-solid fa-users w-5"></i> Contacts
+                        </a>
+                    </nav>
+                </div>
 
-            <!-- User Profile -->
-            <div class="p-4 border-t border-white/10">
-                <div class="flex items-center gap-3 p-3 rounded-xl bg-white/5">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-10 h-10 rounded-full object-cover">
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-white truncate">Michael Park</p>
-                        <p class="text-xs text-white/50 truncate">Admin</p>
+                <div class="mb-6">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Analytics</h3>
+                    <nav class="space-y-1">
+                        <a href="404.html" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-brand-teal">
+                            <i class="fa-solid fa-chart-line w-5"></i> Usage Stats
+                        </a>
+                        <a href="404.html" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-brand-teal">
+                            <i class="fa-solid fa-file-invoice w-5"></i> Billing
+                        </a>
+                    </nav>
+                </div>
+
+                <div>
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Settings</h3>
+                    <nav class="space-y-1">
+                        <a href="404.html" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-brand-teal">
+                            <i class="fa-solid fa-user-gear w-5"></i> Profile
+                        </a>
+                        <a href="404.html" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-brand-teal">
+                            <i class="fa-solid fa-shield-halved w-5"></i> Security
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Upgrade Card -->
+            <div class="p-4 mt-auto">
+                <div class="bg-gradient-to-br from-brand-teal to-brand-darkTeal rounded-2xl p-4 text-white">
+                    <div class="flex items-center gap-2 mb-2">
+                        <i class="fa-solid fa-crown text-brand-yellow"></i>
+                      <a href="404.html" class="text-white hover:text-brand-yellow"></a>
+                      <a href="404.html" class="text-white hover:text-brand-yellow">Upgrade to Pro</a>
                     </div>
-                    <button class="text-white/50 hover:text-white">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </button>
+                    <p class="text-xs text-white/80 mb-3">Your plan expires in 12 days</p>
+                    <a href="piricing.html" class="block w-full py-2 bg-brand-yellow text-brand-darkTeal text-center rounded-lg text-sm font-bold hover:bg-white transition-colors">
+                        Upgrade Now
+                    </a>
                 </div>
             </div>
         </aside>
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Header -->
-            <header class="h-20 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 lg:px-8 flex-shrink-0">
-                <!-- Left Side -->
-                <div class="flex items-center gap-4">
-                    <button id="mobile-menu-btn" class="md:hidden w-10 h-10 rounded-lg bg-brand-light flex items-center justify-center text-brand-text">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                    
-                    <div class="hidden sm:flex items-center gap-2 text-sm text-brand-textLight">
-                        <span>Dashboard</span>
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                        <span class="text-brand-text font-medium">Overview</span>
+        <main class="flex-1 lg:ml-64 p-4 lg:p-8 pt-24 lg:pt-28">
+            
+            <!-- Welcome Section -->
+            <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Welcome back, John! 👋</h1>
+                    <p class="text-gray-500 mt-1">Here's what's happening with your meetings today.</p>
+                </div>
+                <div class="flex gap-3">
+                  <a href="404.html"><button class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-download"></i> Export
+                    </button></a>
+                    <a href="404.html"><button class="px-4 py-2 bg-brand-teal text-white rounded-lg hover:bg-brand-darkTeal transition-colors flex items-center gap-2 shadow-lg shadow-brand-teal/30">
+                        <i class="fa-solid fa-plus"></i> New Meeting
+                    </button></a>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="dashboard-card bg-white rounded-2xl p-6 shadow-soft border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-brand-teal/10 flex items-center justify-center text-brand-teal">
+                            <i class="fa-solid fa-video text-xl"></i>
+                        </div>
+                        <span class="text-green-500 text-sm font-medium flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-up text-xs"></i> 12%
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">24</h3>
+                    <p class="text-gray-500 text-sm">Total Meetings</p>
+                </div>
+
+                <div class="dashboard-card bg-white rounded-2xl p-6 shadow-soft border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-brand-yellow/10 flex items-center justify-center text-brand-yellow">
+                            <i class="fa-solid fa-clock text-xl"></i>
+                        </div>
+                        <span class="text-green-500 text-sm font-medium flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-up text-xs"></i> 8%
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">18.5h</h3>
+                    <p class="text-gray-500 text-sm">Meeting Hours</p>
+                </div>
+
+                <div class="dashboard-card bg-white rounded-2xl p-6 shadow-soft border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-green-600">
+                            <i class="fa-solid fa-users text-xl"></i>
+                        </div>
+                        <span class="text-gray-500 text-sm font-medium">This week</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">142</h3>
+                    <p class="text-gray-500 text-sm">Participants</p>
+                </div>
+
+                <div class="dashboard-card bg-white rounded-2xl p-6 shadow-soft border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600">
+                            <i class="fa-solid fa-cloud text-xl"></i>
+                        </div>
+                        <span class="text-red-500 text-sm font-medium flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-down text-xs"></i> 2%
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">45GB</h3>
+                    <p class="text-gray-500 text-sm">Cloud Storage</p>
+                </div>
+            </div>
+
+            <!-- Main Grid -->
+            <div class="grid lg:grid-cols-3 gap-8 mb-8">
+                
+                <!-- Chart Section -->
+                <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-soft border border-gray-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-bold text-gray-900">Meeting Activity</h3>
+                        <select class="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 focus:outline-none focus:border-brand-teal">
+                            <option>Last 7 Days</option>
+                            <option>Last 30 Days</option>
+                            <option>This Year</option>
+                        </select>
+                    </div>
+                    <div class="relative h-64">
+                        <canvas id="meetingChart"></canvas>
                     </div>
                 </div>
 
-                <!-- Right Side -->
-                <div class="flex items-center gap-4">
-                    <!-- Search -->
-                    <div class="hidden md:flex items-center relative">
-                        <input type="text" placeholder="Search..." class="w-64 pl-10 pr-4 py-2 rounded-full bg-brand-light border-0 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 text-sm">
-                        <i class="fa-solid fa-magnifying-glass absolute left-4 text-brand-textLight"></i>
-                    </div>
-
-                    <!-- Create New Button -->
-                    <button class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-brand-primary text-white text-sm font-medium hover:bg-brand-primaryDark transition-colors">
-                        <i class="fa-solid fa-plus"></i>
-                        <span>New Meeting</span>
-                    </button>
-
-                    <!-- Notifications -->
-                    <div class="relative group">
-                        <button class="w-10 h-10 rounded-full bg-brand-light flex items-center justify-center text-brand-text hover:bg-brand-primary hover:text-white transition-colors relative">
-                            <i class="fa-solid fa-bell"></i>
-                            <span class="notification-badge">5</span>
-                        </button>
-                        
-                        <!-- Dropdown -->
-                        <div class="dropdown-menu absolute right-0 top-12 w-80 bg-white rounded-2xl shadow-card border border-gray-100 overflow-hidden z-50">
-                            <div class="p-4 border-b border-gray-100 flex items-center justify-between">
-                                <h3 class="font-bold text-brand-text">Notifications</h3>
-                                <button class="text-xs text-brand-primary hover:underline">Mark all read</button>
-                            </div>
-                            <div class="max-h-64 overflow-y-auto">
-                                <a href="#" class="flex items-start gap-3 p-4 hover:bg-brand-light transition-colors border-b border-gray-50">
-                                    <div class="w-8 h-8 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary flex-shrink-0">
-                                        <i class="fa-solid fa-video text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-brand-text font-medium">Meeting starting in 5 min</p>
-                                        <p class="text-xs text-brand-textLight">Team Standup - 9:00 AM</p>
-                                    </div>
-                                </a>
-                                <a href="#" class="flex items-start gap-3 p-4 hover:bg-brand-light transition-colors border-b border-gray-50">
-                                    <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
-                                        <i class="fa-solid fa-check text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-brand-text font-medium">Recording processed</p>
-                                        <p class="text-xs text-brand-textLight">Product Review - Yesterday</p>
-                                    </div>
-                                </a>
-                                <a href="#" class="flex items-start gap-3 p-4 hover:bg-brand-light transition-colors">
-                                    <div class="w-8 h-8 rounded-full bg-brand-accent/20 flex items-center justify-center text-brand-accent flex-shrink-0">
-                                        <i class="fa-solid fa-user-plus text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-brand-text font-medium">New team member</p>
-                                        <p class="text-xs text-brand-textLight">Sarah Chen joined Engineering</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="p-3 border-t border-gray-100 text-center">
-                                <a href="#" class="text-sm text-brand-primary font-medium hover:underline">View all notifications</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Messages -->
-                    <button class="w-10 h-10 rounded-full bg-brand-light flex items-center justify-center text-brand-text hover:bg-brand-primary hover:text-white transition-colors relative">
-                        <i class="fa-solid fa-message"></i>
-                        <span class="notification-badge" style="background: #6366f1;">2</span>
-                    </button>
-
-                    <!-- Profile Dropdown -->
-                    <div class="relative group">
-                        <button class="flex items-center gap-3 pl-2 pr-1 py-1 rounded-full hover:bg-brand-light transition-colors">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-8 h-8 rounded-full object-cover">
-                            <span class="hidden md:block text-sm font-medium text-brand-text">Michael Park</span>
-                            <i class="fa-solid fa-chevron-down text-xs text-brand-textLight"></i>
-                        </button>
-                        
-                        <div class="dropdown-menu absolute right-0 top-12 w-56 bg-white rounded-2xl shadow-card border border-gray-100 overflow-hidden z-50">
-                            <div class="p-4 border-b border-gray-100">
-                                <p class="font-bold text-brand-text">Michael Park</p>
-                                <p class="text-sm text-brand-textLight">michael@company.com</p>
-                            </div>
-                            <div class="p-2">
-                                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-brand-text hover:bg-brand-light transition-colors text-sm">
-                                    <i class="fa-solid fa-user text-brand-textLight"></i>
-                                    Profile
-                                </a>
-                                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-brand-text hover:bg-brand-light transition-colors text-sm">
-                                    <i class="fa-solid fa-gear text-brand-textLight"></i>
-                                    Settings
-                                </a>
-                                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-brand-text hover:bg-brand-light transition-colors text-sm">
-                                    <i class="fa-solid fa-credit-card text-brand-textLight"></i>
-                                    Billing
-                                </a>
-                            </div>
-                            <div class="p-2 border-t border-gray-100">
-                                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 transition-colors text-sm">
-                                    <i class="fa-solid fa-right-from-bracket"></i>
-                                    Sign out
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Dashboard Content -->
-            <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 pb-24">
-                <!-- Welcome Section -->
-                <div class="mb-8" data-aos="fade-up">
-                    <h1 class="text-3xl font-bold text-brand-text mb-2">Welcome back, Michael! 👋</h1>
-                    <p class="text-brand-textLight">Here's what's happening with your meetings today.</p>
-                </div>
-
-                <!-- Stats Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <!-- Stat Card 1 -->
-                    <div class="stat-card bg-white rounded-2xl p-6 shadow-card border border-gray-100" data-aos="fade-up" data-aos-delay="0">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary">
-                                <i class="fa-solid fa-video text-xl"></i>
-                            </div>
-                            <span class="text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">+12%</span>
-                        </div>
-                        <h3 class="text-3xl font-bold text-brand-text mb-1">24</h3>
-                        <p class="text-brand-textLight text-sm">Meetings This Week</p>
-                    </div>
-
-                    <!-- Stat Card 2 -->
-                    <div class="stat-card bg-white rounded-2xl p-6 shadow-card border border-gray-100" data-aos="fade-up" data-aos-delay="100">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-xl bg-brand-secondary/10 flex items-center justify-center text-brand-secondary">
-                                <i class="fa-solid fa-clock text-xl"></i>
-                            </div>
-                            <span class="text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">+5%</span>
-                        </div>
-                        <h3 class="text-3xl font-bold text-brand-text mb-1">18.5h</h3>
-                        <p class="text-brand-textLight text-sm">Total Meeting Time</p>
-                    </div>
-
-                    <!-- Stat Card 3 -->
-                    <div class="stat-card bg-white rounded-2xl p-6 shadow-card border border-gray-100" data-aos="fade-up" data-aos-delay="200">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-xl bg-brand-accent/10 flex items-center justify-center text-brand-accent">
-                                <i class="fa-solid fa-users text-xl"></i>
-                            </div>
-                            <span class="text-xs font-medium text-brand-textLight bg-gray-100 px-2 py-1 rounded-full">0%</span>
-                        </div>
-                        <h3 class="text-3xl font-bold text-brand-text mb-1">142</h3>
-                        <p class="text-brand-textLight text-sm">Participants</p>
-                    </div>
-
-                    <!-- Stat Card 4 -->
-                    <div class="stat-card bg-white rounded-2xl p-6 shadow-card border border-gray-100" data-aos="fade-up" data-aos-delay="300">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-xl bg-brand-success/10 flex items-center justify-center text-brand-success">
-                                <i class="fa-solid fa-circle-play text-xl"></i>
-                            </div>
-                            <span class="text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">+8%</span>
-                        </div>
-                        <h3 class="text-3xl font-bold text-brand-text mb-1">16</h3>
-                        <p class="text-brand-textLight text-sm">Recordings</p>
-                    </div>
-                </div>
-
-                <!-- Main Grid -->
-                <div class="grid lg:grid-cols-3 gap-8 mb-8">
-                    <!-- Chart Section -->
-                    <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-card border border-gray-100" data-aos="fade-up">
-                        <div class="flex items-center justify-between mb-6">
-                            <div>
-                                <h3 class="font-bold text-brand-text text-lg">Meeting Analytics</h3>
-                                <p class="text-sm text-brand-textLight">Weekly meeting duration and participants</p>
-                            </div>
-                            <select class="px-4 py-2 rounded-lg bg-brand-light border-0 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20">
-                                <option>Last 7 days</option>
-                                <option>Last 30 days</option>
-                                <option>Last 3 months</option>
-                            </select>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="meetingChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Upcoming Meetings -->
-                    <div class="bg-white rounded-2xl p-6 shadow-card border border-gray-100" data-aos="fade-up" data-aos-delay="100">
-                        <div class="flex items-center justify-between mb-6">
-                            <h3 class="font-bold text-brand-text text-lg">Up Next</h3>
-                            <a href="#" class="text-sm text-brand-primary hover:underline">View all</a>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <!-- Meeting 1 -->
-                            <div class="flex items-start gap-4 p-4 rounded-xl bg-brand-light/50 border border-brand-primary/10">
-                                <div class="w-12 h-12 rounded-xl bg-brand-primary flex items-center justify-center text-white flex-shrink-0">
-                                    <span class="text-xs font-bold">9:00</span>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="font-bold text-brand-text text-sm mb-1 truncate">Daily Standup</h4>
-                                    <p class="text-xs text-brand-textLight mb-2">Engineering Team • 30 min</p>
-                                    <div class="flex items-center gap-2">
-                                        <div class="flex -space-x-2">
-                                            <img src="https://randomuser.me/api/portraits/men/1.jpg" class="w-6 h-6 rounded-full border-2 border-white" alt="">
-                                            <img src="https://randomuser.me/api/portraits/women/2.jpg" class="w-6 h-6 rounded-full border-2 border-white" alt="">
-                                            <img src="https://randomuser.me/api/portraits/men/3.jpg" class="w-6 h-6 rounded-full border-2 border-white" alt="">
-                                            <div class="w-6 h-6 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-xs text-gray-600">+5</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="px-3 py-1 rounded-full bg-brand-primary text-white text-xs font-medium hover:bg-brand-primaryDark transition-colors">
-                                    Join
-                                </button>
-                            </div>
-
-                            <!-- Meeting 2 -->
-                            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-brand-light/50 transition-colors">
-                                <div class="w-12 h-12 rounded-xl bg-brand-secondary/20 flex items-center justify-center text-brand-secondary flex-shrink-0">
-                                    <span class="text-xs font-bold">11:00</span>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="font-bold text-brand-text text-sm mb-1 truncate">Product Review</h4>
-                                    <p class="text-xs text-brand-textLight mb-2">Product Team • 1 hour</p>
-                                    <div class="flex items-center gap-2">
-                                        <div class="flex -space-x-2">
-                                            <img src="https://randomuser.me/api/portraits/women/4.jpg" class="w-6 h-6 rounded-full border-2 border-white" alt="">
-                                            <img src="https://randomuser.me/api/portraits/men/5.jpg" class="w-6 h-6 rounded-full border-2 border-white" alt="">
-                                            <div class="w-6 h-6 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-xs text-gray-600">+3</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Meeting 3 -->
-                            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-brand-light/50 transition-colors">
-                                <div class="w-12 h-12 rounded-xl bg-brand-accent/20 flex items-center justify-center text-brand-accent flex-shrink-0">
-                                    <span class="text-xs font-bold">14:00</span>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="font-bold text-brand-text text-sm mb-1 truncate">Client Presentation</h4>
-                                    <p class="text-xs text-brand-textLight mb-2">Sales Team • 45 min</p>
-                                    <div class="flex items-center gap-2">
-                                        <div class="flex -space-x-2">
-                                            <img src="https://randomuser.me/api/portraits/men/6.jpg" class="w-6 h-6 rounded-full border-2 border-white" alt="">
-                                            <img src="https://randomuser.me/api/portraits/women/7.jpg" class="w-6 h-6 rounded-full border-2 border-white" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="w-full mt-4 py-3 rounded-xl border-2 border-dashed border-gray-200 text-brand-textLight hover:border-brand-primary hover:text-brand-primary transition-colors text-sm font-medium">
-                            <i class="fa-solid fa-plus mr-2"></i>Schedule New Meeting
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Bottom Grid -->
-                <div class="grid lg:grid-cols-3 gap-8 mb-8">
-                    <!-- Recent Recordings -->
-                    <div class="bg-white rounded-2xl p-6 shadow-card border border-gray-100" data-aos="fade-up">
-                        <div class="flex items-center justify-between mb-6">
-                            <h3 class="font-bold text-brand-text text-lg">Recent Recordings</h3>
-                            <a href="#" class="text-sm text-brand-primary hover:underline">View all</a>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-brand-light/50 transition-colors group cursor-pointer">
-                                <div class="relative w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
-                                    <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=200" class="w-full h-full object-cover" alt="">
-                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <i class="fa-solid fa-play text-white text-xs"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="font-bold text-brand-text text-sm mb-1 truncate">Q4 Planning Session</h4>
-                                    <p class="text-xs text-brand-textLight">Yesterday • 45:32</p>
-                                </div>
-                                <button class="text-brand-textLight hover:text-brand-primary">
-                                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                                </button>
-                            </div>
-
-                            <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-brand-light/50 transition-colors group cursor-pointer">
-                                <div class="relative w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
-                                    <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=200" class="w-full h-full object-cover" alt="">
-                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <i class="fa-solid fa-play text-white text-xs"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="font-bold text-brand-text text-sm mb-1 truncate">Design Review</h4>
-                                    <p class="text-xs text-brand-textLight">2 days ago • 32:15</p>
-                                </div>
-                                <button class="text-brand-textLight hover:text-brand-primary">
-                                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                                </button>
-                            </div>
-
-                            <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-brand-light/50 transition-colors group cursor-pointer">
-                                <div class="relative w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
-                                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=200" class="w-full h-full object-cover" alt="">
-                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <i class="fa-solid fa-play text-white text-xs"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="font-bold text-brand-text text-sm mb-1 truncate">Team Workshop</h4>
-                                    <p class="text-xs text-brand-textLight">3 days ago • 1:15:42</p>
-                                </div>
-                                <button class="text-brand-textLight hover:text-brand-primary">
-                                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Team Activity -->
-                    <div class="bg-white rounded-2xl p-6 shadow-card border border-gray-100" data-aos="fade-up" data-aos-delay="100">
-                        <div class="flex items-center justify-between mb-6">
-                            <h3 class="font-bold text-brand-text text-lg">Team Activity</h3>
-                            <a href="#" class="text-sm text-brand-primary hover:underline">View all</a>
-                        </div>
-                        
-                        <div class="space-y-0">
-                            <div class="activity-item">
-                                <p class="text-sm text-brand-text font-medium">Sarah Chen started a meeting</p>
-                                <p class="text-xs text-brand-textLight mt-1">Product Review • 5 min ago</p>
-                            </div>
-                            <div class="activity-item">
-                                <p class="text-sm text-brand-text font-medium">Recording processed</p>
-                                <p class="text-xs text-brand-textLight mt-1">Design Review • 1 hour ago</p>
-                            </div>
-                            <div class="activity-item">
-                                <p class="text-sm text-brand-text font-medium">New team member joined</p>
-                                <p class="text-xs text-brand-textLight mt-1">Alex Johnson • 3 hours ago</p>
-                            </div>
-                            <div class="activity-item">
-                                <p class="text-sm text-brand-text font-medium">Meeting scheduled</p>
-                                <p class="text-xs text-brand-textLight mt-1">Client Presentation • 5 hours ago</p>
-                            </div>
-                            <div class="activity-item">
-                                <p class="text-sm text-brand-text font-medium">Integration connected</p>
-                                <p class="text-xs text-brand-textLight mt-1">Slack • Yesterday</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Quick Actions -->
-                    <div class="bg-white rounded-2xl p-6 shadow-card border border-gray-100" data-aos="fade-up" data-aos-delay="200">
-                        <h3 class="font-bold text-brand-text text-lg mb-6">Quick Actions</h3>
-                        
-                        <div class="space-y-4">
-                            <button class="w-full flex items-center gap-4 p-4 rounded-xl bg-brand-light/50 hover:bg-brand-primary hover:text-white transition-all group text-left">
-                                <div class="w-12 h-12 rounded-xl bg-white group-hover:bg-white/20 flex items-center justify-center text-brand-primary group-hover:text-white transition-colors">
-                                    <i class="fa-solid fa-video text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-sm">Instant Meeting</h4>
-                                    <p class="text-xs opacity-70">Start a new meeting now</p>
-                                </div>
-                                <i class="fa-solid fa-arrow-right ml-auto opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                            </button>
-
-                            <button class="w-full flex items-center gap-4 p-4 rounded-xl bg-brand-light/50 hover:bg-brand-secondary hover:text-white transition-all group text-left">
-                                <div class="w-12 h-12 rounded-xl bg-white group-hover:bg-white/20 flex items-center justify-center text-brand-secondary group-hover:text-white transition-colors">
-                                    <i class="fa-solid fa-calendar-plus text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-sm">Schedule Meeting</h4>
-                                    <p class="text-xs opacity-70">Plan for later</p>
-                                </div>
-                                <i class="fa-solid fa-arrow-right ml-auto opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                            </button>
-
-                            <button class="w-full flex items-center gap-4 p-4 rounded-xl bg-brand-light/50 hover:bg-brand-accent hover:text-white transition-all group text-left">
-                                <div class="w-12 h-12 rounded-xl bg-white group-hover:bg-white/20 flex items-center justify-center text-brand-accent group-hover:text-white transition-colors">
-                                    <i class="fa-solid fa-user-plus text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-sm">Invite Team</h4>
-                                    <p class="text-xs opacity-70">Add new members</p>
-                                </div>
-                                <i class="fa-solid fa-arrow-right ml-auto opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                            </button>
-
-                            <button class="w-full flex items-center gap-4 p-4 rounded-xl bg-brand-light/50 hover:bg-brand-success hover:text-white transition-all group text-left">
-                                <div class="w-12 h-12 rounded-xl bg-white group-hover:bg-white/20 flex items-center justify-center text-brand-success group-hover:text-white transition-colors">
-                                    <i class="fa-solid fa-gear text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-sm">Settings</h4>
-                                    <p class="text-xs opacity-70">Configure preferences</p>
-                                </div>
-                                <i class="fa-solid fa-arrow-right ml-auto opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Team Members Table -->
-                <div class="bg-white rounded-2xl shadow-card border border-gray-100 overflow-hidden mb-8" data-aos="fade-up">
-                    <div class="p-6 border-b border-gray-100 flex items-center justify-between">
-                        <div>
-                            <h3 class="font-bold text-brand-text text-lg">Team Members</h3>
-                            <p class="text-sm text-brand-textLight">Manage your team and their permissions</p>
-                        </div>
-                        <button class="px-4 py-2 rounded-lg bg-brand-primary text-white text-sm font-medium hover:bg-brand-primaryDark transition-colors">
-                            <i class="fa-solid fa-plus mr-2"></i>Add Member
-                        </button>
+                <!-- Upcoming Meetings -->
+                <div class="bg-white rounded-2xl p-6 shadow-soft border border-gray-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-bold text-gray-900">Upcoming</h3>
+                        <a href="404.html" class="text-brand-teal text-sm hover:underline">View All</a>
                     </div>
                     
-                    <div class="overflow-x-auto">
-                        <table class="data-table w-full">
-                            <thead>
-                                <tr>
-                                    <th class="text-left px-6 py-4">Member</th>
-                                    <th class="text-left px-6 py-4">Role</th>
-                                    <th class="text-left px-6 py-4">Status</th>
-                                    <th class="text-left px-6 py-4">Last Active</th>
-                                    <th class="text-center px-6 py-4">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="border-b border-gray-50">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="" class="w-10 h-10 rounded-full object-cover">
-                                            <div>
-                                                <p class="font-medium text-brand-text">Sarah Chen</p>
-                                                <p class="text-sm text-brand-textLight">sarah@company.com</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="px-3 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-medium">Admin</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="status-badge status-online">
-                                            <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                                            Online
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-brand-textLight">Now</td>
-                                    <td class="px-6 py-4 text-center">
-                                        <button class="text-brand-textLight hover:text-brand-primary">
-                                            <i class="fa-solid fa-ellipsis"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="border-b border-gray-50">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="" class="w-10 h-10 rounded-full object-cover">
-                                            <div>
-                                                <p class="font-medium text-brand-text">Michael Park</p>
-                                                <p class="text-sm text-brand-textLight">michael@company.com</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="px-3 py-1 rounded-full bg-brand-secondary/10 text-brand-secondary text-xs font-medium">Manager</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="status-badge status-online">
-                                            <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                                            Online
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-brand-textLight">Now</td>
-                                    <td class="px-6 py-4 text-center">
-                                        <button class="text-brand-textLight hover:text-brand-primary">
-                                            <i class="fa-solid fa-ellipsis"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="border-b border-gray-50">
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="" class="w-10 h-10 rounded-full object-cover">
-                                            <div>
-                                                <p class="font-medium text-brand-text">Emily Rodriguez</p>
-                                                <p class="text-sm text-brand-textLight">emily@company.com</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">Member</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="status-badge status-away">
-                                            <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
-                                            Away
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-brand-textLight">15 min ago</td>
-                                    <td class="px-6 py-4 text-center">
-                                        <button class="text-brand-textLight hover:text-brand-primary">
-                                            <i class="fa-solid fa-ellipsis"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="" class="w-10 h-10 rounded-full object-cover">
-                                            <div>
-                                                <p class="font-medium text-brand-text">David Kim</p>
-                                                <p class="text-sm text-brand-textLight">david@company.com</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">Member</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="status-badge status-busy">
-                                            <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                                            In Meeting
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-brand-textLight">1 hour ago</td>
-                                    <td class="px-6 py-4 text-center">
-                                        <button class="text-brand-textLight hover:text-brand-primary">
-                                            <i class="fa-solid fa-ellipsis"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer border-l-4 border-green-500">
+                            <div class="w-12 h-12 rounded-xl bg-brand-teal/10 flex items-center justify-center text-brand-teal flex-shrink-0">
+                                <span class="text-xs font-bold">10:00</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-gray-900 text-sm truncate">Product Team Sync</h4>
+                                <p class="text-gray-500 text-xs mt-1">with Sarah, Mike, and 3 others</p>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full live-indicator">Live</span>
+                                    <span class="text-xs text-gray-400">30 min</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer border-l-4 border-brand-yellow">
+                            <div class="w-12 h-12 rounded-xl bg-brand-yellow/10 flex items-center justify-center text-brand-yellow flex-shrink-0">
+                                <span class="text-xs font-bold">14:00</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-gray-900 text-sm truncate">Client Presentation</h4>
+                                <p class="text-gray-500 text-xs mt-1">with TechCorp Industries</p>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <span class="text-xs text-gray-400">1 hour</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer border-l-4 border-purple-500">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 flex-shrink-0">
+                                <span class="text-xs font-bold">16:30</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-gray-900 text-sm truncate">Design Review</h4>
+                                <p class="text-gray-500 text-xs mt-1">with Design Team</p>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <span class="text-xs text-gray-400">45 min</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer border-l-4 border-gray-300">
+                            <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 flex-shrink-0">
+                                <span class="text-xs font-bold">18:00</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-gray-900 text-sm truncate">Weekly All-Hands</h4>
+                                <p class="text-gray-500 text-xs mt-1">Company-wide meeting</p>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <span class="text-xs text-gray-400">1.5 hours</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Recordings & Team Members -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                
+                <!-- Recent Recordings -->
+                <div class="bg-white rounded-2xl p-6 shadow-soft border border-gray-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-bold text-gray-900">Recent Recordings</h3>
+                        <a href="404.html" class="text-brand-teal text-sm hover:underline">View All</a>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors group cursor-pointer">
+                            <div class="relative w-20 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                                <img src="hum2.webp" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i class="fa-solid fa-play text-white text-xs"></i>
+                                </div>
+                                <div class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1 rounded">45:30</div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-gray-900 text-sm truncate">Q4 Strategy Meeting</h4>
+                                <p class="text-gray-500 text-xs mt-1">Recorded yesterday • 142 MB</p>
+                            </div>
+                            <button class="text-gray-400 hover:text-brand-teal transition-colors p-2">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors group cursor-pointer">
+                            <div class="relative w-20 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                                <img src="hum3.webp" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i class="fa-solid fa-play text-white text-xs"></i>
+                                </div>
+                                <div class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1 rounded">30:15</div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-gray-900 text-sm truncate">Product Demo</h4>
+                                <p class="text-gray-500 text-xs mt-1">Recorded 2 days ago • 98 MB</p>
+                            </div>
+                            <button class="text-gray-400 hover:text-brand-teal transition-colors p-2">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors group cursor-pointer">
+                            <div class="relative w-20 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                                <img src="hum4.webp" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i class="fa-solid fa-play text-white text-xs"></i>
+                                </div>
+                                <div class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1 rounded">60:00</div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-gray-900 text-sm truncate">Team Retrospective</h4>
+                                <p class="text-gray-500 text-xs mt-1">Recorded 3 days ago • 185 MB</p>
+                            </div>
+                            <button class="text-gray-400 hover:text-brand-teal transition-colors p-2">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Footer - Now properly visible -->
-                <footer class="dashboard-footer rounded-2xl bg-white shadow-card border border-gray-100">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                            <div>
-                                <div class="flex items-center gap-2 mb-4">
-                                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-white">
-                                        <i class="fa-solid fa-arrow-up-right-dots text-sm"></i>
-                                    </div>
-                                    <span class="font-bold text-lg text-brand-text">PEOPLED</span>
-                                </div>
-                                <p class="text-gray-500 text-sm leading-relaxed">Transforming the way teams communicate and collaborate worldwide.</p>
+                <!-- Team Members Online -->
+                <div class="bg-white rounded-2xl p-6 shadow-soft border border-gray-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-bold text-gray-900">Team Online</h3>
+                        <span class="flex items-center gap-2 text-sm text-green-600">
+                            <span class="w-2 h-2 bg-green-500 rounded-full live-indicator"></span>
+                            8 online
+                        </span>
+                    </div>
+                    
+                    <div class="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-4 gap-4">
+                        <div class="text-center">
+                            <div class="relative inline-block">
+                                <img src="hum1.webp" class="w-14 h-14 rounded-full object-cover border-2 border-green-500">
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
                             </div>
-                            
-                            <div>
-                                <h4 class="font-bold text-brand-text mb-4 text-sm uppercase tracking-wider">Product</h4>
-                                <ul class="space-y-2 text-sm text-gray-500">
-                                    <li><a href="#" class="hover:text-brand-primary transition-colors">Features</a></li>
-                                    <li><a href="#" class="hover:text-brand-primary transition-colors">Pricing</a></li>
-                                    <li><a href="#" class="hover:text-brand-primary transition-colors">Integrations</a></li>
-                                    <li><a href="#" class="hover:text-brand-primary transition-colors">Changelog</a></li>
-                                </ul>
-                            </div>
-                            
-                            <div>
-                                <h4 class="font-bold text-brand-text mb-4 text-sm uppercase tracking-wider">Company</h4>
-                                <ul class="space-y-2 text-sm text-gray-500">
-                                    <li><a href="#" class="hover:text-brand-primary transition-colors">About Us</a></li>
-                                    <li><a href="#" class="hover:text-brand-primary transition-colors">Careers</a></li>
-                                    <li><a href="#" class="hover:text-brand-primary transition-colors">Blog</a></li>
-                                    <li><a href="#" class="hover:text-brand-primary transition-colors">Contact</a></li>
-                                </ul>
-                            </div>
-                            
-                            <div>
-                                <h4 class="font-bold text-brand-text mb-4 text-sm uppercase tracking-wider">Resources</h4>
-                                <ul class="space-y-2 text-sm text-gray-500">
-                                    <li><a href="#" class="hover:text-brand-primary transition-colors">Documentation</a></li>
-                                    <li><a href="#" class="hover:text-brand-primary transition-colors">Help Center</a></li>
-                                    <li><a href="#" class="hover:text-brand-primary transition-colors">Community</a></li>
-                                    <li><a href="#" class="hover:text-brand-primary transition-colors">API Reference</a></li>
-                                </ul>
-                            </div>
+                            <p class="text-xs font-medium text-gray-900 mt-2 truncate">You</p>
                         </div>
-                        
-                        <div class="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                            <p class="text-gray-500 text-sm">&copy; 2024 PEOPLED. All rights reserved.</p>
-                            <div class="flex items-center gap-6">
-                                <a href="#" class="text-gray-400 hover:text-brand-primary transition-colors">
-                                    <i class="fa-brands fa-twitter text-lg"></i>
-                                </a>
-                                <a href="#" class="text-gray-400 hover:text-brand-primary transition-colors">
-                                    <i class="fa-brands fa-linkedin text-lg"></i>
-                                </a>
-                                <a href="#" class="text-gray-400 hover:text-brand-primary transition-colors">
-                                    <i class="fa-brands fa-github text-lg"></i>
-                                </a>
-                                <a href="#" class="text-gray-400 hover:text-brand-primary transition-colors">
-                                    <i class="fa-brands fa-discord text-lg"></i>
-                                </a>
+                        <div class="text-center">
+                            <div class="relative inline-block">
+                                <img src="hum2.webp" class="w-14 h-14 rounded-full object-cover border-2 border-green-500">
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
                             </div>
-                            <div class="flex gap-6 text-sm text-gray-500">
-                                <a href="#" class="hover:text-brand-primary transition-colors">Privacy</a>
-                                <a href="#" class="hover:text-brand-primary transition-colors">Terms</a>
-                                <a href="#" class="hover:text-brand-primary transition-colors">Cookies</a>
+                            <p class="text-xs font-medium text-gray-900 mt-2 truncate">Sarah</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="relative inline-block">
+                                <img src="hum3.webp" class="w-14 h-14 rounded-full object-cover border-2 border-green-500">
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
                             </div>
+                            <p class="text-xs font-medium text-gray-900 mt-2 truncate">Mike</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="relative inline-block">
+                                <img src="hum4.webp" class="w-14 h-14 rounded-full object-cover border-2 border-gray-300">
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-gray-400 border-2 border-white rounded-full"></span>
+                            </div>
+                            <p class="text-xs font-medium text-gray-500 mt-2 truncate">Emma</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="relative inline-block">
+                                <img src="hum5.webp" class="w-14 h-14 rounded-full object-cover border-2 border-green-500">
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                            </div>
+                            <p class="text-xs font-medium text-gray-900 mt-2 truncate">David</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="relative inline-block">
+                                <img src="hum7.webp" class="w-14 h-14 rounded-full object-cover border-2 border-green-500">
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                            </div>
+                            <p class="text-xs font-medium text-gray-900 mt-2 truncate">Lisa</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="relative inline-block">
+                                <img src="small2.webp" class="w-14 h-14 rounded-full object-cover border-2 border-gray-300">
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-gray-400 border-2 border-white rounded-full"></span>
+                            </div>
+                            <p class="text-xs font-medium text-gray-500 mt-2 truncate">Tom</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="relative inline-block bg-brand-teal/10 rounded-full w-14 h-14 flex items-center justify-center border-2 border-dashed border-brand-teal cursor-pointer hover:bg-brand-teal/20 transition-colors">
+                                <i class="fa-solid fa-plus text-brand-teal"></i>
+                            </div>
+                            <p class="text-xs font-medium text-brand-teal mt-2">Invite</p>
                         </div>
                     </div>
-                </footer>
-            </main>
-        </div>
+
+                    <button class="w-full mt-6 py-3 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:border-brand-teal hover:text-brand-teal transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-user-plus"></i> Invite Team Member
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button class="p-4 bg-white rounded-xl shadow-soft border border-gray-100 hover:shadow-lg hover:border-brand-teal transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-brand-teal/10 flex items-center justify-center text-brand-teal mb-3 group-hover:bg-brand-teal group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-video text-xl"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 text-sm">Start Meeting</h4>
+                    <p class="text-gray-500 text-xs mt-1">Instant video call</p>
+                </button>
+
+                <button class="p-4 bg-white rounded-xl shadow-soft border border-gray-100 hover:shadow-lg hover:border-brand-teal transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-brand-yellow/10 flex items-center justify-center text-brand-yellow mb-3 group-hover:bg-brand-yellow group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-calendar-plus text-xl"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 text-sm">Schedule</h4>
+                    <p class="text-gray-500 text-xs mt-1">Plan a meeting</p>
+                </button>
+
+                <button class="p-4 bg-white rounded-xl shadow-soft border border-gray-100 hover:shadow-lg hover:border-brand-teal transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-green-600 mb-3 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-folder-open text-xl"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 text-sm">Recordings</h4>
+                    <p class="text-gray-500 text-xs mt-1">View all videos</p>
+                </button>
+
+                <button class="p-4 bg-white rounded-xl shadow-soft border border-gray-100 hover:shadow-lg hover:border-brand-teal transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 mb-3 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-share-nodes text-xl"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 text-sm">Share Screen</h4>
+                    <p class="text-gray-500 text-xs mt-1">Present now</p>
+                </button>
+            </div>
+        </main>
     </div>
 
+    <!-- Footer - SAME AS OUR TEAM PAGE -->
+    <footer class="bg-gray-50 pt-20 pb-10 border-t lg:ml-64">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-6">Menu</h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="index.html" class="hover:text-brand-teal transition-colors">Homepage</a></li>
+                        <li><a href="piricing.html" class="hover:text-brand-teal transition-colors">Plan Pricing</a></li>
+                        <li><a href="our team.html" class="hover:text-brand-teal transition-colors">Our Teams</a></li>
+                        <li><a href="aboutus.html" class="hover:text-brand-teal transition-colors">About Us</a></li>
+                        <li><a href="contact.html" class="hover:text-brand-teal transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-6">Quick links</h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Introduction</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Do you need account?</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Check status online</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">How many join?</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Problem and Solution</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Change country</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Check server using</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-6">Links</h4> 
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Video</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Quality</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Network</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Solution</a></li>
+                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="logo.webp" class="h-12 w-auto object-contain" alt="STACKLY">
+                        <span class="font-bold text-xl text-brand-teal">STACKLY</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-6 leading-relaxed">
+                        Sollicitudin quam a mi aliquet ultrices. Aenean ac et, aliquet pellentesque volutpat duis diam.
+                    </p>
+                    <div class="flex items-center gap-2 text-red-500 text-sm font-medium mb-6">
+                        <i class="fa-solid fa-location-dot"></i> New York, United States
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-skype"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-slack"></i></a>
+                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t pt-8 text-center text-sm text-gray-400">
+                &copy; 2023 PEOPLED. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
     <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize AOS
-        AOS.init({
-            once: true,
-            offset: 50,
-            duration: 600,
+        // Mobile Menu Logic
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+
+        function toggleMenu() {
+            menu.classList.toggle('translate-x-full');
+        }
+
+        btn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+
+        // Mobile Dropdown Functionality
+        const dropdownBtn = document.querySelector('.mobile-dropdown-btn');
+        const dropdownContent = document.querySelector('.mobile-dropdown-content');
+        const dropdownArrow = document.querySelector('.mobile-dropdown-arrow');
+
+        if(dropdownBtn) {
+            dropdownBtn.addEventListener('click', function () {
+                dropdownContent.classList.toggle('active');
+                dropdownArrow.classList.toggle('active');
+            });
+        }
+
+        // Close mobile menu when clicking a link
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
         });
 
-        // Meeting Analytics Chart
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.classList.replace('bg-brand-teal', 'bg-brand-darkTeal');
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.classList.replace('bg-brand-darkTeal', 'bg-brand-teal');
+            }
+        });
+
+        // Chart.js Configuration
         const ctx = document.getElementById('meetingChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
+        const meetingChart = new Chart(ctx, {
+            type: 'line',
             data: {
                 labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [
-                    {
-                        label: 'Meeting Hours',
-                        data: [4.5, 6.2, 3.8, 5.5, 4.2, 1.5, 0.5],
-                        backgroundColor: '#6366f1',
-                        borderRadius: 8,
-                    },
-                    {
-                        label: 'Participants',
-                        data: [12, 18, 15, 22, 16, 8, 4],
-                        backgroundColor: '#06b6d4',
-                        borderRadius: 8,
-                        yAxisID: 'y1'
-                    }
-                ]
+                datasets: [{
+                    label: 'Meetings',
+                    data: [3, 5, 4, 6, 4, 2, 3],
+                    borderColor: '#2A7A85',
+                    backgroundColor: 'rgba(42, 122, 133, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#2A7A85',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }, {
+                    label: 'Participants',
+                    data: [8, 12, 10, 15, 11, 5, 7],
+                    borderColor: '#F4B942',
+                    backgroundColor: 'rgba(244, 185, 66, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#F4B942',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                interaction: {
-                    mode: 'index',
-                    intersect: false,
-                },
                 plugins: {
                     legend: {
-                        position: 'bottom',
+                        position: 'top',
+                        align: 'end',
                         labels: {
                             usePointStyle: true,
+                            boxWidth: 8,
                             padding: 20,
+                            font: {
+                                size: 12
+                            }
                         }
                     }
                 },
@@ -1055,48 +870,31 @@
                     y: {
                         beginAtZero: true,
                         grid: {
-                            color: '#f1f5f9'
+                            color: 'rgba(0, 0, 0, 0.05)',
+                            drawBorder: false
                         },
                         ticks: {
-                            callback: function(value) {
-                                return value + 'h';
-                            }
-                        }
-                    },
-                    y1: {
-                        type: 'linear',
-                        display: true,
-                        position: 'right',
-                        grid: {
-                            drawOnChartArea: false,
-                        },
-                        ticks: {
-                            callback: function(value) {
-                                return value;
-                            }
+                            font: {
+                                size: 11
+                            },
+                            color: '#6B7280'
                         }
                     },
                     x: {
                         grid: {
-                            display: false
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            font: {
+                                size: 11
+                            },
+                            color: '#6B7280'
                         }
                     }
                 }
             }
         });
-
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const sidebar = document.querySelector('.sidebar');
-        
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('hidden');
-                sidebar.classList.toggle('fixed');
-                sidebar.classList.toggle('inset-0');
-                sidebar.classList.toggle('z-50');
-            });
-        }
     </script>
 </body>
 </html>

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEOPLED - Blog</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            primary: '#6366f1',
+                            primaryDark: '#4f46e5',
+                            secondary: '#06b6d4',
+                            accent: '#f472b6',
+                            accentLight: '#fbcfe8',
+                            success: '#22c55e',
+                            warning: '#f59e0b',
+                            light: '#f8fafc',
+                            surface: '#ffffff',
+                            text: '#1e293b',
+                            textLight: '#64748b',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 20px 40px -15px rgba(99, 102, 241, 0.15)',
+                        'glow': '0 0 40px -10px rgba(99, 102, 241, 0.4)',
+                        'card': '0 10px 40px -10px rgba(0, 0, 0, 0.1)',
+                        'floating': '0 25px 50px -12px rgba(99, 102, 241, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(3deg); }
+        }
+        
+        @keyframes float-reverse {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(20px) rotate(-3deg); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+        }
+
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce-soft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-5px) translateY(-5px); }
+            50% { transform: translateX(0) translateY(-10px); }
+            75% { transform: translateX(5px) translateY(-5px); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 7s ease-in-out infinite 1s; }
+        .animate-float-slow { animation: float-reverse 8s ease-in-out infinite 0.5s; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-morph { animation: morph 8s ease-in-out infinite; }
+        .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+        .animate-bounce-soft { animation: bounce-soft 2s ease-in-out infinite; }
+        .animate-wave { animation: wave 3s ease-in-out infinite; }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #06b6d4 50%, #f472b6 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-flow 5s ease infinite;
+        }
+
+        /* Glass Effect */
+        .glass {
+            background: rgb(220, 120, 220);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .glass-dark {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* Card Hover Effects */
+        .hover-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.25);
+        }
+
+        /* Image Hover Zoom */
+        .img-zoom {
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .img-zoom:hover {
+            transform: scale(1.1);
+        }
+
+        /* Button Effects */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        /* Dropdown Animation - Desktop */
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Mobile Menu Dropdown Styles */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .mobile-dropdown-content.active {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .mobile-dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-dropdown-arrow.active {
+            transform: rotate(180deg);
+        }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 4px;
+        }
+
+        /* Blog Card Specific */
+        .blog-card-image {
+            overflow: hidden;
+        }
+        
+        .blog-card-image img {
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .blog-card:hover .blog-card-image img {
+            transform: scale(1.1);
+        }
+
+        /* Category Tag */
+        .category-tag {
+            transition: all 0.3s ease;
+        }
+        
+        .category-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Search Input */
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+    </style>
+</head>
+<body class="font-sans text-brand-text antialiased overflow-x-hidden bg-brand-light">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass border-b border-white/20 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-2">
+    
+    <!-- Logo Image -->
+    <img src="logo.webp" 
+         alt="Stackly Logo"
+         class="h-8 w-auto md:h-10">
+
+    <!-- Website Name -->
+    <span class="text-white font-bold text-xl md:text-2xl tracking-wide">
+        STACKLY
+    </span>
+
+</a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <!-- Home Dropdown -->
+                    <div class="relative group h-20 flex items-center px-4">
+                        <button class="flex items-center gap-1 text-brand-textLight hover:text-brand-primary transition-colors">
+                            Home <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu absolute top-20 left-0 w-64 bg-white rounded-2xl shadow-card border border-gray-100 overflow-hidden">
+                            <div class="p-4">
+                                <h3 class="text-xs font-bold text-brand-textLight uppercase mb-2">Main Pages</h3>
+                                <a href="index.html" class="block px-4 py-2 rounded-lg text-brand-text hover:bg-brand-light hover:text-brand-primary transition-colors">Homepage v1</a>
+                                <a href="home2.html" class="block px-4 py-2 rounded-lg text-brand-text hover:bg-brand-light hover:text-brand-primary transition-colors">Homepage v2</a>
+                                <!-- <a href="#" class="block px-4 py-2 rounded-lg text-brand-text hover:bg-brand-light hover:text-brand-primary transition-colors">Homepage v3</a> -->
+                                <div class="border-t my-2"></div>
+                                <h3 class="text-xs font-bold text-brand-textLight uppercase mb-2">Account</h3>
+                                <a href="login.html" class="block px-4 py-2 rounded-lg text-brand-text hover:bg-brand-light hover:text-brand-primary transition-colors">Login</a>
+                                <a href="dash.html" class="block px-4 py-2 rounded-lg text-brand-text hover:bg-brand-light hover:text-brand-primary transition-colors">Dashboard</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="error.html" class="px-4 py-2 rounded-lg text-brand-textLight hover:text-brand-primary hover:bg-brand-light/50 transition-all">About Us</a>
+                    <a href="error.html" class="px-4 py-2 rounded-lg text-brand-textLight hover:text-brand-primary hover:bg-brand-light/50 transition-all">Our Team</a>
+                    
+                    <!-- Pages Dropdown -->
+                    <div class="relative group h-20 flex items-center px-4">
+                        <button class="flex items-center gap-1 text-brand-primary font-medium hover:text-brand-primaryDark transition-colors">
+                            Pages <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu absolute top-20 left-0 w-48 bg-white rounded-2xl shadow-card border border-gray-100">
+                            <a href="#" class="block px-4 py-3 hover:bg-brand-light hover:text-brand-primary transition-colors border-b text-brand-text">Pricing</a>
+                            <a href="#" class="block px-4 py-3 hover:bg-brand-light hover:text-brand-primary transition-colors border-b text-brand-primary bg-brand-light/50">Blog</a>
+                            <a href="#" class="block px-4 py-3 hover:bg-brand-light hover:text-brand-primary transition-colors text-brand-text">Testimonials</a>
+                        </div>
+                    </div>
+
+                    <a href="#" class="px-4 py-2 rounded-lg text-brand-textLight hover:text-brand-primary hover:bg-brand-light/50 transition-all">Contact Us</a>
+                </div>
+
+                <!-- CTA & Mobile Button -->
+                <div class="flex items-center gap-4">
+                    <button class="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand-primary text-white font-medium hover:bg-brand-primaryDark transition-all hover:shadow-glow magnetic-btn">
+                        <span>Get Started</span>
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </button>
+                    
+                    <button id="mobile-menu-btn" class="md:hidden w-10 h-10 rounded-lg bg-brand-light flex items-center justify-center text-brand-text">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-white z-40 transform translate-x-full md:hidden flex flex-col pt-24 px-6 space-y-2 text-lg overflow-y-auto">
+            <button id="close-menu-btn" class="absolute top-6 right-6 w-10 h-10 rounded-lg bg-brand-light flex items-center justify-center text-brand-text">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <!-- Mobile Home Dropdown -->
+            <div class="mobile-dropdown">
+                <button class="mobile-dropdown-btn w-full flex items-center justify-between px-4 py-3 rounded-xl hover:bg-brand-light text-brand-text transition-colors">
+                    <span>Home</span>
+                    <i class="fa-solid fa-chevron-down text-sm mobile-dropdown-arrow"></i>
+                </button>
+                <div class="mobile-dropdown-content pl-4 space-y-1 mt-1">
+                    <a href="#" class="block px-4 py-2 rounded-lg text-brand-text hover:bg-brand-light hover:text-brand-primary transition-colors text-base">Homepage v1</a>
+                    <a href="#" class="block px-4 py-2 rounded-lg text-brand-text hover:bg-brand-light hover:text-brand-primary transition-colors text-base">Homepage v2</a>
+                    <a href="#" class="block px-4 py-2 rounded-lg text-brand-text hover:bg-brand-light hover:text-brand-primary transition-colors text-base">Homepage v3</a>
+                    <div class="border-t my-2 mx-4"></div>
+                    <h3 class="text-xs font-bold text-brand-textLight uppercase mb-1 px-4">Account</h3>
+                    <a href="#" class="block px-4 py-2 rounded-lg text-brand-text hover:bg-brand-light hover:text-brand-primary transition-colors text-base">Login</a>
+                    <a href="#" class="block px-4 py-2 rounded-lg text-brand-text hover:bg-brand-light hover:text-brand-primary transition-colors text-base">Register</a>
+                </div>
+            </div>
+
+            <a href="#" class="block px-4 py-3 rounded-xl hover:bg-brand-light text-brand-text transition-colors">About Us</a>
+            <a href="#" class="block px-4 py-3 rounded-xl hover:bg-brand-light text-brand-text transition-colors">Our Team</a>
+            
+            <!-- Mobile Pages Dropdown -->
+            <div class="mobile-dropdown">
+                <button class="mobile-dropdown-btn w-full flex items-center justify-between px-4 py-3 rounded-xl bg-brand-light text-brand-primary font-medium">
+                    <span>Pages</span>
+                    <i class="fa-solid fa-chevron-down text-sm mobile-dropdown-arrow"></i>
+                </button>
+                <div class="mobile-dropdown-content pl-4 space-y-1 mt-1 active">
+                    <a href="#" class="block px-4 py-2 rounded-lg text-brand-text hover:bg-brand-light hover:text-brand-primary transition-colors text-base">Pricing</a>
+                    <a href="#" class="block px-4 py-2 rounded-lg text-brand-primary bg-brand-light/50 transition-colors text-base font-medium">Blog</a>
+                    <a href="#" class="block px-4 py-2 rounded-lg text-brand-text hover:bg-brand-light hover:text-brand-primary transition-colors text-base">Testimonials</a>
+                </div>
+            </div>
+
+            <a href="#" class="block px-4 py-3 rounded-xl hover:bg-brand-light text-brand-text transition-colors">Contact</a>
+            <button class="w-full py-3 rounded-xl bg-brand-primary text-white font-medium mt-4">
+                Get Started
+            </button>
+        </div>
+    </nav>
+
+    <!-- Blog Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-gradient-to-br from-brand-light via-white to-brand-light">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-20 right-10 w-96 h-96 bg-brand-primary/10 rounded-full blur-3xl animate-morph"></div>
+            <div class="absolute bottom-20 left-10 w-72 h-72 bg-brand-secondary/10 rounded-full blur-3xl animate-morph" style="animation-delay: -4s;"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-accent/5 rounded-full blur-3xl animate-spin-slow"></div>
+            
+            <!-- Floating Shapes -->
+            <div class="absolute top-32 left-20 w-20 h-20 border-2 border-brand-primary/20 rounded-2xl animate-float"></div>
+            <div class="absolute top-48 right-32 w-16 h-16 bg-brand-secondary/20 rounded-full animate-float-delayed"></div>
+            
+            <!-- Grid Pattern -->
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%236366f1\" fill-opacity=\"0.03\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
+                <span class="inline-block px-4 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-sm font-medium mb-4">Our Blog</span>
+                <h1 class="text-5xl lg:text-7xl font-bold leading-tight mb-6">
+                    Insights & <span class="gradient-text">Stories</span>
+                </h1>
+                <p class="text-brand-textLight text-lg mb-10 max-w-2xl mx-auto">
+                    Discover the latest trends, tips, and insights about remote work, team collaboration, and digital transformation.
+                </p>
+
+                <!-- Search Bar -->
+                <div class="max-w-2xl mx-auto relative" data-aos="fade-up" data-aos-delay="100">
+                    <input type="text" placeholder="Search articles..." class="search-input w-full px-6 py-4 rounded-full border border-gray-200 focus:border-brand-primary focus:outline-none text-brand-text pl-14 shadow-soft">
+                    <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 transform -translate-y-1/2 text-brand-textLight"></i>
+                    <button class="absolute right-2 top-1/2 transform -translate-y-1/2 px-6 py-2 bg-brand-primary text-white rounded-full hover:bg-brand-primaryDark transition-colors">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-8 bg-white border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center gap-4" data-aos="fade-up">
+                <button class="category-tag px-6 py-2 rounded-full bg-brand-primary text-white font-medium">All</button>
+                <button class="category-tag px-6 py-2 rounded-full bg-brand-light text-brand-textLight hover:text-brand-primary hover:bg-brand-primary/10 transition-all">Remote Work</button>
+                <button class="category-tag px-6 py-2 rounded-full bg-brand-light text-brand-textLight hover:text-brand-primary hover:bg-brand-primary/10 transition-all">Productivity</button>
+                <button class="category-tag px-6 py-2 rounded-full bg-brand-light text-brand-textLight hover:text-brand-primary hover:bg-brand-primary/10 transition-all">Technology</button>
+                <button class="category-tag px-6 py-2 rounded-full bg-brand-light text-brand-textLight hover:text-brand-primary hover:bg-brand-primary/10 transition-all">Team Culture</button>
+                <button class="category-tag px-6 py-2 rounded-full bg-brand-light text-brand-textLight hover:text-brand-primary hover:bg-brand-primary/10 transition-all">AI & Automation</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Post Section -->
+    <section class="py-20 bg-brand-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-card border border-gray-100 hover-card" data-aos="fade-up">
+                <div class="grid lg:grid-cols-2">
+                    <div class="blog-card-image h-64 lg:h-auto relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Featured Post" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-4 py-1 rounded-full bg-brand-primary text-white text-sm font-medium">Featured</span>
+                        </div>
+                    </div>
+                    <div class="p-8 lg:p-12 flex flex-col justify-center">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="text-brand-primary font-medium text-sm">Remote Work</span>
+                            <span class="text-brand-textLight text-sm">•</span>
+                            <span class="text-brand-textLight text-sm">Jan 15, 2024</span>
+                            <span class="text-brand-textLight text-sm">•</span>
+                            <span class="text-brand-textLight text-sm">8 min read</span>
+                        </div>
+                        <h2 class="text-3xl lg:text-4xl font-bold text-brand-text mb-4 hover:text-brand-primary transition-colors cursor-pointer">
+                            The Future of Remote Work: How AI is Transforming Team Collaboration
+                        </h2>
+                        <p class="text-brand-textLight text-lg mb-6 leading-relaxed">
+                            Explore how artificial intelligence is revolutionizing the way remote teams communicate, collaborate, and stay productive. From smart scheduling to automated meeting summaries, discover the tools shaping the future of work.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Author" class="w-10 h-10 rounded-full object-cover">
+                                <div>
+                                    <p class="font-medium text-brand-text">Sarah Chen</p>
+                                    <p class="text-sm text-brand-textLight">Product Manager</p>
+                                </div>
+                            </div>
+                            <button class="flex items-center gap-2 text-brand-primary font-medium hover:gap-3 transition-all">
+                                Read More <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Grid Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Blog Post 1 -->
+                <article class="blog-card bg-white rounded-2xl overflow-hidden shadow-card border border-gray-100 hover-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="blog-card-image h-48 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Blog Post" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 rounded-full bg-brand-secondary/20 text-brand-secondary text-xs font-medium">Productivity</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-3 text-sm text-brand-textLight">
+                            <span>Jan 12, 2024</span>
+                            <span>•</span>
+                            <span>5 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-text mb-3 hover:text-brand-primary transition-colors cursor-pointer">
+                            10 Tips for Maximizing Productivity in Virtual Meetings
+                        </h3>
+                        <p class="text-brand-textLight mb-4 line-clamp-2">
+                            Learn how to run more effective virtual meetings with these proven strategies from industry experts.
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Author" class="w-8 h-8 rounded-full object-cover">
+                            <span class="text-sm font-medium text-brand-text">Michael Park</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Post 2 -->
+                <article class="blog-card bg-white rounded-2xl overflow-hidden shadow-card border border-gray-100 hover-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="blog-card-image h-48 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Blog Post" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 rounded-full bg-brand-accent/20 text-brand-accent text-xs font-medium">Technology</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-3 text-sm text-brand-textLight">
+                            <span>Jan 10, 2024</span>
+                            <span>•</span>
+                            <span>6 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-text mb-3 hover:text-brand-primary transition-colors cursor-pointer">
+                            Building a Secure Remote Work Infrastructure
+                        </h3>
+                        <p class="text-brand-textLight mb-4 line-clamp-2">
+                            Essential security practices every remote team should implement to protect sensitive data and communications.
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Author" class="w-8 h-8 rounded-full object-cover">
+                            <span class="text-sm font-medium text-brand-text">Emily Rodriguez</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Post 3 -->
+                <article class="blog-card bg-white rounded-2xl overflow-hidden shadow-card border border-gray-100 hover-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="blog-card-image h-48 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Blog Post" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 rounded-full bg-brand-success/20 text-brand-success text-xs font-medium">Team Culture</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-3 text-sm text-brand-textLight">
+                            <span>Jan 8, 2024</span>
+                            <span>•</span>
+                            <span>4 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-text mb-3 hover:text-brand-primary transition-colors cursor-pointer">
+                            Fostering Connection in Distributed Teams
+                        </h3>
+                        <p class="text-brand-textLight mb-4 line-clamp-2">
+                            Creative ways to build team culture and maintain strong relationships when working remotely.
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Author" class="w-8 h-8 rounded-full object-cover">
+                            <span class="text-sm font-medium text-brand-text">David Kim</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Post 4 -->
+                <article class="blog-card bg-white rounded-2xl overflow-hidden shadow-card border border-gray-100 hover-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="blog-card-image h-48 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Blog Post" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 rounded-full bg-brand-warning/20 text-brand-warning text-xs font-medium">AI & Automation</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-3 text-sm text-brand-textLight">
+                            <span>Jan 5, 2024</span>
+                            <span>•</span>
+                            <span>7 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-text mb-3 hover:text-brand-primary transition-colors cursor-pointer">
+                            How AI Meeting Assistants Are Changing the Game
+                        </h3>
+                        <p class="text-brand-textLight mb-4 line-clamp-2">
+                            From transcription to action items, discover how AI is making meetings more productive than ever.
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Author" class="w-8 h-8 rounded-full object-cover">
+                            <span class="text-sm font-medium text-brand-text">Lisa Wang</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Post 5 -->
+                <article class="blog-card bg-white rounded-2xl overflow-hidden shadow-card border border-gray-100 hover-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="blog-card-image h-48 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Blog Post" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 rounded-full bg-brand-primary/20 text-brand-primary text-xs font-medium">Remote Work</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-3 text-sm text-brand-textLight">
+                            <span>Jan 3, 2024</span>
+                            <span>•</span>
+                            <span>5 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-text mb-3 hover:text-brand-primary transition-colors cursor-pointer">
+                            The Hybrid Work Model: Best Practices for 2024
+                        </h3>
+                        <p class="text-brand-textLight mb-4 line-clamp-2">
+                            Striking the perfect balance between office and remote work for maximum team satisfaction.
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Author" class="w-8 h-8 rounded-full object-cover">
+                            <span class="text-sm font-medium text-brand-text">James Wilson</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Post 6 -->
+                <article class="blog-card bg-white rounded-2xl overflow-hidden shadow-card border border-gray-100 hover-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="blog-card-image h-48 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Blog Post" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 rounded-full bg-brand-secondary/20 text-brand-secondary text-xs font-medium">Productivity</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-3 text-sm text-brand-textLight">
+                            <span>Dec 28, 2023</span>
+                            <span>•</span>
+                            <span>6 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-text mb-3 hover:text-brand-primary transition-colors cursor-pointer">
+                            Async Communication: The Key to Global Teams
+                        </h3>
+                        <p class="text-brand-textLight mb-4 line-clamp-2">
+                            Master the art of asynchronous communication to work effectively across time zones.
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <img src="https://randomuser.me/api/portraits/women/55.jpg" alt="Author" class="w-8 h-8 rounded-full object-cover">
+                            <span class="text-sm font-medium text-brand-text">Anna Schmidt</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-center mt-12" data-aos="fade-up">
+                <div class="flex items-center gap-2">
+                    <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-brand-textLight hover:border-brand-primary hover:text-brand-primary transition-colors">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button class="w-10 h-10 rounded-full bg-brand-primary text-white flex items-center justify-center">1</button>
+                    <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-brand-textLight hover:border-brand-primary hover:text-brand-primary transition-colors">2</button>
+                    <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-brand-textLight hover:border-brand-primary hover:text-brand-primary transition-colors">3</button>
+                    <span class="text-brand-textLight">...</span>
+                    <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-brand-textLight hover:border-brand-primary hover:text-brand-primary transition-colors">8</button>
+                    <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-brand-textLight hover:border-brand-primary hover:text-brand-primary transition-colors">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-20 bg-brand-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative rounded-3xl overflow-hidden" data-aos="zoom-in">
+                <div class="absolute inset-0 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
+                
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-brand-accent/20 rounded-full blur-2xl animate-pulse" style="animation-delay: 1s;"></div>
+
+                <div class="relative z-10 px-8 py-16 lg:px-16 lg:py-20 text-center">
+                    <h2 class="text-3xl lg:text-5xl font-bold text-white mb-4">Subscribe to Our Newsletter</h2>
+                    <p class="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
+                        Get the latest insights, tips, and trends delivered straight to your inbox. Join 50,000+ subscribers.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                        <input type="email" placeholder="Enter your email" class="flex-1 px-6 py-4 rounded-full border-0 focus:outline-none focus:ring-2 focus:ring-white/50 text-brand-text">
+                        <button class="px-8 py-4 rounded-full bg-white text-brand-primary font-bold hover:bg-brand-light transition-all transform hover:scale-105 shadow-lg">
+                            Subscribe
+                        </button>
+                    </div>
+                    
+                    <p class="text-white/60 text-sm mt-4">No spam, unsubscribe at any time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-text pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-white">
+                            <i class="fa-solid fa-arrow-up-right-dots text-sm"></i>
+                        </div>
+                        <span class="font-bold text-xl text-white">PEOPLED</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Transforming the way teams communicate and collaborate worldwide.</p>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-primary transition-colors">
+                            <i class="fa-brands fa-twitter text-sm"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-primary transition-colors">
+                            <i class="fa-brands fa-linkedin-in text-sm"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-primary transition-colors">
+                            <i class="fa-brands fa-instagram text-sm"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-primary transition-colors">
+                            <i class="fa-brands fa-youtube text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white mb-6">Product</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Integrations</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Changelog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Roadmap</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white mb-6">Company</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Press Kit</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white mb-6">Resources</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Community</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Webinars</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">API Reference</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-400 text-sm">&copy; 2024 PEOPLED. All rights reserved.</p>
+                <div class="flex gap-6 text-sm text-gray-400">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition-colors">Cookie Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+        });
+
+        // Initialize GSAP
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+
+        function toggleMenu() {
+            menu.classList.toggle('translate-x-full');
+        }
+
+        btn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+
+        // Mobile Dropdown Functionality
+        document.querySelectorAll('.mobile-dropdown-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const dropdown = this.parentElement;
+                const content = dropdown.querySelector('.mobile-dropdown-content');
+                const arrow = this.querySelector('.mobile-dropdown-arrow');
+                
+                content.classList.toggle('active');
+                arrow.classList.toggle('active');
+                
+                document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        const otherContent = otherDropdown.querySelector('.mobile-dropdown-content');
+                        const otherArrow = otherDropdown.querySelector('.mobile-dropdown-arrow');
+                        otherContent.classList.remove('active');
+                        otherArrow.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.mobile-dropdown')) {
+                document.querySelectorAll('.mobile-dropdown-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.querySelectorAll('.mobile-dropdown-arrow').forEach(arrow => {
+                    arrow.classList.remove('active');
+                });
+            }
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-soft');
+            } else {
+                navbar.classList.remove('shadow-soft');
+            }
+        });
+
+        // Category Filter
+        document.querySelectorAll('.category-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                document.querySelectorAll('.category-tag').forEach(t => {
+                    t.classList.remove('bg-brand-primary', 'text-white');
+                    t.classList.add('bg-brand-light', 'text-brand-textLight');
+                });
+                this.classList.remove('bg-brand-light', 'text-brand-textLight');
+                this.classList.add('bg-brand-primary', 'text-white');
+            });
+        });
+    </script>
+</body>
+</html>

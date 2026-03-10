@@ -239,7 +239,8 @@ img, iframe, video {
 
 
 
-
+nav .group { position: relative; }
+nav .dropdown-menu { min-width: 260px; }
 
 
 
@@ -252,24 +253,21 @@ img, iframe, video {
 </head>
 <body class="font-sans text-gray-800 antialiased overflow-x-hidden bg-gray-50 max-w-[100vw]">
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-brand-teal text-white transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<nav class="fixed w-full z-[9999] bg-brand-teal text-white transition-all duration-300 overflow-visible" id="navbar">        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
                 <a href="index.html" class="flex items-center gap-3">
-                    <img src="logo.webp" class="h-8 md:h-10 w-auto object-contain">
+                    <img src="logoo.webp" class="h-8 md:h-10 w-auto object-contain">
                     <span class="font-bold text-lg md:text-2xl text-white">STACKLY</span>
                 </a>
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
                     <!-- Home Dropdown -->
-                    <div class="relative group h-20 flex items-center">
-                        <button class="flex items-center gap-1 hover:text-brand-yellow transition-colors font-medium">
+<div class="relative group flex items-center">                        <button class="flex items-center gap-1 hover:text-brand-yellow transition-colors font-medium">
                             Home <i class="fa-solid fa-chevron-down text-xs"></i>
                         </button>
-                        <div class="dropdown-menu absolute top-20 left-0 w-64 bg-white text-gray-800 rounded-b-xl shadow-xl border-t-4 border-brand-yellow overflow-hidden">
-                            <div class="p-4">
+<div class="dropdown-menu absolute left-0 top-full mt-0 w-64 bg-white text-gray-800 rounded-b-xl shadow-2xl border-t-4 border-brand-yellow overflow-hidden z-[9999]">                            <div class="p-4">
                                 <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Main Pages</h3>
                                 <a href="index.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 1</a>
                                 <a href="home2.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 2</a>
@@ -716,12 +714,10 @@ img, iframe, video {
                     </ul>
                 </div>
                 <div>
-                    <div class="flex items-center gap-2 mb-6">
-                        <div class="w-6 h-6 bg-brand-teal rounded flex items-center justify-center text-white text-xs">
-                            <i class="fa-solid fa-arrow-up-right-dots"></i>
-                        </div>
-                        <span class="font-bold text-xl text-brand-teal">PEOPLED</span>
-                    </div>
+                    <div class="flex items-center gap-3 mb-6">
+    <img src="logo.webp" class="h-12 w-auto object-contain">
+    <span class="font-bold text-xl text-brand-teal">STACKLY</span>
+</div>
                     <p class="text-sm text-gray-500 mb-6 leading-relaxed">
                         Sollicitudin quam a mi aliquet ultrices. Aenean ac et, aliquet pellentesque volutpat duis diam.
                     </p>

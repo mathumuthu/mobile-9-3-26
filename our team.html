@@ -240,16 +240,155 @@
             90% { opacity: 1; }
             100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
         }
+
+
+
+.dropdown-menu {
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+    filter: none !important;
+    background-color: #ffffff !important;
+}
+
+
+
+
+
+nav, .dropdown-menu {
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+
+
+#navbar {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+
+
+
+.dropdown-menu {
+    border: 1px solid rgba(0,0,0,0.08);
+}
+
+.dropdown-menu {
+    position: absolute;
+    z-index: 99999 !important;
+    background: #ffffff !important;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+    filter: none !important;
+    transform: translateZ(0);
+}
+
+
+
+
+body {
+    padding-top: 80px;
+}
+
+
+#mobile-menu {
+    transition: transform 0.45s cubic-bezier(.4,0,.2,1);
+}
+
+
+
+
+
+
+
+
+#mobile-menu{
+    z-index: 999999 !important;
+    position: fixed !important;
+}
+
+
+
+
+
+
+nav{
+    z-index: 99999 !important;
+    position: fixed;
+}
+
+
+body{
+    overflow-x: hidden;
+}
+
+
+
+
+#mobile-menu{
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9999999 !important;
+}
+
+
+
+section{
+    position: relative;
+    z-index: 1;
+}
+
+
+
+nav{
+    position: fixed;
+    z-index: 9999998 !important;
+}
+
+
+
+#mobile-menu{
+    position: fixed !important;
+    top: 80px !important;          /* navbar height */
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background: #1E5A63;
+    z-index: 999999 !important;
+}
+
+
+
+
+
+
+
+
+
+
+.mobile-dropdown-content{
+    max-height:0;
+    overflow:hidden;
+    opacity:0;
+    transition:all .4s ease;
+}
+.mobile-dropdown-content.active{
+    max-height:500px;
+    opacity:1;
+}
+
+
+
+
     </style>
 </head>
 <body class="font-sans text-gray-800 antialiased overflow-x-hidden bg-gray-50">
 
     <!-- Navigation -->
-<nav class="w-full z-50 bg-brand-teal text-white transition-all duration-300" id="navbar">      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<nav class="fixed w-full top-0 left-0 z-[99999] bg-brand-teal text-white transition-all duration-300 overflow-visible isolate" id="navbar">     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
                 <a href="index.html" class="flex items-center gap-3">
-                    <img src="logo.webp" class="h-8 md:h-10 w-auto object-contain">
+                    <img src="logoo.webp" class="h-8 md:h-10 w-auto object-contain">
                     <span class="font-bold text-lg md:text-2xl text-white">STACKLY</span>
                 </a>
 
@@ -260,8 +399,7 @@
          <button class="flex items-center gap-1 text-white hover:text-brand-yellow transition-colors font-semibold tracking-wide">
     Home <i class="fa-solid fa-chevron-down text-xs opacity-80"></i>
 </button>
-                        <div class="dropdown-menu absolute top-20 left-0 w-64 bg-white text-gray-800 rounded-b-xl shadow-xl border-t-4 border-brand-yellow overflow-hidden">
-                            <div class="p-4">
+<div class="dropdown-menu absolute left-0 top-full w-64 bg-white text-gray-900 rounded-b-xl shadow-2xl border-t-4 border-brand-yellow overflow-hidden z-[99999]">                            <div class="p-4">
                                 <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Main Pages</h3>
                                 <a href="index.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 1</a>
                                 <a href="home2.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 2</a>
@@ -302,10 +440,11 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="fixed inset-0 bg-brand-darkTeal z-40 transform translate-x-full md:hidden flex flex-col pt-24 px-6 space-y-2 text-lg overflow-y-auto">
-            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+<div id="mobile-menu" class="fixed bg-brand-darkTeal z-[999999] transform translate-x-full md:hidden flex flex-col pt-6 px-6 space-y-2 text-lg overflow-y-auto">            
             
-            <!-- Mobile Home Dropdown -->
+    
+    
+    <!-- Mobile Home Dropdown -->
             <div class="mobile-dropdown border-b border-white/20 pb-2">
                 <button class="mobile-dropdown-btn w-full flex items-center justify-between py-3 text-white hover:text-brand-yellow transition-colors">
                     <span>Home</span>
@@ -330,8 +469,7 @@
     </nav>
 
     <!-- Hero Section with Video Background -->
-    <section class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
-        <!-- Video Background -->
+<section class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden pt-20">        <!-- Video Background -->
         <video class="video-bg" autoplay muted loop playsinline>
             <source src="https://assets.mixkit.co/videos/preview/mixkit-team-of-people-working-on-a-project-in-an-office-4837-large.mp4" type="video/mp4">
             <!-- Fallback image if video doesn't load -->
@@ -343,7 +481,6 @@
 
         <!-- Particles -->
         <div class="absolute inset-0 z-10 overflow-hidden pointer-events-none" id="particles"></div>
-
         <!-- Content -->
         <div class="relative z-20 text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up" data-aos-duration="1200">
             <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md text-white px-6 py-2 rounded-full text-sm font-medium mb-8 border border-white/20 animate-pulse">
@@ -865,12 +1002,10 @@
                     </ul>
                 </div>
                 <div>
-                    <div class="flex items-center gap-2 mb-6">
-                        <div class="w-6 h-6 bg-brand-teal rounded flex items-center justify-center text-white text-xs">
-                            <i class="fa-solid fa-arrow-up-right-dots"></i>
-                        </div>
-                        <span class="font-bold text-xl text-brand-teal">PEOPLED</span>
-                    </div>
+                   <div class="flex items-center gap-3 mb-6">
+    <img src="logo.webp" class="h-12 w-auto object-contain">
+    <span class="font-bold text-xl text-brand-teal">STACKLY</span>
+</div>
                     <p class="text-sm text-gray-500 mb-6 leading-relaxed">
                         Sollicitudin quam a mi aliquet ultrices. Aenean ac et, aliquet pellentesque volutpat duis diam.
                     </p>
@@ -916,30 +1051,29 @@
         closeBtn.addEventListener('click', toggleMenu);
 
         // Mobile Dropdown Functionality
-        document.querySelectorAll('.mobile-dropdown-btn').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const dropdown = this.parentElement;
-                const content = dropdown.querySelector('.mobile-dropdown-content');
-                const arrow = this.querySelector('.mobile-dropdown-arrow');
-                
-                content.classList.toggle('active');
-                arrow.classList.toggle('active');
-                
-                // Close other dropdowns
-                document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
-                    if (otherDropdown !== dropdown) {
-                        const otherContent = otherDropdown.querySelector('.mobile-dropdown-content');
-                        const otherArrow = otherDropdown.querySelector('.mobile-dropdown-arrow');
-                        otherContent.classList.remove('active');
-                        otherArrow.classList.remove('active');
-                    }
-                });
-            });
-        });
+       // ✅ Mobile Dropdown Toggle (Fixed for Mobile Touch)
+// Wait until full page loads
+document.addEventListener("DOMContentLoaded", function () {
 
+    // Mobile menu toggle
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const closeBtn = document.getElementById('close-menu-btn');
+
+    btn.addEventListener('click', () => menu.classList.toggle('translate-x-full'));
+    closeBtn.addEventListener('click', () => menu.classList.toggle('translate-x-full'));
+
+    // ✅ MOBILE DROPDOWN WORKING FIX
+    const dropdownBtn = document.querySelector('.mobile-dropdown-btn');
+    const dropdownContent = document.querySelector('.mobile-dropdown-content');
+    const dropdownArrow = document.querySelector('.mobile-dropdown-arrow');
+
+    dropdownBtn.addEventListener('click', function () {
+        dropdownContent.classList.toggle('active');
+        dropdownArrow.classList.toggle('active');
+    });
+
+});
         // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.mobile-dropdown')) {
