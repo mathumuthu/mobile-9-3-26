@@ -4,34 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>STACKLY - Transforming Communication</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- AOS Animation Library -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        brand: {
-                            teal: '#2A7A85',
-                            darkTeal: '#1E5A63',
-                            yellow: '#F4B942',
-                            light: '#F8F9FA',
-                            gray: '#6C757D'
-                        }
+                        brand: { teal: '#2A7A85', darkTeal: '#1E5A63', yellow: '#F4B942', light: '#F8F9FA', gray: '#6C757D' }
                     },
                     boxShadow: {
                         'soft': '0 20px 40px -15px rgba(0, 0, 0, 0.1)',
@@ -43,184 +28,264 @@
     </script>
 
     <style>
-        /* Custom Animations */
+        /* ===== ADVANCED ANIMATION SYSTEM ===== */
+
+        #particle-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
+        }
+
+        .scramble-text { display: inline-block; }
+
+        .magnetic-btn {
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .flip-card { perspective: 1000px; transform-style: preserve-3d; }
+        .flip-card-inner {
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden; -webkit-backface-visibility: hidden;
+        }
+        .flip-card-back { transform: rotateY(180deg); }
+
+        .gradient-text-anim {
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .floating-orb {
+            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4;
+            animation: orbFloat 8s ease-in-out infinite;
+        }
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .neon-glow {
+            animation: neonPulse 2s ease-in-out infinite alternate;
+        }
+        @keyframes neonPulse {
+            from { box-shadow: 0 0 10px rgba(244, 185, 66, 0.5), 0 0 20px rgba(244, 185, 66, 0.3); }
+            to { box-shadow: 0 0 20px rgba(244, 185, 66, 0.8), 0 0 40px rgba(244, 185, 66, 0.5), 0 0 60px rgba(244, 185, 66, 0.3); }
+        }
+
+        .typewriter-cursor::after {
+            content: '|'; animation: blink 1s step-end infinite; color: #F4B942;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .ripple { position: relative; overflow: hidden; }
+        .ripple::after {
+            content: ''; position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 10.01%);
+            background-repeat: no-repeat; background-position: 50%;
+            transform: scale(10, 10); opacity: 0;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+        .ripple:active::after { transform: scale(0, 0); opacity: 0.3; transition: 0s; }
+
+        .glitch-text { position: relative; }
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; opacity: 0;
+        }
+        .glitch-text:hover::before {
+            animation: glitch-1 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+            color: #ff00ff; z-index: -1; opacity: 0.8;
+        }
+        .glitch-text:hover::after {
+            animation: glitch-2 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+            color: #00ffff; z-index: -2; opacity: 0.8;
+        }
+        @keyframes glitch-1 {
+            0% { transform: translate(0); } 20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); } 60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); } 100% { transform: translate(0); }
+        }
+        @keyframes glitch-2 {
+            0% { transform: translate(0); } 20% { transform: translate(3px, -3px); }
+            40% { transform: translate(3px, 3px); } 60% { transform: translate(-3px, -3px); }
+            80% { transform: translate(-3px, 3px); } 100% { transform: translate(0); }
+        }
+
+        #scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, #F4B942, #2A7A85);
+            z-index: 100001; transition: width 0.1s;
+        }
+
+        .parallax-layer { will-change: transform; }
+
+        .stagger-children > * { opacity: 0; transform: translateY(30px); }
+        .stagger-children.animate > * { animation: staggerFadeIn 0.6s ease forwards; }
+        .stagger-children.animate > *:nth-child(1) { animation-delay: 0.1s; }
+        .stagger-children.animate > *:nth-child(2) { animation-delay: 0.2s; }
+        .stagger-children.animate > *:nth-child(3) { animation-delay: 0.3s; }
+        .stagger-children.animate > *:nth-child(4) { animation-delay: 0.4s; }
+        .stagger-children.animate > *:nth-child(5) { animation-delay: 0.5s; }
+        .stagger-children.animate > *:nth-child(6) { animation-delay: 0.6s; }
+        @keyframes staggerFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .morph-blob { animation: morph 8s ease-in-out infinite; }
+        @keyframes morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+        }
+
+        .shake-hover:hover {
+            animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%; animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-15px); }
             100% { transform: translateY(0px); }
         }
-        
-        .animate-float {
-            animation: float 4s ease-in-out infinite;
-        }
-        
-        .animate-float-delayed {
-            animation: float 5s ease-in-out infinite;
-            animation-delay: 1s;
-        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 5s ease-in-out infinite; animation-delay: 1s; }
+        .animate-float-slow { animation: float 6s ease-in-out infinite; animation-delay: 2s; }
 
-        .animate-float-slow {
-            animation: float 6s ease-in-out infinite;
-            animation-delay: 2s;
-        }
-
-        /* Pulse for online indicators */
         @keyframes pulse-green {
             0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
             70% { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
             100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
         }
-        
-        .status-dot {
-            animation: pulse-green 2s infinite;
-        }
+        .status-dot { animation: pulse-green 2s infinite; }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2A7A85; 
-            border-radius: 4px;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #2A7A85; border-radius: 4px; }
 
-        /* Dropdown Styles - SAME AS ABOUT US PAGE */
-        .dropdown-container {
-            position: relative;
-            z-index: 9999;
-        }
-        
+        .dropdown-container { position: relative; z-index: 9999; }
         .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-            z-index: 99999;
-            pointer-events: none;
+            position: absolute; top: 100%; left: 0;
+            opacity: 0; visibility: hidden;
+            transform: translateY(10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 99999; pointer-events: none;
         }
-        
         .dropdown-container:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-            pointer-events: auto;
+            opacity: 1; visibility: visible;
+            transform: translateY(0) scale(1); pointer-events: auto;
         }
 
-        /* Mobile Menu Transition */
-        #mobile-menu {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        /* Mobile Dropdown Styles */
+        #mobile-menu { transition: transform 0.3s ease-in-out; }
         .mobile-dropdown-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, opacity 0.3s ease;
-            opacity: 0;
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease; opacity: 0;
         }
-        
-        .mobile-dropdown-content.active {
-            max-height: 500px;
-            opacity: 1;
-        }
+        .mobile-dropdown-content.active { max-height: 500px; opacity: 1; }
+        .mobile-dropdown-arrow { transition: transform 0.3s ease; }
+        .mobile-dropdown-arrow.active { transform: rotate(180deg); }
 
-        .mobile-dropdown-arrow {
-            transition: transform 0.3s ease;
-        }
-        
-        .mobile-dropdown-arrow.active {
-            transform: rotate(180deg);
-        }
+        img, video { max-width: 100%; height: auto; display: block; }
+        html { -webkit-text-size-adjust: 100%; }
+        .dropdown-menu { min-width: 260px; width: max-content; }
 
-        img, video {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
+        .tilt-card { transform-style: preserve-3d; transition: transform 0.1s ease-out; }
+        .tilt-card-content { transform: translateZ(20px); }
 
-        html {
-            -webkit-text-size-adjust: 100%;
+        .reveal {
+            opacity: 0; transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .dropdown-menu{
-    min-width: 260px;
-    width: max-content;
-}
+        .counter { font-variant-numeric: tabular-nums; }
+        .magnetic-icon { transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1); }
     </style>
+<base target="_blank">
 </head>
 <body class="font-sans text-gray-800 antialiased overflow-x-hidden max-w-[100vw]">
-    <!-- Navigation - SAME AS ABOUT US PAGE -->
+
+    <div id="scroll-progress"></div>
+
+    <!-- Navigation -->
     <nav class="fixed w-full z-[99999] bg-brand-teal text-white transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
-                <a href="index.html" class="flex items-center gap-3 relative z-[100000]">
-                    <img src="logoo.webp" class="h-8 md:h-10 w-auto object-contain" alt="STACKLY Logo">
-                    <span class="font-bold text-lg md:text-2xl text-white">STACKLY</span>
+                <a href="index.html" class="flex items-center gap-3 relative z-[100000] group">
+                    <img src="logoo.webp" class="h-8 md:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3" alt="STACKLY Logo">
+                    <span class="font-bold text-lg md:text-2xl text-white glitch-text" data-text="STACKLY">STACKLY</span>
                 </a>
 
-                <!-- Desktop Menu - SAME STRUCTURE AS ABOUT US -->
                 <div class="hidden md:flex items-center space-x-8 relative z-[99999]">
-                    <!-- Home Dropdown -->
                     <div class="dropdown-container h-20 flex items-center">
-                        <button class="flex items-center gap-1 hover:text-brand-yellow transition-colors font-medium py-2">
-                            Home <i class="fa-solid fa-chevron-down text-xs"></i>
+                        <button class="flex items-center gap-1 hover:text-brand-yellow transition-colors font-medium py-2 magnetic-btn">
+                            Home <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300 group-hover:rotate-180"></i>
                         </button>
-                        <!-- Mega Menu Dropdown -->
                         <div class="dropdown-menu w-64 bg-white text-gray-800 rounded-b-xl shadow-2xl border-t-4 border-brand-yellow overflow-hidden mt-0">
                             <div class="p-4">
                                 <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Main Pages</h3>
-                                <a href="index.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 1</a>
-                                <a href="home2.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 2</a>
+                                <a href="index.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors hover:translate-x-1 transform duration-200">Homepage 1</a>
+                                <a href="home2.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors hover:translate-x-1 transform duration-200">Homepage 2</a>
                                 <div class="border-t my-2"></div>
                                 <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Account</h3>
-                                <a href="login.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Login</a>
-                                <a href="dash.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Dashboard</a>
+                                <a href="login.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors hover:translate-x-1 transform duration-200">Login</a>
+                                <a href="dash.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors hover:translate-x-1 transform duration-200">Dashboard</a>
                             </div>
                         </div>
                     </div>
 
-                    <a href="aboutus.html" class="hover:text-brand-yellow transition-colors font-medium">About Us</a>
-                    <a href="our team.html" class="hover:text-brand-yellow transition-colors font-medium">Our Team</a>
-                    
-                    <!-- Pricing Dropdown - SAME AS ABOUT US -->
+                    <a href="aboutus.html" class="hover:text-brand-yellow transition-colors font-medium magnetic-btn">About Us</a>
+                    <a href="our team.html" class="hover:text-brand-yellow transition-colors font-medium magnetic-btn">Our Team</a>
+
                     <div class="dropdown-container h-20 flex items-center">
-                        <button class="flex items-center gap-1 hover:text-brand-yellow transition-colors font-medium py-2">
+                        <button class="flex items-center gap-1 hover:text-brand-yellow transition-colors font-medium py-2 magnetic-btn">
                             Pricing <i class="fa-solid fa-chevron-down text-xs"></i>
                         </button>
                         <div class="dropdown-menu w-48 bg-white text-gray-800 rounded-b-xl shadow-2xl border-t-4 border-brand-yellow overflow-hidden mt-0">
-                            <a href="piricing.html" class="block px-4 py-3 hover:bg-brand-light hover:text-brand-teal transition-colors border-b">Pricing Plans</a>
-                            <a href="404.html" class="block px-4 py-3 hover:bg-brand-light hover:text-brand-teal transition-colors">Testimonials</a>
+                            <a href="piricing.html" class="block px-4 py-3 hover:bg-brand-light hover:text-brand-teal transition-colors border-b hover:translate-x-1 transform duration-200">Pricing Plans</a>
+                            <a href="404.html" class="block px-4 py-3 hover:bg-brand-light hover:text-brand-teal transition-colors hover:translate-x-1 transform duration-200">Testimonials</a>
                         </div>
                     </div>
 
-                    <a href="contact.html" class="hover:text-brand-yellow transition-colors font-medium">Contact Us</a>
+                    <a href="contact.html" class="hover:text-brand-yellow transition-colors font-medium magnetic-btn">Contact Us</a>
                 </div>
 
-                <!-- Icons & Mobile Button - SAME AS ABOUT US -->
                 <div class="flex items-center gap-4 relative z-[100000]">
-                    <a href="404.html" class="hover:text-brand-yellow transition-colors"><i class="fa-solid fa-magnifying-glass"></i></a>
-                    <a href="404.html" class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-user"></i></a>
-                    <a href="404.html" class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-bell"></i></a>
-
-                    <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
+                    <a href="404.html" class="hover:text-brand-yellow transition-colors magnetic-icon"><i class="fa-solid fa-magnifying-glass"></i></a>
+                    <a href="404.html" class="hover:text-brand-yellow transition-colors magnetic-icon"><i class="fa-regular fa-user"></i></a>
+                    <a href="404.html" class="hover:text-brand-yellow transition-colors magnetic-icon"><i class="fa-regular fa-bell"></i></a>
+                    <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none magnetic-btn">
                         <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Menu - SAME AS ABOUT US -->
         <div id="mobile-menu" class="fixed inset-0 bg-brand-darkTeal z-[100000] transform translate-x-full md:hidden flex flex-col pt-24 px-6 space-y-2 text-lg overflow-y-auto">
-            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
-            
-            <!-- Mobile Home Dropdown -->
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl magnetic-btn"><i class="fa-solid fa-xmark"></i></button>
+
             <div class="mobile-dropdown border-b border-white/20 pb-2">
                 <button class="mobile-dropdown-btn w-full flex items-center justify-between py-3 text-white hover:text-brand-yellow transition-colors">
                     <span>Home</span>
@@ -246,69 +311,65 @@
 
     <!-- Hero Section -->
     <section class="relative bg-brand-teal pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
-        <div class="absolute top-20 right-0 w-96 h-96 bg-brand-yellow/20 rounded-full blur-3xl -z-0"></div>
-        <div class="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-2xl -z-0"></div>
+        <div class="floating-orb w-96 h-96 bg-brand-yellow/30 top-20 right-0" style="animation-delay: 0s;"></div>
+        <div class="floating-orb w-64 h-64 bg-white/10 bottom-0 left-0" style="animation-delay: 2s;"></div>
+        <div class="floating-orb w-48 h-48 bg-brand-yellow/20 top-1/2 left-1/3" style="animation-delay: 4s;"></div>
+
+        <canvas id="particle-canvas"></canvas>
+
+        <div class="absolute top-20 right-0 w-96 h-96 bg-brand-yellow/20 rounded-full blur-3xl -z-0 parallax-layer" data-speed="0.5"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-2xl -z-0 parallax-layer" data-speed="0.3"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <!-- Left Content -->
                 <div data-aos="fade-right" data-aos-duration="1000">
-                    <span class="inline-block bg-brand-yellow text-brand-darkTeal px-4 py-1 rounded-full text-sm font-semibold mb-6">
+                    <span class="inline-block bg-brand-yellow text-brand-darkTeal px-4 py-1 rounded-full text-sm font-semibold mb-6 neon-glow">
                         Learning more about. PEOPLED
                     </span>
                     <h1 class="text-5xl lg:text-7xl font-bold text-white leading-tight mb-6">
                         Changing: <br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-brand-yellow/80">Transformasi</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-brand-yellow/80 gradient-text-anim typewriter-cursor" id="hero-text">Transformasi</span>
                     </h1>
-                    <h2 class="text-3xl text-white/90 font-medium mb-6">People Can Talking</h2>
-                    <p class="text-white/70 text-lg mb-8 max-w-lg leading-relaxed">
+                    <h2 class="text-3xl text-white/90 font-medium mb-6 scramble-text" data-value="People Can Talking">People Can Talking</h2>
+                    <p class="text-white/70 text-lg mb-8 max-w-lg leading-relaxed reveal">
                         At egestas volutpat dolor, tincidunt. Hac varius aenean non lacus. Egestas amet, elementum neque massa donec urna eget.
                     </p>
-                    
-                    <!-- Stats Row -->
+
                     <div class="flex gap-8 mt-8">
-                        <div>
-                            <div class="text-3xl font-bold text-white">80,420.00</div>
+                        <div class="reveal">
+                            <div class="text-3xl font-bold text-white counter" data-target="80420">0</div>
                             <div class="text-white/60 text-sm">Vestibulum dignissim</div>
                         </div>
-                        <div>
+                        <div class="reveal">
                             <div class="text-3xl font-bold text-white flex items-center gap-2">
-                                <i class="fa-solid fa-cube text-brand-yellow"></i> Verified
+                                <i class="fa-solid fa-cube text-brand-yellow" style="animation: spin 4s linear infinite;"></i> Verified
                             </div>
                             <div class="text-white/60 text-sm">On Business</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Content (Video Grid) -->
                 <div class="relative h-[500px] hidden lg:block overflow-hidden" data-aos="fade-left" data-aos-duration="1000">
-                    <!-- Video Card 1 -->
-                    <div class="absolute top-0 right-0 w-64 bg-white p-2 rounded-2xl shadow-2xl animate-float z-20 transform rotate-3 hover:rotate-0 transition-transform duration-500">
-                        <div class="relative rounded-xl overflow-hidden h-48">
+                    <div class="absolute top-0 right-0 w-64 bg-white p-2 rounded-2xl shadow-2xl animate-float z-20 transform rotate-3 hover:rotate-0 transition-transform duration-500 tilt-card">
+                        <div class="rounded-2xl overflow-hidden h-48 relative">
                             <img src="hum1.webp" alt="User" class="w-full h-full object-cover">
                             <div class="absolute bottom-2 right-2 bg-black/50 px-2 py-1 rounded text-xs text-white"><i class="fa-solid fa-microphone-slash"></i></div>
                         </div>
                     </div>
-
-                    <!-- Video Card 2 -->
-                    <div class="absolute top-20 left-10 w-56 bg-white p-2 rounded-2xl shadow-2xl animate-float-delayed z-10 transform -rotate-2 hover:rotate-0 transition-transform duration-500">
-                        <div class="relative rounded-xl overflow-hidden h-40">
+                    <div class="absolute top-20 left-10 w-56 bg-white p-2 rounded-2xl shadow-2xl animate-float-delayed z-10 transform -rotate-2 hover:rotate-0 transition-transform duration-500 tilt-card">
+                        <div class="rounded-2xl overflow-hidden h-40 relative">
                             <img src="hum2.webp" alt="User" class="w-full h-full object-cover">
                             <div class="absolute bottom-2 left-2 flex gap-1">
                                 <div class="w-2 h-2 bg-green-500 rounded-full status-dot"></div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Video Card 3 -->
-                    <div class="absolute bottom-10 right-10 w-60 bg-white p-2 rounded-2xl shadow-2xl animate-float-slow z-30 transform rotate-1 hover:rotate-0 transition-transform duration-500">
-                        <div class="relative rounded-xl overflow-hidden h-44">
+                    <div class="absolute bottom-10 right-10 w-60 bg-white p-2 rounded-2xl shadow-2xl animate-float-slow z-30 transform rotate-1 hover:rotate-0 transition-transform duration-500 tilt-card">
+                        <div class="rounded-2xl overflow-hidden h-44 relative">
                             <img src="call.webp" alt="User" class="w-full h-full object-cover">
                         </div>
                     </div>
-                    
-                    <!-- Audio Wave Graphic -->
-                    <div class="absolute bottom-0 left-0 text-white/10 text-9xl font-bold select-none -z-10">
+                    <div class="absolute bottom-0 left-0 text-white/10 text-9xl font-bold select-none -z-10 parallax-layer" data-speed="0.2">
                         <i class="fa-solid fa-wave-square"></i>
                     </div>
                 </div>
@@ -319,18 +380,16 @@
     <!-- Testimonials & Country Filter -->
     <section class="py-12 bg-gray-50 border-b">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-8 mb-12">
-                <!-- Testimonial 1 -->
-                <div class="flex gap-4 items-start bg-white p-6 rounded-2xl shadow-sm" data-aos="fade-up">
-                    <img src="hum3.webp" class="w-12 h-12 rounded-full object-cover" alt="User">
+            <div class="grid md:grid-cols-2 gap-8 mb-12 stagger-children" id="testimonial-section">
+                <div class="flex gap-4 items-start bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 reveal" data-aos="fade-up">
+                    <img src="hum3.webp" class="w-12 h-12 rounded-full object-cover ring-2 ring-brand-teal ring-offset-2" alt="User">
                     <div>
                         <h4 class="font-bold text-gray-800">Testimoni From @Abraham</h4>
                         <p class="text-gray-500 text-sm mt-1">Sociis vitae sem orci, ultrices tincidunt in. Scelerisque semper et in eget sed pretium cum.</p>
                     </div>
                 </div>
-                <!-- Testimonial 2 -->
-                <div class="flex gap-4 items-start bg-white p-6 rounded-2xl shadow-sm" data-aos="fade-up" data-aos-delay="100">
-                    <img src="hum4.webp" class="w-12 h-12 rounded-full object-cover" alt="User">
+                <div class="flex gap-4 items-start bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 reveal" data-aos="fade-up" data-aos-delay="100">
+                    <img src="hum4.webp" class="w-12 h-12 rounded-full object-cover ring-2 ring-brand-yellow ring-offset-2" alt="User">
                     <div>
                         <h4 class="font-bold text-gray-800">Testimoni From @Sarah</h4>
                         <p class="text-gray-500 text-sm mt-1">Donec luctus dolor senectus magna id sit. Faucibus aliquam quisque ac dictum nisi.</p>
@@ -338,17 +397,16 @@
                 </div>
             </div>
 
-            <!-- Country Filter -->
-            <div class="flex flex-wrap gap-3 justify-center" data-aos="zoom-in">
-                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm">United State</button>
-                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm">Germany</button>
-                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm">China</button>
-                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm">Australia</button>
-                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm">Spain</button>
-                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm">Brazil</button>
-                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm">Cameroon</button>
-                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm">South Africa</button>
-                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm">Indonesia</button>
+            <div class="flex flex-wrap gap-3 justify-center" data-aos="zoom-in" id="country-filter">
+                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transform duration-200 magnetic-btn">United State</button>
+                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transform duration-200 magnetic-btn">Germany</button>
+                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transform duration-200 magnetic-btn">China</button>
+                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transform duration-200 magnetic-btn">Australia</button>
+                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transform duration-200 magnetic-btn">Spain</button>
+                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transform duration-200 magnetic-btn">Brazil</button>
+                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transform duration-200 magnetic-btn">Cameroon</button>
+                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transform duration-200 magnetic-btn">South Africa</button>
+                <button class="px-6 py-2 rounded-full border border-gray-300 hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all text-sm font-medium text-gray-600 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transform duration-200 magnetic-btn">Indonesia</button>
             </div>
         </div>
     </section>
@@ -356,59 +414,58 @@
     <!-- Understanding Section -->
     <section class="py-20 bg-white overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 reveal">
                 <h2 class="text-4xl font-bold text-gray-900 mb-4">Understanding Your Need Call</h2>
                 <p class="text-gray-500 max-w-2xl mx-auto">Quis laoreet et risus, dignissim enim purus, tincidunt dolor gravida. Massa est nisi metus fermentum blandit.</p>
             </div>
 
             <div class="relative">
-                <!-- Background Text -->
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-6xl md:text-8xl font-bold text-gray-100 select-none -z-10 whitespace-nowrap">
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-6xl md:text-8xl font-bold text-gray-100 select-none -z-10 whitespace-nowrap parallax-layer" data-speed="0.1">
                     Understanding To Talk
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-8 items-center">
-                    <!-- Card 1 -->
-                    <div class="bg-brand-teal rounded-3xl p-4 pb-8 text-white transform md:-translate-y-8 hover:-translate-y-12 transition-transform duration-300 shadow-xl" data-aos="fade-up" data-aos-delay="0">
-                        <div class="rounded-2xl overflow-hidden mb-4 h-64 relative">
-                            <img src="hum5.webp" class="w-full h-full object-cover" alt="Person">
+                    <div class="bg-brand-teal rounded-3xl p-4 pb-8 text-white transform md:-translate-y-8 hover:-translate-y-12 transition-transform duration-300 shadow-xl tilt-card reveal" data-aos="fade-up" data-aos-delay="0">
+                        <div class="rounded-2xl overflow-hidden mb-4 h-64 relative group">
+                            <img src="hum5.webp" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Person">
                             <div class="absolute bottom-2 left-2 bg-black/40 px-2 py-1 rounded text-xs backdrop-blur-sm">
                                 <i class="fa-solid fa-circle text-green-400 text-[8px] mr-1"></i> Online - 24m
                             </div>
+                            <div class="absolute inset-0 bg-brand-teal/0 group-hover:bg-brand-teal/20 transition-colors duration-300"></div>
                         </div>
                         <h3 class="text-xl font-bold ml-2">Eleanor Pena</h3>
                         <p class="text-white/70 text-sm ml-2 mb-4">Learning and Development</p>
-                        <button class="w-full bg-gray-900 py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-black transition-colors">
+                        <button class="w-full bg-gray-900 py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-black transition-colors ripple magnetic-btn">
                             <i class="fa-solid fa-phone"></i> Call From Indonesian
                         </button>
                     </div>
 
-                    <!-- Card 2 -->
-                    <div class="bg-brand-teal rounded-3xl p-4 pb-8 text-white transform md:translate-y-8 hover:translate-y-4 transition-transform duration-300 shadow-xl" data-aos="fade-up" data-aos-delay="200">
-                        <div class="rounded-2xl overflow-hidden mb-4 h-64 relative">
-                            <img src="hum7.webp" class="w-full h-full object-cover" alt="Person">
+                    <div class="bg-brand-teal rounded-3xl p-4 pb-8 text-white transform md:translate-y-8 hover:translate-y-4 transition-transform duration-300 shadow-xl tilt-card reveal" data-aos="fade-up" data-aos-delay="200">
+                        <div class="rounded-2xl overflow-hidden mb-4 h-64 relative group">
+                            <img src="hum7.webp" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Person">
                             <div class="absolute bottom-2 left-2 bg-black/40 px-2 py-1 rounded text-xs backdrop-blur-sm">
                                 <i class="fa-solid fa-circle text-green-400 text-[8px] mr-1"></i> Online - 25m
                             </div>
+                            <div class="absolute inset-0 bg-brand-teal/0 group-hover:bg-brand-teal/20 transition-colors duration-300"></div>
                         </div>
                         <h3 class="text-xl font-bold ml-2">Jenny Wilson</h3>
                         <p class="text-white/70 text-sm ml-2 mb-4">Senior HRD Management</p>
-                        <button class="w-full bg-gray-900 py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-black transition-colors">
+                        <button class="w-full bg-gray-900 py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-black transition-colors ripple magnetic-btn">
                             <i class="fa-solid fa-phone"></i> Call From United State
                         </button>
                     </div>
 
-                    <!-- Card 3 -->
-                    <div class="bg-brand-teal rounded-3xl p-4 pb-8 text-white transform md:-translate-y-4 hover:-translate-y-8 transition-transform duration-300 shadow-xl" data-aos="fade-up" data-aos-delay="400">
-                        <div class="rounded-2xl overflow-hidden mb-4 h-64 relative">
-                            <img src="hum1.webp" class="w-full h-full object-cover" alt="Person">
+                    <div class="bg-brand-teal rounded-3xl p-4 pb-8 text-white transform md:-translate-y-4 hover:-translate-y-8 transition-transform duration-300 shadow-xl tilt-card reveal" data-aos="fade-up" data-aos-delay="400">
+                        <div class="rounded-2xl overflow-hidden mb-4 h-64 relative group">
+                            <img src="hum1.webp" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Person">
                             <div class="absolute bottom-2 left-2 bg-black/40 px-2 py-1 rounded text-xs backdrop-blur-sm">
                                 <i class="fa-solid fa-circle text-green-400 text-[8px] mr-1"></i> Online - 26m
                             </div>
+                            <div class="absolute inset-0 bg-brand-teal/0 group-hover:bg-brand-teal/20 transition-colors duration-300"></div>
                         </div>
                         <h3 class="text-xl font-bold ml-2">Robert Fox</h3>
                         <p class="text-white/70 text-sm ml-2 mb-4">Product Designer</p>
-                        <button class="w-full bg-gray-900 py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-black transition-colors">
+                        <button class="w-full bg-gray-900 py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-black transition-colors ripple magnetic-btn">
                             <i class="fa-solid fa-phone"></i> Call From Singapore
                         </button>
                     </div>
@@ -419,93 +476,90 @@
 
     <!-- Device Usage Section -->
     <section class="py-20 bg-gray-50 relative overflow-hidden">
-        <div class="absolute -left-20 top-20 w-64 h-64 bg-brand-yellow/30 rounded-full blur-3xl"></div>
-        
+        <div class="absolute -left-20 top-20 w-64 h-64 bg-brand-yellow/30 rounded-full blur-3xl morph-blob parallax-layer" data-speed="0.4"></div>
+
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <!-- Left: Feature List -->
                 <div data-aos="fade-right">
-                    <div class="bg-white p-8 rounded-3xl shadow-soft">
+                    <div class="bg-white p-8 rounded-3xl shadow-soft hover:shadow-2xl transition-shadow duration-500">
                         <div class="space-y-6">
-                            <div class="flex gap-4 items-start group cursor-pointer">
-                                <div class="w-6 h-6 rounded bg-brand-yellow text-white flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform">
+                            <div class="flex gap-4 items-start group cursor-pointer hover:bg-brand-light p-3 rounded-xl transition-colors">
+                                <div class="w-6 h-6 rounded bg-brand-yellow text-white flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 group-hover:rotate-12 transition-transform">
                                     <i class="fa-solid fa-check text-xs"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg text-gray-800">Start from education</h4>
-                                    <p class="text-gray-500 text-sm mt-1">Lectus in dictum aliquam senectus.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex gap-4 items-start group cursor-pointer">
-                                <div class="w-6 h-6 rounded bg-brand-yellow text-white flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform">
-                                    <i class="fa-solid fa-check text-xs"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-lg text-gray-800">Instant using everyone</h4>
+                                    <h4 class="font-bold text-lg text-gray-800 group-hover:text-brand-teal transition-colors">Start from education</h4>
                                     <p class="text-gray-500 text-sm mt-1">Lectus in dictum aliquam senectus.</p>
                                 </div>
                             </div>
 
-                            <div class="flex gap-4 items-start group cursor-pointer">
-                                <div class="w-6 h-6 rounded bg-brand-yellow text-white flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform">
+                            <div class="flex gap-4 items-start group cursor-pointer hover:bg-brand-light p-3 rounded-xl transition-colors">
+                                <div class="w-6 h-6 rounded bg-brand-yellow text-white flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 group-hover:rotate-12 transition-transform">
                                     <i class="fa-solid fa-check text-xs"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg text-gray-800">Upgrade pricing plan</h4>
+                                    <h4 class="font-bold text-lg text-gray-800 group-hover:text-brand-teal transition-colors">Instant using everyone</h4>
                                     <p class="text-gray-500 text-sm mt-1">Lectus in dictum aliquam senectus.</p>
                                 </div>
                             </div>
 
-                            <div class="flex gap-4 items-start group cursor-pointer">
-                                <div class="w-6 h-6 rounded bg-brand-yellow text-white flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform">
+                            <div class="flex gap-4 items-start group cursor-pointer hover:bg-brand-light p-3 rounded-xl transition-colors">
+                                <div class="w-6 h-6 rounded bg-brand-yellow text-white flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 group-hover:rotate-12 transition-transform">
                                     <i class="fa-solid fa-check text-xs"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg text-gray-800">Add to favorite</h4>
+                                    <h4 class="font-bold text-lg text-gray-800 group-hover:text-brand-teal transition-colors">Upgrade pricing plan</h4>
+                                    <p class="text-gray-500 text-sm mt-1">Lectus in dictum aliquam senectus.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4 items-start group cursor-pointer hover:bg-brand-light p-3 rounded-xl transition-colors">
+                                <div class="w-6 h-6 rounded bg-brand-yellow text-white flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 group-hover:rotate-12 transition-transform">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-gray-800 group-hover:text-brand-teal transition-colors">Add to favorite</h4>
                                     <p class="text-gray-500 text-sm mt-1">Lectus in dictum aliquam senectus.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Mini Video Preview -->
-                    <div class="mt-6 bg-white p-4 rounded-2xl shadow-soft inline-flex items-center gap-4 w-full max-w-md">
-                        <div class="w-10 h-10 rounded-full bg-brand-yellow/20 flex items-center justify-center text-brand-yellow">
+                    <div class="mt-6 bg-white p-4 rounded-2xl shadow-soft inline-flex items-center gap-4 w-full max-w-md hover:shadow-lg transition-shadow cursor-pointer group">
+                        <div class="w-10 h-10 rounded-full bg-brand-yellow/20 flex items-center justify-center text-brand-yellow group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-video"></i>
                         </div>
                         <div class="flex-1">
-                            <div class="h-2 bg-gray-100 rounded w-3/4 mb-2"></div>
-                            <div class="h-2 bg-gray-100 rounded w-1/2"></div>
+                            <div class="h-2 bg-gray-100 rounded w-3/4 mb-2 shimmer"></div>
+                            <div class="h-2 bg-gray-100 rounded w-1/2 shimmer"></div>
                         </div>
                         <div class="flex -space-x-2">
-                            <img class="w-8 h-8 rounded-full border-2 border-white" src="hum1.webp" alt="">
-                            <img class="w-8 h-8 rounded-full border-2 border-white" src="hum2.webp" alt="">
+                            <img class="w-8 h-8 rounded-full border-2 border-white transition-transform group-hover:scale-110" src="hum1.webp" alt="">
+                            <img class="w-8 h-8 rounded-full border-2 border-white transition-transform group-hover:scale-110 group-hover:translate-x-1" src="hum2.webp" alt="">
                         </div>
                     </div>
                 </div>
 
-                <!-- Right: Content -->
                 <div data-aos="fade-left">
-                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Another Device Using</h2>
-                    <p class="text-gray-500 mb-8 leading-relaxed">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6 reveal">Another Device Using</h2>
+                    <p class="text-gray-500 mb-8 leading-relaxed reveal">
                         Suspendisse libero, orci nec commodo. Placerat pulvinar ullamcorper erat a, pharetra. Cursus posuere porttitor pellentesque posuere mauris ac. Ut fringilla id sapien risus duis fusce sit in.
                     </p>
-                    <p class="text-gray-500 mb-8 leading-relaxed">
+                    <p class="text-gray-500 mb-8 leading-relaxed reveal">
                         Senectus amet quis euismod a. Scelerisque duis bibendum est tellus, blandit ut tortor pharetra.
                     </p>
 
                     <div class="grid grid-cols-2 gap-4">
-                        <button class="flex items-center gap-2 bg-brand-teal text-white px-6 py-3 rounded-full hover:bg-brand-darkTeal transition-colors shadow-lg shadow-brand-teal/30">
+                        <button class="flex items-center gap-2 bg-brand-teal text-white px-6 py-3 rounded-full hover:bg-brand-darkTeal transition-all shadow-lg shadow-brand-teal/30 hover:shadow-xl hover:-translate-y-1 magnetic-btn ripple">
                             <i class="fa-solid fa-robot"></i> Senectus Amet
                         </button>
-                        <button class="flex items-center gap-2 bg-brand-teal text-white px-6 py-3 rounded-full hover:bg-brand-darkTeal transition-colors shadow-lg shadow-brand-teal/30">
+                        <button class="flex items-center gap-2 bg-brand-teal text-white px-6 py-3 rounded-full hover:bg-brand-darkTeal transition-all shadow-lg shadow-brand-teal/30 hover:shadow-xl hover:-translate-y-1 magnetic-btn ripple">
                             <i class="fa-solid fa-keyboard"></i> Augue Aliquet
                         </button>
-                        <button class="flex items-center gap-2 bg-brand-teal text-white px-6 py-3 rounded-full hover:bg-brand-darkTeal transition-colors shadow-lg shadow-brand-teal/30">
+                        <button class="flex items-center gap-2 bg-brand-teal text-white px-6 py-3 rounded-full hover:bg-brand-darkTeal transition-all shadow-lg shadow-brand-teal/30 hover:shadow-xl hover:-translate-y-1 magnetic-btn ripple">
                             <i class="fa-solid fa-layer-group"></i> Purus Purus
                         </button>
-                        <button class="flex items-center gap-2 bg-brand-teal text-white px-6 py-3 rounded-full hover:bg-brand-darkTeal transition-colors shadow-lg shadow-brand-teal/30">
+                        <button class="flex items-center gap-2 bg-brand-teal text-white px-6 py-3 rounded-full hover:bg-brand-darkTeal transition-all shadow-lg shadow-brand-teal/30 hover:shadow-xl hover:-translate-y-1 magnetic-btn ripple">
                             <i class="fa-solid fa-wifi"></i> Diam Aliquam
                         </button>
                     </div>
@@ -518,89 +572,83 @@
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <!-- Left Content -->
                 <div data-aos="fade-right">
-                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Click, Join, Enjoyed</h2>
-                    <p class="text-gray-500 mb-6 leading-relaxed">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6 reveal">Click, Join, Enjoyed</h2>
+                    <p class="text-gray-500 mb-6 leading-relaxed reveal">
                         Suspendisse libero, orci nec commodo. Placerat pulvinar ullamcorper erat a, pharetra. Cursus posuere porttitor pellentesque posuere mauris ac.
                     </p>
-                    <p class="text-gray-500 mb-8 leading-relaxed">
+                    <p class="text-gray-500 mb-8 leading-relaxed reveal">
                         Senectus amet quis euismod a. Scelerisque duis bibendum est tellus, blandit ut tortor pharetra. Amet sagittis a leo eros vitae.
                     </p>
 
                     <div class="grid grid-cols-2 gap-y-4 gap-x-2">
-                        <div class="flex items-center gap-3 text-gray-700 font-medium">
-                            <i class="fa-solid fa-desktop text-brand-teal"></i> Some Featured Application
+                        <div class="flex items-center gap-3 text-gray-700 font-medium hover:text-brand-teal transition-colors cursor-pointer group reveal">
+                            <i class="fa-solid fa-desktop text-brand-teal group-hover:scale-110 transition-transform"></i> Some Featured Application
                         </div>
-                        <div class="flex items-center gap-3 text-gray-700 font-medium">
-                            <i class="fa-solid fa-book text-brand-teal"></i> Some Featured Application
+                        <div class="flex items-center gap-3 text-gray-700 font-medium hover:text-brand-teal transition-colors cursor-pointer group reveal">
+                            <i class="fa-solid fa-book text-brand-teal group-hover:scale-110 transition-transform"></i> Some Featured Application
                         </div>
-                        <div class="flex items-center gap-3 text-gray-700 font-medium">
-                            <i class="fa-solid fa-server text-brand-teal"></i> Some Featured Application
+                        <div class="flex items-center gap-3 text-gray-700 font-medium hover:text-brand-teal transition-colors cursor-pointer group reveal">
+                            <i class="fa-solid fa-server text-brand-teal group-hover:scale-110 transition-transform"></i> Some Featured Application
                         </div>
-                        <div class="flex items-center gap-3 text-gray-700 font-medium">
-                            <i class="fa-solid fa-shapes text-brand-teal"></i> Some Featured Application
+                        <div class="flex items-center gap-3 text-gray-700 font-medium hover:text-brand-teal transition-colors cursor-pointer group reveal">
+                            <i class="fa-solid fa-shapes text-brand-teal group-hover:scale-110 transition-transform"></i> Some Featured Application
                         </div>
-                        <div class="flex items-center gap-3 text-gray-700 font-medium">
-                            <i class="fa-solid fa-calendar-days text-brand-teal"></i> Some Featured Application
+                        <div class="flex items-center gap-3 text-gray-700 font-medium hover:text-brand-teal transition-colors cursor-pointer group reveal">
+                            <i class="fa-solid fa-calendar-days text-brand-teal group-hover:scale-110 transition-transform"></i> Some Featured Application
                         </div>
-                        <div class="flex items-center gap-3 text-gray-700 font-medium">
-                            <i class="fa-solid fa-users text-brand-teal"></i> Some Featured Application
+                        <div class="flex items-center gap-3 text-gray-700 font-medium hover:text-brand-teal transition-colors cursor-pointer group reveal">
+                            <i class="fa-solid fa-users text-brand-teal group-hover:scale-110 transition-transform"></i> Some Featured Application
                         </div>
                     </div>
                 </div>
 
-                <!-- Right: Call Log UI -->
                 <div class="relative" data-aos="fade-left">
                     <div class="space-y-4">
-                        <!-- Call Item 1 -->
-                        <div class="bg-white p-4 rounded-2xl shadow-lg flex items-center gap-4 transform hover:scale-105 transition-transform border border-gray-100">
-                            <img src="hum5.webp" class="w-12 h-12 rounded-full object-cover" alt="Caller">
+                        <div class="bg-white p-4 rounded-2xl shadow-lg flex items-center gap-4 transform hover:scale-105 transition-all duration-300 border border-gray-100 hover:border-brand-teal/30 hover:shadow-xl tilt-card">
+                            <img src="hum5.webp" class="w-12 h-12 rounded-full object-cover ring-2 ring-brand-teal ring-offset-2" alt="Caller">
                             <div class="flex-1">
                                 <h4 class="font-bold text-gray-800">Video Call @Paula</h4>
                                 <div class="text-xs text-gray-500 mb-1">March 12, 2022 at 12:00 A.M</div>
                                 <div class="text-xs font-bold text-red-500">1 missed call <span class="text-gray-400 font-normal">- Connected apps</span></div>
                             </div>
-                            <button class="w-10 h-10 rounded-full bg-brand-teal/10 text-brand-teal flex items-center justify-center hover:bg-brand-teal hover:text-white transition-colors">
+                            <button class="w-10 h-10 rounded-full bg-brand-teal/10 text-brand-teal flex items-center justify-center hover:bg-brand-teal hover:text-white transition-colors magnetic-btn">
                                 <i class="fa-solid fa-phone"></i>
                             </button>
                         </div>
 
-                        <!-- Call Item 2 -->
-                        <div class="bg-white p-4 rounded-2xl shadow-lg flex items-center gap-4 transform hover:scale-105 transition-transform border border-gray-100 ml-8">
-                            <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 font-bold text-lg">D</div>
+                        <div class="bg-white p-4 rounded-2xl shadow-lg flex items-center gap-4 transform hover:scale-105 transition-all duration-300 border border-gray-100 hover:border-brand-yellow/30 hover:shadow-xl tilt-card ml-8">
+                            <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 font-bold text-lg shake-hover">D</div>
                             <div class="flex-1">
                                 <h4 class="font-bold text-gray-800">Call Center at @number</h4>
                                 <div class="text-xs text-gray-500 mb-1">March 12, 2022 at 12:00 A.M</div>
                                 <div class="text-xs font-bold text-red-500">1 missed call <span class="text-gray-400 font-normal">- Connected apps</span></div>
                             </div>
-                            <button class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors">
+                            <button class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors magnetic-btn">
                                 <i class="fa-solid fa-phone-slash"></i>
                             </button>
                         </div>
 
-                        <!-- Call Item 3 -->
-                        <div class="bg-white p-4 rounded-2xl shadow-lg flex items-center gap-4 transform hover:scale-105 transition-transform border border-gray-100 ml-4">
+                        <div class="bg-white p-4 rounded-2xl shadow-lg flex items-center gap-4 transform hover:scale-105 transition-all duration-300 border border-gray-100 hover:border-brand-teal/30 hover:shadow-xl tilt-card ml-4">
                             <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-lg">AI</div>
                             <div class="flex-1">
                                 <h4 class="font-bold text-gray-800">Call Center at @number</h4>
                                 <div class="text-xs text-gray-500 mb-1">March 12, 2022 at 12:00 A.M</div>
                                 <div class="text-xs font-bold text-red-500">1 missed call <span class="text-gray-400 font-normal">- Connected apps</span></div>
                             </div>
-                            <button class="w-10 h-10 rounded-full bg-brand-teal/10 text-brand-teal flex items-center justify-center hover:bg-brand-teal hover:text-white transition-colors">
+                            <button class="w-10 h-10 rounded-full bg-brand-teal/10 text-brand-teal flex items-center justify-center hover:bg-brand-teal hover:text-white transition-colors magnetic-btn">
                                 <i class="fa-solid fa-phone"></i>
                             </button>
                         </div>
-                        
-                        <!-- Call Item 4 -->
-                        <div class="bg-white p-4 rounded-2xl shadow-lg flex items-center gap-4 transform hover:scale-105 transition-transform border border-gray-100">
-                            <img src="small6 (1).webp" class="w-12 h-12 rounded-full object-cover" alt="Caller">
+
+                        <div class="bg-white p-4 rounded-2xl shadow-lg flex items-center gap-4 transform hover:scale-105 transition-all duration-300 border border-gray-100 hover:border-brand-teal/30 hover:shadow-xl tilt-card">
+                            <img src="small6 (1).webp" class="w-12 h-12 rounded-full object-cover ring-2 ring-brand-yellow ring-offset-2" alt="Caller">
                             <div class="flex-1">
                                 <h4 class="font-bold text-gray-800">Video Call @Bram</h4>
                                 <div class="text-xs text-gray-500 mb-1">March 12, 2022 at 12:00 A.M</div>
                                 <div class="text-xs font-bold text-red-500">1 missed call <span class="text-gray-400 font-normal">- Connected apps</span></div>
                             </div>
-                            <button class="w-10 h-10 rounded-full bg-brand-teal/10 text-brand-teal flex items-center justify-center hover:bg-brand-teal hover:text-white transition-colors">
+                            <button class="w-10 h-10 rounded-full bg-brand-teal/10 text-brand-teal flex items-center justify-center hover:bg-brand-teal hover:text-white transition-colors magnetic-btn">
                                 <i class="fa-solid fa-phone"></i>
                             </button>
                         </div>
@@ -614,14 +662,14 @@
     <section class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="flex flex-wrap justify-center gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                <div class="flex items-center gap-2 text-2xl font-bold text-gray-700"><i class="fa-brands fa-aws text-3xl"></i> LOGOIPSUM</div>
-                <div class="flex items-center gap-2 text-2xl font-bold text-gray-700"><i class="fa-brands fa-google text-3xl"></i> LOGOIPSUM</div>
-                <div class="flex items-center gap-2 text-2xl font-bold text-gray-700"><i class="fa-brands fa-stripe text-3xl"></i> LOGOIPSUM</div>
-                <div class="flex items-center gap-2 text-2xl font-bold text-gray-700"><i class="fa-brands fa-uber text-3xl"></i> LOGOIPSUM</div>
-                <div class="flex items-center gap-2 text-2xl font-bold text-gray-700"><i class="fa-brands fa-microsoft text-3xl"></i> LOGOIPSUM</div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-gray-700 hover:scale-110 transition-transform cursor-pointer"><i class="fa-brands fa-aws text-3xl"></i> LOGOIPSUM</div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-gray-700 hover:scale-110 transition-transform cursor-pointer"><i class="fa-brands fa-google text-3xl"></i> LOGOIPSUM</div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-gray-700 hover:scale-110 transition-transform cursor-pointer"><i class="fa-brands fa-stripe text-3xl"></i> LOGOIPSUM</div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-gray-700 hover:scale-110 transition-transform cursor-pointer"><i class="fa-brands fa-uber text-3xl"></i> LOGOIPSUM</div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-gray-700 hover:scale-110 transition-transform cursor-pointer"><i class="fa-brands fa-microsoft text-3xl"></i> LOGOIPSUM</div>
             </div>
-            
-            <div class="mt-16 max-w-3xl mx-auto text-center">
+
+            <div class="mt-16 max-w-3xl mx-auto text-center reveal">
                 <h2 class="text-4xl font-bold mb-4">25.000 Enjoy Join With Us</h2>
                 <p class="text-gray-500">Turpis fermentum odio sed tellus nisi gravida ipsum nisi. A, porttitor eu id elementum nulla elit quis.</p>
             </div>
@@ -632,10 +680,9 @@
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-                <!-- Card 1 -->
-                <div class="break-inside-avoid bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow" data-aos="fade-up">
+                <div class="break-inside-avoid bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 reveal" data-aos="fade-up">
                     <div class="flex items-center gap-3 mb-4">
-                        <img src="hum3.webp" class="w-10 h-10 rounded-full" alt="">
+                        <img src="hum3.webp" class="w-10 h-10 rounded-full ring-2 ring-brand-teal" alt="">
                         <div>
                             <h4 class="font-bold text-sm">Jerome Bell</h4>
                             <p class="text-xs text-gray-500">Designer</p>
@@ -644,10 +691,9 @@
                     <p class="text-gray-600 text-sm">Semper adipiscing dolor cras mauris consequat scelerisque. Porta sed purus massa in diam tincidunt suscipit.</p>
                 </div>
 
-                <!-- Card 2 -->
-                <div class="break-inside-avoid bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow" data-aos="fade-up">
+                <div class="break-inside-avoid bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 reveal" data-aos="fade-up">
                     <div class="flex items-center gap-3 mb-4">
-                        <img src="hum7.webp" class="w-10 h-10 rounded-full" alt="">
+                        <img src="hum7.webp" class="w-10 h-10 rounded-full ring-2 ring-brand-yellow" alt="">
                         <div>
                             <h4 class="font-bold text-sm">Annette Black</h4>
                             <p class="text-xs text-gray-500">Designer</p>
@@ -656,10 +702,9 @@
                     <p class="text-gray-600 text-sm">Vel, tincidunt ipsum lorem ultrices nulla scelerisque ut in. Mauris quam massa lacinia lorem suspendisse augue velit.</p>
                 </div>
 
-                <!-- Card 3 -->
-                <div class="break-inside-avoid bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow" data-aos="fade-up">
+                <div class="break-inside-avoid bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 reveal" data-aos="fade-up">
                     <div class="flex items-center gap-3 mb-4">
-                        <img src="hum3.webp" class="w-10 h-10 rounded-full" alt="">
+                        <img src="hum3.webp" class="w-10 h-10 rounded-full ring-2 ring-brand-teal" alt="">
                         <div>
                             <h4 class="font-bold text-sm">Kathryn Murphy</h4>
                             <p class="text-xs text-gray-500">Designer</p>
@@ -668,10 +713,9 @@
                     <p class="text-gray-600 text-sm">Faucibus aliquam quisque ac dictum nisi. Tellus viverra elit sapien, vestibulum. Mi euismod nulla vitae est euismod orci.</p>
                 </div>
 
-                <!-- Card 4 -->
-                <div class="break-inside-avoid bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow" data-aos="fade-up">
+                <div class="break-inside-avoid bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 reveal" data-aos="fade-up">
                     <div class="flex items-center gap-3 mb-4">
-                        <img src="hum4.webp" class="w-10 h-10 rounded-full" alt="">
+                        <img src="hum4.webp" class="w-10 h-10 rounded-full ring-2 ring-brand-yellow" alt="">
                         <div>
                             <h4 class="font-bold text-sm">Cameron William</h4>
                             <p class="text-xs text-gray-500">Designer</p>
@@ -680,10 +724,9 @@
                     <p class="text-gray-600 text-sm">Amet, porta fermentum, arcu ligula tortor ut est donec lectus. Aliquet ut integer vel, quisque.</p>
                 </div>
 
-                <!-- Card 5 -->
-                <div class="break-inside-avoid bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow" data-aos="fade-up">
+                <div class="break-inside-avoid bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 reveal" data-aos="fade-up">
                     <div class="flex items-center gap-3 mb-4">
-                        <img src="hum5.webp" class="w-10 h-10 rounded-full" alt="">
+                        <img src="hum5.webp" class="w-10 h-10 rounded-full ring-2 ring-brand-teal" alt="">
                         <div>
                             <h4 class="font-bold text-sm">Kristin Watson</h4>
                             <p class="text-xs text-gray-500">Designer</p>
@@ -691,10 +734,9 @@
                     </div>
                     <p class="text-gray-600 text-sm">Enim magna arcu pellentesque hendrerit at faucibus. Purus, arcu vitae consequat porttitor dui sed blandit. Egestas dis elementum vivamus sed.</p>
                 </div>
-                 <!-- Card 6 -->
-                 <div class="break-inside-avoid bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow" data-aos="fade-up">
+                 <div class="break-inside-avoid bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 reveal" data-aos="fade-up">
                     <div class="flex items-center gap-3 mb-4">
-                        <img src="hum7.webp" class="w-10 h-10 rounded-full" alt="">
+                        <img src="hum7.webp" class="w-10 h-10 rounded-full ring-2 ring-brand-yellow" alt="">
                         <div>
                             <h4 class="font-bold text-sm">Savannah Nguyen</h4>
                             <p class="text-xs text-gray-500">Designer</p>
@@ -709,14 +751,13 @@
     <!-- Pricing Section -->
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 reveal">
                 <h2 class="text-4xl font-bold text-gray-900 mb-4">Browse Plan Company</h2>
                 <p class="text-gray-500 max-w-2xl mx-auto">Pretium lectus integer sed duis varius. Tristique euismod libero mauris auctor nisl vivamus.</p>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-12 items-start">
-                <!-- Left: Image -->
-                <div class="relative rounded-3xl overflow-hidden shadow-2xl group" data-aos="fade-right">
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl group reveal" data-aos="fade-right">
                     <img src="call.webp" alt="Meeting" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8">
                         <h3 class="text-white text-2xl font-bold mb-2">Call with our family</h3>
@@ -724,42 +765,41 @@
                     </div>
                 </div>
 
-                <!-- Right: Pricing Cards -->
                 <div class="space-y-8" data-aos="fade-left">
-                    <!-- Basic Plan -->
-                    <div class="bg-white border border-gray-200 rounded-3xl p-8 hover:shadow-xl transition-shadow relative overflow-hidden">
-                        <div class="flex justify-between items-start mb-6">
+                    <div class="bg-white border border-gray-200 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 relative overflow-hidden group reveal hover:-translate-y-1">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-yellow/10 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
+                        <div class="flex justify-between items-start mb-6 relative z-10">
                             <div>
                                 <h3 class="text-xl font-bold text-gray-900">Basic Plan Pricing</h3>
                                 <p class="text-gray-500 text-sm mt-1">Starting price for annual at $5,500/year</p>
                             </div>
-                            <button class="px-6 py-2 border border-gray-300 rounded-full text-sm font-medium hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-colors">Choose Plan</button>
+                            <button class="px-6 py-2 border border-gray-300 rounded-full text-sm font-medium hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all magnetic-btn ripple">Choose Plan</button>
                         </div>
-                        <ul class="space-y-3 mb-6">
-                            <li class="flex items-center gap-3 text-gray-600 text-sm">
+                        <ul class="space-y-3 mb-6 relative z-10">
+                            <li class="flex items-center gap-3 text-gray-600 text-sm hover:translate-x-1 transition-transform">
                                 <i class="fa-solid fa-circle text-[6px] text-brand-teal"></i> Turpis risus faucibus nec risus placerat et vitae.
                             </li>
-                            <li class="flex items-center gap-3 text-gray-600 text-sm">
+                            <li class="flex items-center gap-3 text-gray-600 text-sm hover:translate-x-1 transition-transform">
                                 <i class="fa-solid fa-circle text-[6px] text-brand-teal"></i> Pellentesque in sed lobortis elementum.
                             </li>
-                            <li class="flex items-center gap-3 text-gray-600 text-sm">
+                            <li class="flex items-center gap-3 text-gray-600 text-sm hover:translate-x-1 transition-transform">
                                 <i class="fa-solid fa-circle text-[6px] text-brand-teal"></i> Tortor nec quis condimentum sed porttitor pulvinar.
                             </li>
                         </ul>
-                        <div class="flex items-baseline gap-2">
+                        <div class="flex items-baseline gap-2 relative z-10">
                             <span class="text-3xl font-bold text-red-500">$50/month</span>
                             <span class="text-gray-400 text-xs">(*Starting plan good for 280 Employee)</span>
                         </div>
                     </div>
 
-                    <!-- Best Plan -->
-                    <div class="bg-white border border-gray-200 rounded-3xl p-8 hover:shadow-xl transition-shadow">
-                        <div class="flex justify-between items-start mb-6">
+                    <div class="bg-white border border-gray-200 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 relative overflow-hidden group reveal hover:-translate-y-1">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-teal/10 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
+                        <div class="flex justify-between items-start mb-6 relative z-10">
                             <div>
                                 <h3 class="text-xl font-bold text-gray-900">Best Plan Pricing</h3>
                                 <p class="text-gray-500 text-sm mt-1">Starting price for annual at $125,500/year</p>
                             </div>
-                            <button class="px-6 py-2 bg-brand-teal text-white rounded-full text-sm font-medium hover:bg-brand-darkTeal transition-colors shadow-lg shadow-brand-teal/30">Choose Plan</button>
+                            <button class="px-6 py-2 bg-brand-teal text-white rounded-full text-sm font-medium hover:bg-brand-darkTeal transition-colors shadow-lg shadow-brand-teal/30 magnetic-btn ripple">Choose Plan</button>
                         </div>
                     </div>
                 </div>
@@ -770,33 +810,34 @@
     <!-- CTA Banner -->
     <section class="py-10 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-brand-teal rounded-3xl overflow-hidden relative">
-                <div class="grid md:grid-cols-2">
+            <div class="bg-brand-teal rounded-3xl overflow-hidden relative group">
+                <div class="absolute inset-0 bg-gradient-to-r from-brand-teal via-brand-darkTeal to-brand-teal opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div class="grid md:grid-cols-2 relative z-10">
                     <div class="p-10 md:p-16 text-white">
                         <div class="grid grid-cols-2 gap-y-8">
-                            <div class="flex gap-3">
-                                <i class="fa-solid fa-circle-check mt-1"></i>
+                            <div class="flex gap-3 hover:translate-x-2 transition-transform cursor-pointer">
+                                <i class="fa-solid fa-circle-check mt-1 text-brand-yellow"></i>
                                 <div>
                                     <h4 class="font-bold">Join with Us</h4>
                                     <p class="text-sm text-white/70">1200.000 haved joined</p>
                                 </div>
                             </div>
-                            <div class="flex gap-3">
-                                <i class="fa-solid fa-circle-check mt-1"></i>
+                            <div class="flex gap-3 hover:translate-x-2 transition-transform cursor-pointer">
+                                <i class="fa-solid fa-circle-check mt-1 text-brand-yellow"></i>
                                 <div>
                                     <h4 class="font-bold">Contact Sales</h4>
                                     <p class="text-sm text-white/70">24 hour can calling</p>
                                 </div>
                             </div>
-                            <div class="flex gap-3">
-                                <i class="fa-solid fa-circle-check mt-1"></i>
+                            <div class="flex gap-3 hover:translate-x-2 transition-transform cursor-pointer">
+                                <i class="fa-solid fa-circle-check mt-1 text-brand-yellow"></i>
                                 <div>
                                     <h4 class="font-bold">Consultation Needs</h4>
                                     <p class="text-sm text-white/70">Ask everything about us</p>
                                 </div>
                             </div>
-                            <div class="flex gap-3">
-                                <i class="fa-solid fa-circle-check mt-1"></i>
+                            <div class="flex gap-3 hover:translate-x-2 transition-transform cursor-pointer">
+                                <i class="fa-solid fa-circle-check mt-1 text-brand-yellow"></i>
                                 <div>
                                     <h4 class="font-bold">Upgrade Plan</h4>
                                     <p class="text-sm text-white/70">Choose need pricing</p>
@@ -804,8 +845,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative h-64 md:h-auto">
-                        <img src="meeting.webp" alt="Person" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="relative h-64 md:h-auto overflow-hidden">
+                        <img src="meeting.webp" alt="Person" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-brand-teal/20"></div>
                     </div>
                 </div>
@@ -814,63 +855,79 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-50 pt-20 pb-10 border-t">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-                <div>
-                    <h4 class="font-bold text-gray-900 mb-6">Menu</h4>
-                    <ul class="space-y-3 text-sm text-gray-600">
-                        <li><a href="index.html" class="hover:text-brand-teal transition-colors">Homepage</a></li>
-                        <li><a href="piricing.html" class="hover:text-brand-teal transition-colors">Plan Pricing</a></li>
-                        <li><a href="our team.html" class="hover:text-brand-teal transition-colors">Our Teams</a></li>
-                        <li><a href="aboutus.html" class="hover:text-brand-teal transition-colors">About Us</a></li>
-                        <li><a href="contact.html" class="hover:text-brand-teal transition-colors">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-gray-900 mb-6">Quick links</h4>
-                    <ul class="space-y-3 text-sm text-gray-600">
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Introduction</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Do you need account?</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Check status online</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">How many join?</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Problem and Solution</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Change country</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Check server using</a></li>
-                    </ul>
-                </div>
-                <div>
-                     <h4 class="font-bold text-gray-900 mb-6">Links</h4> 
-                     <ul class="space-y-3 text-sm text-gray-600">
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Video</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Quality</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Network</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Solution</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <div class="flex items-center gap-3 mb-6">
-                        <img src="logo.webp" class="h-12 w-auto object-contain" alt="STACKLY">
-                        <span class="font-bold text-xl text-brand-teal">STACKLY</span>
-                    </div>
-                    <p class="text-sm text-gray-500 mb-6 leading-relaxed">
-                        Sollicitudin quam a mi aliquet ultrices. Aenean ac et, aliquet pellentesque volutpat duis diam.
+    <footer class="bg-gray-900 text-white pt-20 pb-10 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+            <div class="absolute -top-20 -left-20 w-96 h-96 bg-brand-teal/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-brand-yellow/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div class="reveal">
+                    <a href="index.html" class="flex items-center gap-3 mb-6 group">
+                        <img src="logoo.webp" class="h-10 w-auto object-contain transition-transform group-hover:scale-110" alt="STACKLY Logo">
+                        <span class="font-bold text-2xl text-white glitch-text" data-text="STACKLY">STACKLY</span>
+                    </a>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        Empowering teams to connect and collaborate from anywhere in the world. Secure, reliable, and easy to use.
                     </p>
-                    <div class="flex items-center gap-2 text-red-500 text-sm font-medium mb-6">
-                        <i class="fa-solid fa-location-dot"></i> New York, United States
-                    </div>
                     <div class="flex gap-4">
-                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-skype"></i></a>
-                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-slack"></i></a>
-                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="404.html" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-teal transition-colors magnetic-btn">
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+                        <a href="404.html" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-teal transition-colors magnetic-btn">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a href="404.html" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-teal transition-colors magnetic-btn">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="404.html" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-teal transition-colors magnetic-btn">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
                     </div>
+                </div>
+
+                <div class="reveal">
+                    <h3 class="text-lg font-bold mb-6">Product</h3>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">Home</a></li>
+                        <li><a href="aboutus.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">About Us</a></li>
+                        <li><a href="our team.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">Our Team</a></li>
+                        <li><a href="piricing.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">Pricing</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="reveal">
+                    <h3 class="text-lg font-bold mb-6">Resources</h3>
+                    <ul class="space-y-3">
+                        <li><a href="404.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">Documentation</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">Help Center</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">Community</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">Blog</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">Webinars</a></li>
+                    </ul>
+                </div>
+
+                <div class="reveal">
+                    <h3 class="text-lg font-bold mb-6">Company</h3>
+                    <ul class="space-y-3">
+                        <li><a href="404.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">About Us</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">Careers</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">Contact</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">Partners</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-white transition-colors hover:translate-x-1 inline-block transform">Press Kit</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="border-t pt-8 text-center text-sm text-gray-400">
-                &copy; 2023 PEOPLED. All rights reserved.
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-sm"> 2026 TeamsMeet Inc. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="404.html" class="text-gray-500 hover:text-white text-sm transition-colors">Privacy Policy</a>
+                    <a href="404.html" class="text-gray-500 hover:text-white text-sm transition-colors">Terms of Service</a>
+                    <a href="404.html" class="text-gray-500 hover:text-white text-sm transition-colors">Cookie Settings</a>
+                </div>
             </div>
         </div>
     </footer>
@@ -903,15 +960,14 @@
             button.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                
+
                 const dropdown = this.parentElement;
                 const content = dropdown.querySelector('.mobile-dropdown-content');
                 const arrow = this.querySelector('.mobile-dropdown-arrow');
-                
+
                 content.classList.toggle('active');
                 arrow.classList.toggle('active');
-                
-                // Close other dropdowns
+
                 document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
                     if (otherDropdown !== dropdown) {
                         const otherContent = otherDropdown.querySelector('.mobile-dropdown-content');
@@ -923,7 +979,6 @@
             });
         });
 
-        // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.mobile-dropdown')) {
                 document.querySelectorAll('.mobile-dropdown-content').forEach(content => {
@@ -935,7 +990,6 @@
             }
         });
 
-        // Close mobile menu when clicking a link (except dropdown buttons)
         menu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', toggleMenu);
         });
@@ -950,6 +1004,247 @@
                 navbar.classList.replace('bg-brand-darkTeal', 'bg-brand-teal');
             }
         });
+
+        // ===== ADVANCED ANIMATIONS =====
+
+        // 1. Scroll Progress Bar
+        const scrollProgress = document.getElementById('scroll-progress');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        });
+
+        // 2. Reveal on Scroll
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // 3. Stagger Children Animation
+        const staggerContainers = document.querySelectorAll('.stagger-children');
+        const staggerObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.1 });
+        staggerContainers.forEach(el => staggerObserver.observe(el));
+
+        // 4. Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    const duration = 2000;
+                    const step = target / (duration / 16);
+                    let current = 0;
+
+                    const updateCounter = () => {
+                        current += step;
+                        if (current < target) {
+                            counter.textContent = Math.floor(current).toLocaleString();
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.textContent = target.toLocaleString();
+                        }
+                    };
+                    updateCounter();
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(counter => counterObserver.observe(counter));
+
+        // 5. Magnetic Button Effect
+        const magneticBtns = document.querySelectorAll('.magnetic-btn');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        // 6. Magnetic Icons
+        const magneticIcons = document.querySelectorAll('.magnetic-icon');
+        magneticIcons.forEach(icon => {
+            icon.addEventListener('mousemove', (e) => {
+                const rect = icon.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                icon.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px)`;
+            });
+            icon.addEventListener('mouseleave', () => {
+                icon.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        // 7. Tilt Card Effect
+        const tiltCards = document.querySelectorAll('.tilt-card');
+        tiltCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+            });
+        });
+
+        // 8. Parallax Effect
+        const parallaxLayers = document.querySelectorAll('.parallax-layer');
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            parallaxLayers.forEach(layer => {
+                const speed = layer.getAttribute('data-speed') || 0.5;
+                const yPos = -(scrolled * speed);
+                layer.style.transform = `translateY(${yPos}px)`;
+            });
+        });
+
+        // 9. Text Scramble Effect
+        const scrambleElements = document.querySelectorAll('.scramble-text');
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+        scrambleElements.forEach(el => {
+            const originalText = el.getAttribute('data-value');
+            let iteration = 0;
+
+            const scramble = () => {
+                el.textContent = originalText
+                    .split('')
+                    .map((letter, index) => {
+                        if (index < iteration) {
+                            return originalText[index];
+                        }
+                        return chars[Math.floor(Math.random() * chars.length)];
+                    })
+                    .join('');
+
+                if (iteration < originalText.length) {
+                    iteration += 1/3;
+                    requestAnimationFrame(scramble);
+                }
+            };
+
+            const scrambleObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        iteration = 0;
+                        scramble();
+                        scrambleObserver.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+            scrambleObserver.observe(el);
+        });
+
+        // 10. Particle System
+        const canvas = document.getElementById('particle-canvas');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            const particleCount = 50;
+
+            function resizeCanvas() {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = Math.random() * 1 - 0.5;
+                    this.speedY = Math.random() * 1 - 0.5;
+                    this.opacity = Math.random() * 0.5 + 0.1;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.y > canvas.height) this.y = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                }
+                draw() {
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            initParticles();
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(particle => {
+                    particle.update();
+                    particle.draw();
+                });
+
+                // Draw connections
+                particles.forEach((a, index) => {
+                    particles.slice(index + 1).forEach(b => {
+                        const dx = a.x - b.x;
+                        const dy = a.y - b.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance < 100) {
+                            ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 100)})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(a.x, a.y);
+                            ctx.lineTo(b.x, b.y);
+                            ctx.stroke();
+                        }
+                    });
+                });
+
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
+        }
+
+        // 11. Glitch Text Effect on Logo
+        const glitchText = document.querySelector('.glitch-text');
+        if (glitchText) {
+            setInterval(() => {
+                glitchText.style.animation = 'none';
+                setTimeout(() => {
+                    glitchText.style.animation = '';
+                }, 100);
+            }, 5000);
+        }
     </script>
 </body>
 </html>
