@@ -135,90 +135,7 @@
 <body class="font-sans text-gray-800 antialiased overflow-x-hidden bg-gray-50">
 
     <!-- Navigation -->
-      <nav class="fixed w-full z-50 bg-brand-teal text-white transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
-                <a href="index.html" class="flex items-center gap-3">
-                    <img src="logo.webp" class="h-8 md:h-10 w-auto object-contain">
-                    <span class="font-bold text-lg md:text-2xl text-white">STACKLY</span>
-                </a>
-
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <!-- Home Dropdown -->
-                    <div class="relative group h-20 flex items-center">
-                        <button class="flex items-center gap-1 hover:text-brand-yellow transition-colors font-medium">
-                            Home <i class="fa-solid fa-chevron-down text-xs"></i>
-                        </button>
-                        <div class="dropdown-menu absolute top-20 left-0 w-64 bg-white text-gray-800 rounded-b-xl shadow-xl border-t-4 border-brand-yellow overflow-hidden">
-                            <div class="p-4">
-                                <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Main Pages</h3>
-                                <a href="index.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 1</a>
-                                <a href="home2.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Homepage 2</a>
-                                <div class="border-t my-2"></div>
-                                <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">Account</h3>
-                                <a href="login.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Login</a>
-                                <a href="dash.html" class="block px-4 py-2 hover:bg-brand-light hover:text-brand-teal rounded-lg transition-colors">Dashboard</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <a href="aboutus.html" class="hover:text-brand-yellow transition-colors font-medium">About Us</a>
-                    <a href="our team.html" class="text-brand-yellow font-medium">Our Team</a>
-                                        <a href="piricing.html" class="text-brand-yellow font-medium">Piricing</a>
-
-                    
-                    <!-- Pages Dropdown -->
-                    <!-- <div class="relative group h-20 flex items-center">
-                        <button class="flex items-center gap-1 hover:text-brand-yellow transition-colors font-medium">
-                            Pricing
-                        </button>
-                    </div> -->
-
-                    <a href="contact.html" class="hover:text-brand-yellow transition-colors font-medium">Contact Us</a>
-                </div>
-
-                <!-- Icons & Mobile Button -->
-                <div class="flex items-center gap-4">
-                  <a href="404.html">  <button class="hover:text-brand-yellow transition-colors"><i class="fa-solid fa-magnifying-glass"></i></button></a>
-                  <a href="404.html">  <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-user"></i></button></a>
-                  <a href="404.html">  <button class="hover:text-brand-yellow transition-colors"><i class="fa-regular fa-bell"></i></button></a>
-
-                    <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="fixed inset-0 bg-brand-darkTeal z-40 transform translate-x-full md:hidden flex flex-col pt-24 px-6 space-y-2 text-lg overflow-y-auto">
-            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
-            
-            <!-- Mobile Home Dropdown -->
-            <div class="mobile-dropdown border-b border-white/20 pb-2">
-                <button class="mobile-dropdown-btn w-full flex items-center justify-between py-3 text-white hover:text-brand-yellow transition-colors">
-                    <span>Home</span>
-                    <i class="fa-solid fa-chevron-down text-sm mobile-dropdown-arrow"></i>
-                </button>
-                <div class="mobile-dropdown-content pl-4 space-y-2 mt-2">
-                    <h3 class="text-xs font-bold text-white/60 uppercase mb-2">Main Pages</h3>
-                    <a href="index.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Homepage 1</a>
-                    <a href="home2.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Homepage 2</a>
-                    <div class="border-t border-white/10 my-2"></div>
-                    <h3 class="text-xs font-bold text-white/60 uppercase mb-2">Account</h3>
-                    <a href="login.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Login</a>
-                    <a href="dash.html" class="block py-2 text-white/90 hover:text-brand-yellow transition-colors text-base">Dashboard</a>
-                </div>
-            </div>
-
-            <a href="aboutus.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">About Us</a>
-            <a href="our team.html" class="block border-b border-white/20 py-3 text-brand-yellow">Our Team</a>
-            <a href="piricing.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">Pricing</a>
-            <a href="contact.html" class="block border-b border-white/20 py-3 hover:text-brand-yellow transition-colors">Contact</a>
-        </div>
-    </nav>
+   
 
     <!-- Auth Section -->
     <section class="min-h-screen bg-gradient-to-br from-brand-teal via-brand-darkTeal to-brand-teal relative overflow-hidden flex items-center justify-center pt-20 pb-10">
@@ -244,11 +161,14 @@
                 <!-- Tabs -->
                 <div class="flex border-b">
                     <button onclick="showForm('login')" id="tab-login" class="flex-1 py-4 text-center font-semibold transition-colors border-b-2 border-brand-teal text-brand-teal">
-                        Sign In
+                        Login
                     </button>
-                    <button onclick="showForm('signup')" id="tab-signup" class="flex-1 py-4 text-center font-semibold text-gray-400 hover:text-gray-600 transition-colors border-b-2 border-transparent">
-                        Sign Up
-                    </button>
+                  <button type="button"
+        onclick="showForm('signup')"
+        id="tab-signup"
+        class="flex-1 py-4 text-center font-semibold text-gray-400 hover:text-gray-600 transition-colors border-b-2 border-transparent">
+    Sign Up
+</button>
                 </div>
 
                 <div class="p-8">
@@ -439,71 +359,7 @@
     </section>
 
     <!-- Full Footer -->
-    <footer class="bg-gray-50 pt-20 pb-10 border-t">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-                <div>
-                    <h4 class="font-bold text-gray-900 mb-6">Menu</h4>
-                    <ul class="space-y-3 text-sm text-gray-600">
-                        <li><a href="index.html" class="hover:text-brand-teal transition-colors">Homepage</a></li>
-                        <li><a href="piricing.html" class="hover:text-brand-teal transition-colors">Plan Pricing</a></li>
-                        <li><a href="our team.html" class="hover:text-brand-teal transition-colors">Our Teams</a></li>
-                        <li><a href="aboutus.html" class="hover:text-brand-teal transition-colors">About Us</a></li>
-                        <li><a href="contact.html" class="hover:text-brand-teal transition-colors">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-gray-900 mb-6">Quick links</h4>
-                    <ul class="space-y-3 text-sm text-gray-600">
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Introduction</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Do you need account?</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Check status online</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">How many join?</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Problem and Solution</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Change country</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Check server using</a></li>
-                    </ul>
-                </div>
-                <div>
-                     <h4 class="font-bold text-gray-900 mb-6">Links</h4> 
-                       <ul class="space-y-3 text-sm text-gray-600">
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Video </a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Quality</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Network</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Solution</a></li>
-                        <li><a href="404.html" class="hover:text-brand-teal transition-colors">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <div class="flex items-center gap-2 mb-6">
-                        <!-- <div class="w-6 h-6 bg-brand-teal rounded flex items-center justify-center text-white text-xs"> -->
-                            <!-- <i class="fa-solid fa-arrow-up-right-dots"></i> -->
-                        <!-- </div> -->
-<div class="flex items-center gap-3 mb-6">
-                        <img src="logo.webp" class="h-12 w-auto object-contain" alt="STACKLY">
-                        <span class="font-bold text-xl text-brand-teal">STACKLY</span>
-                    </div>                    </div>
-                    <p class="text-sm text-gray-500 mb-6 leading-relaxed">
-                        Sollicitudin quam a mi aliquet ultrices. Aenean ac et, aliquet pellentesque volutpat duis diam.
-                    </p>
-                    <div class="flex items-center gap-2 text-red-500 text-sm font-medium mb-6">
-                        <i class="fa-solid fa-location-dot"></i> New York, United States
-                    </div>
-                    <div class="flex gap-4">
-                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-skype"></i></a>
-                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-slack"></i></a>
-                        <a href="404.html" class="w-8 h-8 rounded-full bg-brand-teal/10 flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t pt-8 text-center text-sm text-gray-400">
-                &copy; 2023 PEOPLED. All rights reserved.
-            </div>
-        </div>
-    </footer>
-
+   
     <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-4 right-4 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
         <div class="bg-white rounded-xl shadow-2xl p-4 flex items-center gap-3 border-l-4 border-brand-teal">
@@ -642,17 +498,23 @@
             e.preventDefault();
             showToast('Welcome Back!', 'Successfully signed in to your account.');
             setTimeout(() => {
-                window.location.href = 'dash.html';
+                window.location.href = '404.html';
             }, 1500);
         }
 
-        function handleSignup(e) {
-            e.preventDefault();
-            showToast('Account Created!', 'Welcome to PEOPLED. Please check your email to verify.');
-            setTimeout(() => {
-                showForm('login');
-            }, 2000);
-        }
+      function handleSignup(e) {
+    e.preventDefault();
+
+    const password = document.getElementById("signup-password").value;
+    const confirm = document.getElementById("signup-confirm").value;
+
+    if(password !== confirm){
+        alert("Passwords do not match!");
+        return;
+    }
+
+    window.location.href = "404.html";
+}
 
         function handleForgot(e) {
             e.preventDefault();
@@ -667,6 +529,22 @@
         } else if (formType === 'forgot') {
             showForm('forgot');
         }
+
+
+function handleSignup(e) {
+    e.preventDefault();
+
+    // Create Account button click செய்தால் மட்டும்
+    window.location.href = "404.html";
+}
+
+
+
+
+
+
+
+
     </script>
 </body>
 </html>
